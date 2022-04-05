@@ -49,9 +49,35 @@ void read_image_file(char *path)
     }
 }
 
-void write_to_file_image(){
+void histogramme(char * path){
+    int i,j = 0;
+    int h[MAX_PIXEL_VALUE];
+    read_image_file("path");
+    for ( i = 0; i <= MAX_PIXEL_VALUE; i++) h[i]  = 0 ;
+    
+    for ( i = 0; i < width; i++)
+    {
+        for ( j = 0; j < height; j++)
+        {
+            h[image[i][j]]++;
+        }
+        
+    }
+    
+
+}
+
+void transformation_lineaire(char *path){
+        read_image_file(path);
+
+}
+
+
+
+
+void write_to_file_image( int **m ,int width , int height, char *path ){
     FILE *file_write = NULL;
-    file_write = fopen("../image/sortie.pgm" ,"a");
+    file_write = fopen(path ,"a");
      int i,j =0;
     if (file_write != NULL)
     {
@@ -64,7 +90,7 @@ void write_to_file_image(){
             {
                 for (j = 0; j < height; j++)
                 {
-                    fprintf(file_write ,"%d\n" ,image[i][j]);
+                    fprintf(file_write ,"%d\n" ,m[i][j]);
                 }
             }
 
@@ -76,10 +102,35 @@ void write_to_file_image(){
     
 
 }
+
+void transpose(char *path){
+
+    read_image_file(path);
+    int i,j = 0;
+    int **m_trans = calloc(height , sizeof(int*)) ;
+    // m_trans = calloc(width ,sizeof(int*));
+
+    for ( i = 0; i < height; i++)
+    {
+       m_trans[i] = calloc(width , sizeof(int));
+    }
+    
+  for ( i = 0; i < width; i++)
+    {
+        for ( j = 0; j < height; j++)
+        {
+            m_trans[j][i] =image[i][j];
+        }
+        
+    }
+
+    write_to_file_image(m_trans ,height , width , "../image/transpose.pgm");
+
+}
 int main(void)
 {
 
     read_image_file("../image/trm.pgm");
-    write_to_file_image();
+    transpose("../image/trm.pgm");
     return 0;
 }
