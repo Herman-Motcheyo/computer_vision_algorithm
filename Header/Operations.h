@@ -6,6 +6,11 @@ struct image read_image_file(char *path);
 void write_image_to_file(  struct image img , char *path );
 struct image transpose_image(struct image);
 
+/*  Amelioration du contraste */
+/* rappel herman :NB: min < max */
+
+struct image transformation_lineaire(struct image , int min , int max);
+
 typedef struct image
 {
     char name[20];

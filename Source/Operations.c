@@ -90,7 +90,9 @@ void write_image_to_file(struct image img, char *path)
         printf("erreur impossible d'ouvrir le fichier d'affichage de l'image");
     }
 }
-
+/*
+ * This function is used to transpose matrux
+*/
 struct image transpose_image(struct image img)
 {
     int i = 0, j = 0;
@@ -109,5 +111,33 @@ struct image transpose_image(struct image img)
     img.hauteur = tmp;
     strcpy(img.description , "# transpose by herman");
 
+    return img ;
+}
+
+
+/* Amelioration du constraste de l'image */
+
+/*
+* this function is used to improve constrate of an image using 
+*   linear transformation
+*/
+struct image transformation_lineaire( struct image  img, int max , int min){
+    int i = 0, j=0 , tmp=0 ;
+  int **m_prime = generate_matrice(img.largeur , img.hauteur);
+  for (i = 0; i < img.largeur; i++)
+    {
+        for (j = 0; j < img.hauteur; j++)
+        {   tmp = img.M[i][j] - min ;
+            if (tmp < 0 )
+            {
+                tmp = 0;
+                m_prime[i][j] = tmp;
+            }else{
+                m_prime[i][j] = (tmp *255) /(max -min);
+            }
+        }
+    }
+    strcpy(img.description ,"# amelioration du constraste et transformation lineaire by herman");
+    img.M = m_prime;
     return img ;
 }
