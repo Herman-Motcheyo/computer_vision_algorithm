@@ -3,8 +3,8 @@
 
 int** generate_matrice(int nb_line,int nb_column);
 struct image read_image_file(char *path);
-void write_to_image_file(  struct image img , char *path );
-void transpose_image(struct image , char *path);
+void write_image_to_file(  struct image img , char *path );
+struct image transpose_image(struct image);
 
 typedef struct image
 {
