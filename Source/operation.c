@@ -127,10 +127,22 @@ void transpose(char *path){
     write_to_file_image(m_trans ,height , width , "../image/transpose.pgm");
 
 }
+
 int main(void)
 {
+  int i , j = 0;
+    int **m = generate_matrice(2 ,3);
+    for ( i = 0; i < 2; i++)
+    {
+        for ( j = 0; j < 4; j++)
+        { 
+        printf("%d " ,m[i][j]);
+        }
+        printf("\n");
+    }
+    
+    return 0;
 
-    read_image_file("../image/trm.pgm");
-    transpose("../image/trm.pgm");
+
     return 0;
 }
