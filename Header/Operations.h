@@ -1,24 +1,25 @@
 #ifndef OPERATIONS_H
 #define OPERATIONS_H
 
+#include "Image.h"
+
 int** generate_matrice(int nb_line,int nb_column);
-struct image read_image_file(char *path);
-void write_image_to_file(  struct image img , char *path );
-struct image transpose_image(struct image);
+struct Image read_Image_file(char *path);
+void write_Image_to_file(  struct Image img , char *path );
+struct Image transpose_Image(struct Image);
 
 /*  Amelioration du contraste */
 /* rappel herman :NB: min < max */
 
-struct image transformation_lineaire(struct image , int min , int max);
+struct Image transformation_lineaire(struct Image , int max , int min);
+struct Image transformation_saturation( struct  Image , int max , int min ,int smax , int smin);
+struct Image egalisation_histogramme(Image);
+int MAX_VALUE(int  ,int );
+struct Image addition(struct Image , struct Image);
+struct Image soustration(struct Image img1, struct Image img2);
+struct Image multiplication(struct Image img1, float ratio);
 
-typedef struct image
-{
-    char name[20];
-    int hauteur ;
-    int largeur ;
-    int MAX_PIXEL_VALUE ;
-    char description[200];
-    int **M ;
-} image;
+struct Image Et(Image , Image);
+struct Image OU(Image , Image);
 
 #endif
