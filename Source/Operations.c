@@ -147,6 +147,28 @@ struct Image transformation_lineaire(struct Image img, int max, int min)
 
 struct Image transformation_saturation(struct Image img, int max, int min, int smax, int smin)
 {
+  int i = 0, j = 0, tmp = 0;
+    int **m_prime = generate_matrice(img.largeur, img.hauteur);
+    for (i = 0; i < img.largeur; i++)
+    {
+        for (j = 0; j < img.hauteur; j++)
+        {
+            tmp = img.M[i][j] - smin;
+            if (tmp < 0)
+            {
+                tmp = 0;
+                m_prime[i][j] = tmp;
+            }
+            else
+            {
+                m_prime[i][j] = (tmp * 255) / (smax - smin);
+            }
+        }
+    }
+    strcpy(img.description, "# amelioration du constraste et transformation lineaire by herman");
+    img.M = m_prime;
+    return img;
+
 }
 
 int MAX_VALUE(int a ,int b){

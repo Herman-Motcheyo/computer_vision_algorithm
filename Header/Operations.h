@@ -2,6 +2,7 @@
 #define OPERATIONS_H
 
 #include "Image.h"
+#include "Pixels.h"
 
 int** generate_matrice(int nb_line,int nb_column);
 struct Image read_Image_file(char *path);
@@ -21,5 +22,6 @@ struct Image multiplication(struct Image img1, float ratio);
 
 struct Image Et(Image , Image);
 struct Image OU(Image , Image);
+
 
 #endif
