@@ -1,5 +1,5 @@
-#ifndef OPERATIONS_H
-#define OPERATIONS_H
+#ifndef RGB_H
+#define RGB_H
 
 #include "Image.h"
 #include "Pixels.h"

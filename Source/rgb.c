@@ -25,6 +25,7 @@ int **generate_matrice(int nb_line, int nb_column)
 struct Image read_Image_file(char *path)
 {
     struct Image img;
+    Pixels p;
 
     FILE *file = NULL;
     file = fopen(path, "r");
@@ -41,15 +42,40 @@ struct Image read_Image_file(char *path)
             fscanf(file, "%d", &img.hauteur);
             fscanf(file, "%d", &img.largeur);
             fscanf(file, "%d", &img.MAX_PIXEL_VALUE);
-            img.M = generate_matrice(img.largeur, img.hauteur);
+            img.M = generate_matrice_rgb(img.largeur, img.hauteur , p);
             for (i = 0; i < img.largeur; i++)
+            {
+                for (j = 0; j < img.hauteur; j++)
+                {
+                    fscanf(file, "%d", &p.red);
+                    fscanf(file, "%d", &p.green);
+                    fscanf(file, "%d", &p.blue);
+                }
+                //img.M[i][j] = p;
+                p.blue=0;
+                p.green = 0;
+                p.red =0;
+            }
+        }
+        else
+        {
+            if (strcmp(img.name, "P3\n") == 0)
+            {
+                fgets(description, 200, file);
+                strcpy(img.description, description);
+                fscanf(file, "%d", &img.hauteur);
+                fscanf(file, "%d", &img.largeur);
+                fscanf(file, "%d", &img.MAX_PIXEL_VALUE);
+                for (i = 0; i < img.largeur; i++)
             {
                 for (j = 0; j < img.hauteur; j++)
                 {
                     fscanf(file, "%d", &img.M[i][j]);
                 }
             }
+            }
         }
+
         fclose(file);
         return img;
     }
@@ -97,7 +123,7 @@ struct Image transpose_Image(struct Image img)
 {
     int i = 0, j = 0;
     int tmp;
-    int **m_trans = generate_matrice(img.hauteur, img.largeur);
+    int **m_trans = m_trans = generate_matrice(img.hauteur, img.largeur);
     for (i = 0; i < img.largeur; i++)
     {
         for (j = 0; j < img.hauteur; j++)
@@ -112,7 +138,7 @@ struct Image transpose_Image(struct Image img)
     strcpy(img.description, "# transpose by herman");
 
     return img;
-}   
+}
 
 /* Amelioration du constraste de l'Image */
 
@@ -145,10 +171,9 @@ struct Image transformation_lineaire(struct Image img, int max, int min)
     return img;
 }
 
-
 struct Image transformation_saturation(struct Image img, int max, int min, int smax, int smin)
 {
-  int i = 0, j = 0, tmp = 0;
+    int i = 0, j = 0, tmp = 0;
     int **m_prime = generate_matrice(img.largeur, img.hauteur);
     for (i = 0; i < img.largeur; i++)
     {
@@ -169,112 +194,110 @@ struct Image transformation_saturation(struct Image img, int max, int min, int s
     strcpy(img.description, "# amelioration du constraste et transformation lineaire by herman");
     img.M = m_prime;
     return img;
-
 }
 /*
 * This function is used to improve contrast (à partir de l'etirement de l'histogramme)
 */
-struct Image egalisation_histogramme(Image img){
-   int i =0,j=0 ;
-   float sum=0;
-   float *H = calloc(img.MAX_PIXEL_VALUE , sizeof(float));
-   float *C = calloc(img.MAX_PIXEL_VALUE ,  sizeof(float));
-   int **F_prime = generate_matrice(img.largeur , img.hauteur);
-   int max = img.MAX_PIXEL_VALUE ;
-// Etape 1 : Calcul de l'histogramme
-   for (i  = 0; i < img.largeur; i++)
-   {
-       for ( j = 0; j < img.hauteur; j++)
-       {
-           H[img.M[i][j]] += 1;
-       }
-       
-   }
-   //Etape 2 : Normalisation de l'histogramme
-   for ( i = 0; i < img.MAX_PIXEL_VALUE; i++)
-   {
-       H[i] = H[i]/(img.largeur *img.hauteur) ;
-   }
-   
-   // Etape 3 : Densité de probabilité normalisé
-   for ( i = 0; i < img.MAX_PIXEL_VALUE; i++)
-   {   
-       for ( j = 0; j < i; j++)
-       {
-           sum += H[j];
-       }
-       C[i] = sum;
-       sum = 0;
-   }
-   //Etape 4 : Transformation des niveaux de gris de l'image
-   for ( i = 0; i < img.largeur; i++)
-   {
-       for (j = 0; j < img.hauteur; j++)
-       {
-           F_prime[i][j] = C[img.M[i][j]] *img.MAX_PIXEL_VALUE;
-       }
-       
-   }
-   img.M = F_prime;
-   strcpy(img.description , "# Egalisation by tcheneghon Herman");
-   return img;
+struct Image egalisation_histogramme(Image img)
+{
+    int i = 0, j = 0, sum = 0;
+    double *H = calloc(img.MAX_PIXEL_VALUE, sizeof(double));
+    double *C = calloc(img.MAX_PIXEL_VALUE, sizeof(double));
+    int **F_prime = generate_matrice(img.largeur, img.hauteur);
+    double max = img.MAX_PIXEL_VALUE;
+    // Etape 1 : Calcul de l'histogramme
+    for (i = 0; i < img.largeur; i++)
+    {
+        for (j = 0; j < img.hauteur; j++)
+        {
+            H[img.M[i][j]] += 1;
+        }
+    }
+    //Etape 2 : Normalisation de l'histogramme
+    for (i = 0; i < img.MAX_PIXEL_VALUE; i++)
+    {
+        H[i] = H[i] / img.MAX_PIXEL_VALUE;
+    }
+
+    // Etape 3 : Densité de probabilité normalisé
+    for (i = 0; i < img.MAX_PIXEL_VALUE; i++)
+    {
+        for (j = 0; j < i; j++)
+        {
+            sum += H[j];
+        }
+        C[i] = sum;
+        sum = 0;
+    }
+    //Etape 4 : Transformation des niveaux de gris de l'image
+    for (i = 0; i < img.largeur; i++)
+    {
+        for (j = 0; j < img.hauteur; j++)
+        {
+            printf("%ld \n", C[img.M[i][j]] * img.MAX_PIXEL_VALUE);
+        }
+    }
+    img.M = F_prime;
+    strcpy(img.description, "Egalisation by tcheneghon Herman");
+    return img;
 }
 
-int MAX_VALUE(int a ,int b){
-    if (a<b )return b;
-    else return a ;
+int MAX_VALUE(int a, int b)
+{
+    if (a < b)
+        return b;
+    else
+        return a;
 }
 
-
-int MIN_VALUE(int a ,int b){
-    if (a<b )return a;
-    else return b ;
+int MIN_VALUE(int a, int b)
+{
+    if (a < b)
+        return a;
+    else
+        return b;
 }
-
 
 struct Image addition(struct Image img1, struct Image img2)
 {
     int i = 0, j = 0;
     struct Image addition;
-    addition.hauteur= img1.hauteur;
+    addition.hauteur = img1.hauteur;
     addition.largeur = img1.largeur;
-    strcpy(addition.name , img1.name);
-    strcpy(addition.description , "# Herman Motcheyo addition");
-    addition.MAX_PIXEL_VALUE =255;
+    strcpy(addition.name, img1.name);
+    strcpy(addition.description, "# Herman Motcheyo addition");
+    addition.MAX_PIXEL_VALUE = 255;
 
-    addition.M = generate_matrice(img1.largeur , img1.hauteur);
+    addition.M = generate_matrice(img1.largeur, img1.hauteur);
 
     for (i = 0; i < img1.largeur; i++)
     {
-        for ( j = 0; j < img1.hauteur; j++)
+        for (j = 0; j < img1.hauteur; j++)
         {
-            addition.M[i][j] = MIN_VALUE(img1.M[i][j]+ img2.M[i][j] , 255);
+            addition.M[i][j] = MIN_VALUE(img1.M[i][j] + img2.M[i][j], 255);
         }
-        
     }
     return addition;
 }
-
 
 struct Image soustration(struct Image img1, struct Image img2)
 {
     int i = 0, j = 0;
     struct Image soustration;
-    soustration.hauteur= img1.hauteur;
+    soustration.hauteur = img1.hauteur;
     soustration.largeur = img1.largeur;
-    strcpy(soustration.name , img1.name);
-    strcpy(soustration.description , "# Herman Motcheyo addition");
-    soustration.MAX_PIXEL_VALUE =255;
+    strcpy(soustration.name, img1.name);
+    strcpy(soustration.description, "# Herman Motcheyo addition");
+    soustration.MAX_PIXEL_VALUE = 255;
 
-    soustration.M = generate_matrice(img1.largeur , img1.hauteur);
+    soustration.M = generate_matrice(img1.largeur, img1.hauteur);
 
     for (i = 0; i < img1.largeur; i++)
     {
-        for ( j = 0; j < img1.hauteur; j++)
+        for (j = 0; j < img1.hauteur; j++)
         {
-            soustration.M[i][j] = MAX_VALUE(img1.M[i][j]- img2.M[i][j] , 0);
+            soustration.M[i][j] = MAX_VALUE(img1.M[i][j] - img2.M[i][j], 0);
         }
-        
     }
     return soustration;
 }
@@ -283,28 +306,27 @@ struct Image multiplication(struct Image img1, float ratio)
 {
     int i = 0, j = 0;
     struct Image multiplication;
-    multiplication.hauteur= img1.hauteur;
+    multiplication.hauteur = img1.hauteur;
     multiplication.largeur = img1.largeur;
-    strcpy(multiplication.name , img1.name);
-    strcpy(multiplication.description , "# Herman Motcheyo multiplication");
-    multiplication.MAX_PIXEL_VALUE =255;
+    strcpy(multiplication.name, img1.name);
+    strcpy(multiplication.description, "# Herman Motcheyo multiplication");
+    multiplication.MAX_PIXEL_VALUE = 255;
 
-    multiplication.M = generate_matrice(img1.largeur , img1.hauteur);
+    multiplication.M = generate_matrice(img1.largeur, img1.hauteur);
 
     for (i = 0; i < img1.largeur; i++)
     {
-        for ( j = 0; j < img1.hauteur; j++)
+        for (j = 0; j < img1.hauteur; j++)
         {
-            multiplication.M[i][j] = MAX_VALUE(img1.M[i][j]*ratio , 255);
+            multiplication.M[i][j] = MAX_VALUE(img1.M[i][j] * ratio, 255);
         }
-        
     }
     return multiplication;
 }
 
-struct Image Et(Image img1 , Image img2){
-
+struct Image Et(Image img1, Image img2)
+{
 }
-struct Image OU(Image img1 , Image img2){
-
+struct Image OU(Image img1, Image img2)
+{
 }
