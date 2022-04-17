@@ -4,7 +4,7 @@
 #include "Image.h"
 #include "Pixels.h"
 
-int** generate_matrice(int nb_line,int nb_column);
+
 struct Image read_Image_file(char *path);
 void write_Image_to_file(  struct Image img , char *path );
 struct Image transpose_Image(struct Image);

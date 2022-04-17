@@ -4,20 +4,6 @@
 
 #include "../Header/Operations.h"
 
-/*    
-**  this function is used to generate matrix 
-*/
-
-int **generate_matrice(int nb_line, int nb_column)
-{
-    int i = 0;
-    int **M = calloc(nb_line, sizeof(int *));
-    for (i = 0; i < nb_line; i++)
-    {
-        M[i] = calloc(nb_column, sizeof(int));
-    }
-    return M;
-}
 
 /*
     this function is used to read and Image 
@@ -180,7 +166,6 @@ struct Image egalisation_histogramme(Image img){
    float *H = calloc(img.MAX_PIXEL_VALUE , sizeof(float));
    float *C = calloc(img.MAX_PIXEL_VALUE ,  sizeof(float));
    int **F_prime = generate_matrice(img.largeur , img.hauteur);
-   int max = img.MAX_PIXEL_VALUE ;
 // Etape 1 : Calcul de l'histogramme
    for (i  = 0; i < img.largeur; i++)
    {

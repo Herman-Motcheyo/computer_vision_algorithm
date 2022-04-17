@@ -4,7 +4,7 @@
 #include "../Header/Operations.h"
 
 int main(void){
- struct Image img = read_Image_file("./image/lena.pgm");
+ struct Image img = read_Image_file("./image/obscure.pgm");
  //struct Image img_transpose =transpose_Image(img );
  //write_Image_to_file(img_transpose , "./Image/Image_transpose.pgm");
 //Image img_transformation_lineaire =transformation_lineaire(img ,100 , 20);
@@ -19,6 +19,20 @@ int main(void){
     write_Image_to_file(img_transformation_sa , "./image/saturation.pgm");
     */
   Image egali = egalisation_histogramme(img);
-     write_Image_to_file(egali , "./image/egalisation.pgm");
+     write_Image_to_file(egali , "./image/egalisation_obscure.pgm");
+
+int i =0 ;
+int j=0;
+   struct Image imgpbm = read_pbm_file("./image/binaire.pbm");
+   for ( i = 0; i < 100; i++)
+   {
+     for ( i = 0; i <100; i++)
+     {
+       printf("%d", imgpbm.M[i][j]);
+     }
+     
+   }
+   
+
     return 0;
 }

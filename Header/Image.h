@@ -8,3 +8,9 @@ typedef struct Image
     char description[200];
     int **M ;
 } Image;
+
+int** generate_matrice(int nb_line,int nb_column);
+//lecture image binaire
+Image read_pbm_file(char* path);
+void write_Image_to_file_Pbm(struct Image , char*); 
+Image lecturePpm(char* path); //lecture image couleur
