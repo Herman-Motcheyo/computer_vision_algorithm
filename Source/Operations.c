@@ -312,6 +312,19 @@ struct Image binarisation(Image img , int seuil){
     
 }
 
+struct Image negatif_image(struct Image img){
+    int i = 0, j=0;
+    for ( i = 0; i < img.largeur; i++)
+    {
+        for ( j = 0; j < img.hauteur; j++)
+        {
+            img.M[i][j] = 255 -img.M[i][j];
+        }
+        
+    }
+    return  img;
+}
+
 struct Image Et(Image img1 , Image img2){
 
 }

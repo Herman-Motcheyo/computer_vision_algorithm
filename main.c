@@ -4,7 +4,8 @@
 #include "../Header/Operations.h"
 
 int main(void){
- struct Image img = read_Image_file("./image/obscure.pgm");
+ //struct Image img = read_Image_file("./image/obscure.pgm");
+  struct Image img1 = read_Image_file("./image/lena.pgm");
  //struct Image img_transpose =transpose_Image(img );
  //write_Image_to_file(img_transpose , "./Image/Image_transpose.pgm");
 //Image img_transformation_lineaire =transformation_lineaire(img ,100 , 20);
@@ -24,16 +25,13 @@ int main(void){
 int i =0 ;
 int j=0;
    struct Image imgpbm = read_pbm_file("./image/binaire.pbm");
-   for ( i = 0; i < 100; i++)
-   {
-     for ( i = 0; i <100; i++)
-     {
-       printf("%d", imgpbm.M[i][j]);
-     }
-     
-   }*/
-   Image binar  = binarisation(img , 20);  
-    write_Image_to_file_Pbm(binar , "./image/binarisation.pbm");
+  write_Image_to_file_Pbm(imgpbm , "./image/testPbm.pbm");
+  */
 
+   //Image binar  = binarisation(img , 20);  
+    //write_Image_to_file_Pbm(binar , "./image/binarisation.pbm");
+
+struct Image img_ne =negatif_image(img1);
+write_Image_to_file(img_ne , "./image/inversion.pgm");
     return 0;
 }

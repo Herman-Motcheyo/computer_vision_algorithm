@@ -33,7 +33,8 @@ Image read_pbm_file(char* path){
         strcpy(img.name, name);
         if (strcmp(img.name, "P1\n") == 0)
         {
-            fgets(description, 200, file);
+             printf("hello");
+           // fgets(description, 200, file);
             strcpy(img.description, description);
             fscanf(file, "%d", &img.hauteur);
             fscanf(file, "%d", &img.largeur);
@@ -41,8 +42,9 @@ Image read_pbm_file(char* path){
             for (i = 0; i < img.largeur; i++)
             {    
                 for (j = 0; j < img.hauteur; j++)
-                {
-                    fscanf(file, "%d\n", &img.M[i][j]);
+                {           //  printf("%d" , fgetc(file));
+                    //img.M[i][j] = fgetc(file);
+                    fscanf(file, "%1d\n", &img.M[i][j]);
                    // printf("%d" ,img.M[i][j] );
                 }
             }
