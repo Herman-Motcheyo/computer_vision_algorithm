@@ -18,9 +18,9 @@ int main(void){
   Image img_transformation_sa =transformation_saturation(img ,255,0,100 , 40);
     write_Image_to_file(img_transformation_sa , "./image/saturation.pgm");
     */
-  Image egali = egalisation_histogramme(img);
-     write_Image_to_file(egali , "./image/egalisation_obscure.pgm");
-
+  //Image egali = egalisation_histogramme(img);
+   //  write_Image_to_file(egali , "./image/egalisation_obscure.pgm");
+/*
 int i =0 ;
 int j=0;
    struct Image imgpbm = read_pbm_file("./image/binaire.pbm");
@@ -31,8 +31,9 @@ int j=0;
        printf("%d", imgpbm.M[i][j]);
      }
      
-   }
-   
+   }*/
+   Image binar  = binarisation(img , 20);  
+    write_Image_to_file_Pbm(binar , "./image/binarisation.pbm");
 
     return 0;
 }

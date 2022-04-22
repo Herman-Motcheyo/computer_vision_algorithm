@@ -19,6 +19,7 @@ int MAX_VALUE(int  ,int );
 struct Image addition(struct Image , struct Image);
 struct Image soustration(struct Image img1, struct Image img2);
 struct Image multiplication(struct Image img1, float ratio);
+struct Image binarisation(struct Image img , int seuil);
 
 struct Image Et(Image , Image);
 struct Image OU(Image , Image);

@@ -287,6 +287,31 @@ struct Image multiplication(struct Image img1, float ratio)
     return multiplication;
 }
 
+struct Image binarisation(Image img , int seuil){
+    int i =0 , j=0;
+    int **bin = generate_matrice(img.largeur , img.hauteur);
+    for ( i = 0; i < img.largeur; i++)
+    {
+       for ( j = 0; j < img.hauteur; j++)
+       {
+           bin[i][j] = (img.M[i][j]< seuil ) ? 0 : 1 ;
+
+       }
+       
+    }
+    img.M = bin ;
+    strcpy(img.name ,"P1");
+/*
+    for ( i = 0; i < img.largeur; i++)
+    {
+        free(bin[i]);
+    }
+    free(bin);
+    */
+    return img;
+    
+}
+
 struct Image Et(Image img1 , Image img2){
 
 }
