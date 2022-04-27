@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "../Header/Convolution.h"
 
 //(2*n + 1)* (2*n +1)
@@ -16,7 +17,10 @@ float **initialise_filtre(int n)
     return filtre;
 }
 
-float **filtre_gaussien(int rayon);
+float **filtre_gaussien(int rayon){
+    float** initialise_filtre(rayon);
+    int i = 0, j = 0 , n =2 * rayon + 1 ;
+}
 
 float** filtre_moyenneur(int rayon)
 {

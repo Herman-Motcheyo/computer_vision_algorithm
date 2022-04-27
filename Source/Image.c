@@ -29,6 +29,19 @@ void freeMatrice(int **m, int nb_line)
     free(m);   
 }
 
+double luminance(Image m){
+    double s = 0;
+    int i =0 ,j=0;
+    for ( i = 0; i < m.largeur; i++)
+    {
+        for (j  = 0;  j< m.hauteur; j++)
+        {
+            s += m.M[i][j];
+        }
+    }
+    return s/ (m.hauteur *m.largeur);
+}
+
 Image read_pbm_file(char *path)
 {
 

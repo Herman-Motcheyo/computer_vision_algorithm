@@ -11,6 +11,11 @@ typedef struct Image
 
 int **generate_matrice(int nb_line, int nb_column);
 void freeMatrice(int **m, int nb_line);
+
+//la luminance est definie la moyenne de tous les pixels de l'image
+double luminance(Image m);
+
+
 //lecture image binaire
 Image read_pbm_file(char *path);
 void write_Image_to_file_Pbm(struct Image, char *);
