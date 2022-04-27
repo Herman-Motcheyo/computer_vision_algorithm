@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include "../Header/Image.h"
 /*    
@@ -29,8 +30,8 @@ void freeMatrice(int **m, int nb_line)
     free(m);   
 }
 
-double luminance(Image m){
-    double s = 0;
+float luminance(Image m){
+    float s = 0;
     int i =0 ,j=0;
     for ( i = 0; i < m.largeur; i++)
     {
@@ -40,6 +41,21 @@ double luminance(Image m){
         }
     }
     return s/ (m.hauteur *m.largeur);
+}
+
+float contraste(Image m){
+  float moyenne  = luminance(m);
+  int i=0 ,j = 0;
+  float s=0;
+  for ( i = 0; i < m.largeur; i++)
+  {
+      for ( j = 0; j < m.hauteur; j++)
+      {
+          s +=  pow(m.M[i][j]- moyenne , 2);
+      }
+      
+  }
+return sqrt(s/(m.hauteur * m.largeur));
 }
 
 Image read_pbm_file(char *path)

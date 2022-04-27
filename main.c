@@ -39,7 +39,8 @@ int j=0;
 //Image im =convolution(img1 ,"moyenneur", 4);
 //write_Image_to_file(im , "./image/convolution/testb.pgm");
 
-printf("Luminance %lf" ,luminance(img1));
+printf("Luminance %f" ,luminance(img1));
+printf("Contraste %f" ,contraste(img1));
 
     return 0;
 }
