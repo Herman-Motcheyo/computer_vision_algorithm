@@ -36,11 +36,11 @@ int j=0;
 //struct Image img_ne =negatif_image(img1);
 //write_Image_to_file(img_ne , "./image/inversion.pgm");
 //struct Image im = filter_with_mean(img1 , 2);
-//Image im =convolution(img1 ,"moyenneur", 4);
-//write_Image_to_file(im , "./image/convolution/testb.pgm");
+Image im =convolution(img1 ,"moyenneur", 1);
+write_Image_to_file(im , "./image/convolution/moyenneur.pgm");
 
-printf("Luminance %f" ,luminance(img1));
-printf("Contraste %f" ,contraste(img1));
+//printf("Luminance %f" ,luminance(img1));
+//printf("Contraste %f" ,contraste(img1));
 
     return 0;
 }
