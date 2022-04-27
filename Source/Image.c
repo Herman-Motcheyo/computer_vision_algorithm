@@ -18,34 +18,46 @@ int **generate_matrice(int nb_line, int nb_column)
     return M;
 }
 
-Image read_pbm_file(char* path){
-    
-     struct Image img;
+void freeMatrice(int **m, int nb_line)
+{
+    int i =0;
+    printf("ok1");
+    for ( i = 0; i < nb_line; i++){
+        free(m[i]);
+        printf("ok");
+    }
+    free(m);   
+}
+
+Image read_pbm_file(char *path)
+{
+
+    struct Image img;
 
     FILE *file = NULL;
     file = fopen(path, "r");
     int i = 0, j = 0;
     char name[20], description[200];
-    img.MAX_PIXEL_VALUE=1;
+    img.MAX_PIXEL_VALUE = 1;
     if (file != NULL)
     {
         fgets(name, 20, file);
         strcpy(img.name, name);
         if (strcmp(img.name, "P1\n") == 0)
         {
-             printf("hello");
-           // fgets(description, 200, file);
+            printf("hello");
+            // fgets(description, 200, file);
             strcpy(img.description, description);
             fscanf(file, "%d", &img.hauteur);
             fscanf(file, "%d", &img.largeur);
             img.M = generate_matrice(img.largeur, img.hauteur);
             for (i = 0; i < img.largeur; i++)
-            {    
+            {
                 for (j = 0; j < img.hauteur; j++)
-                {           //  printf("%d" , fgetc(file));
+                { //  printf("%d" , fgetc(file));
                     //img.M[i][j] = fgetc(file);
                     fscanf(file, "%1d\n", &img.M[i][j]);
-                   // printf("%d" ,img.M[i][j] );
+                    // printf("%d" ,img.M[i][j] );
                 }
             }
         }
@@ -59,8 +71,9 @@ Image read_pbm_file(char* path){
     }
 }
 
-void write_Image_to_file_Pbm(struct Image img, char* path){
-  FILE *file_write = NULL;
+void write_Image_to_file_Pbm(struct Image img, char *path)
+{
+    FILE *file_write = NULL;
     file_write = fopen(path, "a");
     int i, j = 0;
     if (file_write != NULL)

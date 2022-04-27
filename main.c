@@ -35,7 +35,10 @@ int j=0;
 
 //struct Image img_ne =negatif_image(img1);
 //write_Image_to_file(img_ne , "./image/inversion.pgm");
-struct Image im = filter_with_mean(img1 , 2);
-write_Image_to_file(im , "./image/convolution/fig3_convolueMoyenne.pgm");
+//struct Image im = filter_with_mean(img1 , 2);
+Image im =convolution(img1 ,"moyenneur", 4);
+write_Image_to_file(im , "./image/convolution/testb.pgm");
+
+
     return 0;
 }
