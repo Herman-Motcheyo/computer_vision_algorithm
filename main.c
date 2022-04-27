@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../Header/Operations.h"
+
+
+#include "../Header/Convolution.h"
 
 int main(void){
  //struct Image img = read_Image_file("./image/obscure.pgm");
-  struct Image img1 = read_Image_file("./image/lena.pgm");
+  struct Image img1 = read_Image_file("./image/convolution/Fig3.pgm");
  //struct Image img_transpose =transpose_Image(img );
  //write_Image_to_file(img_transpose , "./Image/Image_transpose.pgm");
 //Image img_transformation_lineaire =transformation_lineaire(img ,100 , 20);
@@ -28,10 +30,12 @@ int j=0;
   write_Image_to_file_Pbm(imgpbm , "./image/testPbm.pbm");
   */
 
-   //Image binar  = binarisation(img , 20);  
-    //write_Image_to_file_Pbm(binar , "./image/binarisation.pbm");
+ //  Image binar  = binarisation(img1 , 20);  
+   // write_Image_to_file_Pbm(binar , "./image/binarisation.pbm");
 
-struct Image img_ne =negatif_image(img1);
-write_Image_to_file(img_ne , "./image/inversion.pgm");
+//struct Image img_ne =negatif_image(img1);
+//write_Image_to_file(img_ne , "./image/inversion.pgm");
+struct Image im = filter_with_mean(img1 , 2);
+write_Image_to_file(im , "./image/convolution/fig3_convolueMoyenne.pgm");
     return 0;
 }

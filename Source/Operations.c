@@ -307,7 +307,7 @@ struct Image binarisation(Image img , int seuil){
         free(bin[i]);
     }
     free(bin);
-    */
+*/
     return img;
     
 }
