@@ -135,6 +135,34 @@ void printFilter(float** filtre , int rayon){
 }
 
 
+int* bubbleSort(int* tab, int length){
+    int  i=0,j=0,tmp=0; 
+    for ( i = 0; i < length-1; i++)
+    {   
+        for ( j = 0; j < length-1; j++)
+        {
+            if (tab[j+1] < tab[j])
+            {
+                tmp = tab[j];
+                tab[j] = tab[j+1];
+                tab[j+1] = tmp;
+            }   
+        }
+
+    }
+    for ( i = 0; i < length; i++)
+    {
+
+            printf("%d\t", tab[i]);
+
+        
+    }
+    
+    return tab;
+    
+}
+
+
 struct Image filter_with_median(struct Image img, int rayon)
 {
 }

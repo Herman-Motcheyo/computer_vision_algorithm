@@ -36,11 +36,14 @@ int j=0;
 //struct Image img_ne =negatif_image(img1);
 //write_Image_to_file(img_ne , "./image/inversion.pgm");
 //struct Image im = filter_with_mean(img1 , 2);
-Image im =convolution(img1 ,"moyenneur", 1);
-write_Image_to_file(im , "./image/convolution/moyenneur.pgm");
+//Image im =convolution(img1 ,"moyenneur", 1);
+//write_Image_to_file(im , "./image/convolution/moyenneur.pgm");
 
 //printf("Luminance %f" ,luminance(img1));
 //printf("Contraste %f" ,contraste(img1));
 
+
+int tab[15] = {15,78,21,98,23,82,32,12,7,14 ,0,1,7,7};
+ bubbleSort(tab , 15);
     return 0;
 }
