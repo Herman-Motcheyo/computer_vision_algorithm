@@ -164,6 +164,32 @@ int findMedianWithBubbleSort(int* tab, int length){
 
 struct Image filter_with_median(struct Image img, int rayon)
 {
+      int i = 0, j = 0, u = 0, v = 0;
+       int n = 2 * rayon + 1;
+       int* tab = calloc(n*n , sizeof(n*n));
+      int s = 0;
+        for (i = 0; i < img.largeur - 1; i++)
+        {
+            for (j = 0; j < img.hauteur - 1; j++)
+            {
+                s = 0;
+                for (u = 0; u < n; u++)
+                {
+                    for (v = 0; v < n; v++)
+                    {
+                        if ((i + u - rayon) > 0 && (j + v - rayon) > 0 && (i + u - rayon <img.largeur) && (j + u - rayon < img.hauteur))
+                        {
+                            tab[s]= img.M[i + u - rayon][j + v - rayon];
+                            s +=1;
+                        }
+                    }
+                }
+               img.M[i][j] = findMedianWithBubbleSort(tab , n*n);
+                
+            }
+        }
+        // freeMatrice(conv , img.largeur);
+        return img;
 }
 struct Image filter_with_mean(struct Image img, int rayon)
 {

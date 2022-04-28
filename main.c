@@ -43,7 +43,9 @@ int j=0;
 //printf("Contraste %f" ,contraste(img1));
 
 
-int tab[14] = {15,78,21,98,23,82,32,12,7,14 ,0,1,7};
- findMedianWithBubbleSort(tab , 14);
+//int tab[14] = {15,78,21,98,23,82,32,12,7,14 ,0,1,7};
+ //findMedianWithBubbleSort(tab , 14);
+ Image im = filter_with_median(img1 , 1);
+ write_Image_to_file(im ,"./image/convolution/median_test.pgm");
     return 0;
 }
