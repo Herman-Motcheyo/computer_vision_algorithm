@@ -135,7 +135,7 @@ void printFilter(float** filtre , int rayon){
 }
 
 
-int* bubbleSort(int* tab, int length){
+int findMedianWithBubbleSort(int* tab, int length){
     int  i=0,j=0,tmp=0; 
     for ( i = 0; i < length-1; i++)
     {   
@@ -150,15 +150,14 @@ int* bubbleSort(int* tab, int length){
         }
 
     }
-    for ( i = 0; i < length; i++)
+    if (length % 2 != 0)
+    { 
+        tmp = tab[((length+1)/2)-1];
+    }else
     {
-
-            printf("%d\t", tab[i]);
-
-        
+        tmp  = ((tab[((length/2)+1)-1] + tab[(length/2)-1]))/2 ;
     }
-    
-    return tab;
+    return tmp;
     
 }
 

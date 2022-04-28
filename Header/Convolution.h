@@ -36,7 +36,7 @@ Image convolution(Image, char *nom_filtre, int rayon);
 
 void printFilter(float** filtre , int rayon);
 
-int* insertionSort(int* tab, int length);
+int findMedianWithBubbleSort(int* tab, int length);
 struct Image filter_with_median(struct Image, int rayon);
 struct Image filter_with_mean(struct Image, int rayon);
 struct Image filter_with_gaussian(struct Image, int rayon);

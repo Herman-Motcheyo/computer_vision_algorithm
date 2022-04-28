@@ -43,7 +43,7 @@ int j=0;
 //printf("Contraste %f" ,contraste(img1));
 
 
-int tab[15] = {15,78,21,98,23,82,32,12,7,14 ,0,1,7,7};
- bubbleSort(tab , 15);
+int tab[14] = {15,78,21,98,23,82,32,12,7,14 ,0,1,7};
+ findMedianWithBubbleSort(tab , 14);
     return 0;
 }
