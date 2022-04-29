@@ -1,3 +1,5 @@
+#ifndef IMAGE_H
+#define IMAGE_H
 
 typedef struct Image
 {
@@ -21,3 +23,5 @@ float contraste(Image m);
 Image read_pbm_file(char *path);
 void write_Image_to_file_Pbm(struct Image, char *);
 Image lecturePpm(char *path); //lecture image couleur
+
+#endif

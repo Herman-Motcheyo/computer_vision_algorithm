@@ -40,5 +40,5 @@ int findMedianWithBubbleSort(int* tab, int length);
 struct Image filter_with_median(struct Image, int rayon);
 struct Image filter_with_mean(struct Image, int rayon);
 struct Image filter_with_gaussian(struct Image, int rayon);
-
+void freeFilter(float** m,int n);
 #endif

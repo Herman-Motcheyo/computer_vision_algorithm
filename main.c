@@ -3,11 +3,11 @@
 
 
 
-#include "../Header/Convolution.h"
+#include "../Header/Contour.h"
 
 int main(void){
  //struct Image img = read_Image_file("./image/obscure.pgm");
-  struct Image img1 = read_Image_file("./image/convolution/Fig3.pgm");
+  struct Image img1 = read_Image_file("./image/contour/Fig2.pgm");
  //struct Image img_transpose =transpose_Image(img );
  //write_Image_to_file(img_transpose , "./Image/Image_transpose.pgm");
 //Image img_transformation_lineaire =transformation_lineaire(img ,100 , 20);
@@ -30,8 +30,8 @@ int j=0;
   write_Image_to_file_Pbm(imgpbm , "./image/testPbm.pbm");
   */
 
- //  Image binar  = binarisation(img1 , 20);  
-   // write_Image_to_file_Pbm(binar , "./image/binarisation.pbm");
+  // Image binar  = binarisation(img1 , 20);  
+    //write_Image_to_file_Pbm(binar , "./image/binarisation.pbm");
 
 //struct Image img_ne =negatif_image(img1);
 //write_Image_to_file(img_ne , "./image/inversion.pgm");
@@ -45,7 +45,10 @@ int j=0;
 
 //int tab[14] = {15,78,21,98,23,82,32,12,7,14 ,0,1,7};
  //findMedianWithBubbleSort(tab , 14);
- Image im = filter_with_median(img1 , 1);
- write_Image_to_file(im ,"./image/convolution/median_test.pgm");
+ //Image im = filter_with_median(img1 , 1);
+ //write_Image_to_file(im ,"./image/convolution/median_test.pgm");
+
+ Image m = contour_with_sobel(img1);
+ write_Image_to_file(m , "./image/contour/sobel.pgm");
     return 0;
 }

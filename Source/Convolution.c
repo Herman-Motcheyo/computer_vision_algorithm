@@ -56,55 +56,57 @@ float **filtre_moyenneur(int rayon)
     {
         for (j = 0; j < n; j++)
         {
-            moyenneur[i][j] = moyenneur[i][j] / (n * n);     
+            moyenneur[i][j] = moyenneur[i][j] / (n * n);
         }
     }
 
     return moyenneur;
 }
-int**  convolveMult(int** m , float **filtre ,int largeur , int hauteur , int rayon , int MAX_PIXEL_VALUE){
-       int i = 0, j = 0, u = 0, v = 0;
-       int n = 2 * rayon + 1;
-      double s = 0;
-        int **conv = generate_matrice(largeur, hauteur);
-        for (i = 0; i < largeur - 1; i++)
+int **convolveMult(int **m, float **filtre, int largeur, int hauteur, int rayon, int MAX_PIXEL_VALUE)
+{
+    int i = 0, j = 0, u = 0, v = 0;
+    int n = 2 * rayon + 1;
+    double s = 0;
+    int **conv = generate_matrice(largeur, hauteur);
+    for (i = 0; i < largeur - 1; i++)
+    {
+        for (j = 0; j < hauteur - 1; j++)
         {
-            for (j = 0; j < hauteur - 1; j++)
+            s = 0;
+            for (u = 0; u < n; u++)
             {
-                s = 0;
-                for (u = 0; u < n; u++)
+                for (v = 0; v < n; v++)
                 {
-                    for (v = 0; v < n; v++)
+                    if ((i + u - rayon) > 0 && (j + v - rayon) > 0 && (i + u - rayon < largeur) && (j + u - rayon < hauteur))
                     {
-                        if ((i + u - rayon) > 0 && (j + v - rayon) > 0 && (i + u - rayon <largeur) && (j + u - rayon < hauteur))
-                        {
-                            s += m[i + u - rayon][j + v - rayon] * filtre[u][v];
-                        }
+                        s += m[i + u - rayon][j + v - rayon] * filtre[u][v];
                     }
                 }
-                if (s < 0)
-                {
-                    conv[i][j] = 0;
-                }
-                else if (s >MAX_PIXEL_VALUE)
-                {
-                    conv[i][j] = 255;
-                }
-                else
-                {
-                    conv[i][j] = s;
-                }
+            }
+            if (s < 0)
+            {
+                conv[i][j] = 0;
+            }
+            else if (s > MAX_PIXEL_VALUE)
+            {
+                conv[i][j] = 255;
+            }
+            else
+            {
+                conv[i][j] = s;
             }
         }
-        // freeMatrice(conv , img.largeur);
-        return conv;
+    }
+    // freeMatrice(conv , img.largeur);
+    return conv;
 }
 
 Image convolution(Image img, char *nom_filtre, int rayon)
 {
     if (strcmp(nom_filtre, "moyenneur") == 0)
-    {   float **filtre = filtre_gaussien(rayon, contraste(img));
-        int **conv = convolveMult(img.M , filtre,img.largeur ,img.hauteur , rayon , img.MAX_PIXEL_VALUE);
+    {
+        float **filtre = filtre_gaussien(rayon, contraste(img));
+        int **conv = convolveMult(img.M, filtre, img.largeur, img.hauteur, rayon, img.MAX_PIXEL_VALUE);
         img.M = conv;
         // freeMatrice(conv , img.largeur);
         return img;
@@ -112,84 +114,82 @@ Image convolution(Image img, char *nom_filtre, int rayon)
     else if (strcmp(nom_filtre, "gaussien") == 0)
     {
         float **filtre = filtre_gaussien(rayon, contraste(img));
-        printFilter(filtre , rayon);
-        int **conv = convolveMult(img.M , filtre,img.largeur ,img.hauteur , rayon , img.MAX_PIXEL_VALUE);
+        printFilter(filtre, rayon);
+        int **conv = convolveMult(img.M, filtre, img.largeur, img.hauteur, rayon, img.MAX_PIXEL_VALUE);
         img.M = conv;
         // freeMatrice(conv , img.largeur);
         return img;
     }
 }
 
-void printFilter(float** filtre , int rayon){
-        int n = 2 * rayon + 1;
-        int i = 0 , j=0;
-       printf("Le Filtre est de taille  %d * %d", n, n);
-        for (i = 0; i < n; i++)
+void printFilter(float **filtre, int rayon)
+{
+    int n = 2 * rayon + 1;
+    int i = 0, j = 0;
+    printf("Le Filtre est de taille  %d * %d", n, n);
+    for (i = 0; i < n; i++)
+    {
+        printf("\n");
+        for (j = 0; j < n; j++)
         {
-            printf("\n");
-            for (j = 0; j < n; j++)
-            {
-                printf("%f\t", filtre[i][j]);
-            }
+            printf("%f\t", filtre[i][j]);
         }
+    }
 }
 
-
-int findMedianWithBubbleSort(int* tab, int length){
-    int  i=0,j=0,tmp=0; 
-    for ( i = 0; i < length-1; i++)
-    {   
-        for ( j = 0; j < length-1; j++)
+int findMedianWithBubbleSort(int *tab, int length)
+{
+    int i = 0, j = 0, tmp = 0;
+    for (i = 0; i < length - 1; i++)
+    {
+        for (j = 0; j < length - 1; j++)
         {
-            if (tab[j+1] < tab[j])
+            if (tab[j + 1] < tab[j])
             {
                 tmp = tab[j];
-                tab[j] = tab[j+1];
-                tab[j+1] = tmp;
-            }   
+                tab[j] = tab[j + 1];
+                tab[j + 1] = tmp;
+            }
         }
-
     }
     if (length % 2 != 0)
-    { 
-        tmp = tab[((length+1)/2)-1];
-    }else
     {
-        tmp  = ((tab[((length/2)+1)-1] + tab[(length/2)-1]))/2 ;
+        tmp = tab[((length + 1) / 2) - 1];
+    }
+    else
+    {
+        tmp = ((tab[((length / 2) + 1) - 1] + tab[(length / 2) - 1])) / 2;
     }
     return tmp;
-    
 }
-
 
 struct Image filter_with_median(struct Image img, int rayon)
 {
-      int i = 0, j = 0, u = 0, v = 0;
-       int n = 2 * rayon + 1;
-       int* tab = calloc(n*n , sizeof(n*n));
-      int s = 0;
-        for (i = 0; i < img.largeur - 1; i++)
+    int i = 0, j = 0, u = 0, v = 0;
+    int n = 2 * rayon + 1;
+    int *tab = calloc(n * n, sizeof(n * n));
+    int s = 0;
+    for (i = 0; i < img.largeur - 1; i++)
+    {
+        for (j = 0; j < img.hauteur - 1; j++)
         {
-            for (j = 0; j < img.hauteur - 1; j++)
+            s = 0;
+            for (u = 0; u < n; u++)
             {
-                s = 0;
-                for (u = 0; u < n; u++)
+                for (v = 0; v < n; v++)
                 {
-                    for (v = 0; v < n; v++)
+                    if ((i + u - rayon) > 0 && (j + v - rayon) > 0 && (i + u - rayon < img.largeur) && (j + u - rayon < img.hauteur))
                     {
-                        if ((i + u - rayon) > 0 && (j + v - rayon) > 0 && (i + u - rayon <img.largeur) && (j + u - rayon < img.hauteur))
-                        {
-                            tab[s]= img.M[i + u - rayon][j + v - rayon];
-                            s +=1;
-                        }
+                        tab[s] = img.M[i + u - rayon][j + v - rayon];
+                        s += 1;
                     }
                 }
-               img.M[i][j] = findMedianWithBubbleSort(tab , n*n);
-                
             }
+            img.M[i][j] = findMedianWithBubbleSort(tab, n * n);
         }
-        // freeMatrice(conv , img.largeur);
-        return img;
+    }
+    free(tab);
+    return img;
 }
 struct Image filter_with_mean(struct Image img, int rayon)
 {
@@ -234,4 +234,14 @@ struct Image filter_with_mean(struct Image img, int rayon)
     img.M = conv;
     // freeMatrice(conv , img.largeur);
     return img;
+}
+
+void freeFilter(float **m, int n)
+{
+    int i = 0;
+    for (i = 0; i < n; i++)
+    {
+        free(m[i]);
+    }
+    free(m);
 }
