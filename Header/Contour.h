@@ -5,5 +5,8 @@
 
 Image contour_with_sobel(Image m) ;
 
+// la premiere derivee permet la detection des contours.
+Image derive(Image m , int seuil);
+
 #endif
 

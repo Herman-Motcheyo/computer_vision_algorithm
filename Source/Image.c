@@ -22,10 +22,8 @@ int **generate_matrice(int nb_line, int nb_column)
 void freeMatrice(int **m, int nb_line)
 {
     int i =0;
-    printf("ok1");
     for ( i = 0; i < nb_line; i++){
         free(m[i]);
-        printf("ok");
     }
     free(m);   
 }

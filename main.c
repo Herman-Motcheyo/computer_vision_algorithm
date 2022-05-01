@@ -3,7 +3,7 @@
 
 
 
-#include "../Header/Contour.h"
+#include "./Header/Contour.h"
 
 int main(void){
  //struct Image img = read_Image_file("./image/obscure.pgm");
@@ -47,8 +47,9 @@ int j=0;
  //findMedianWithBubbleSort(tab , 14);
  //Image im = filter_with_median(img1 , 1);
  //write_Image_to_file(im ,"./image/convolution/median_test.pgm");
+ printf("work\n");
+ Image m = derive(img1 , 50);
+ write_Image_to_file(m , "./image/contour/derivee.pgm");
 
- Image m = contour_with_sobel(img1);
- write_Image_to_file(m , "./image/contour/sobel.pgm");
     return 0;
 }

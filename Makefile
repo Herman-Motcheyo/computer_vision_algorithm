@@ -1,6 +1,6 @@
-test:  ./Source/Operations.c ./Source/Image.c ./Source/Convolution.c ./Source/Contour.c   Header/Contour.h
-	gcc -o test -Wall main.c  ./Source/Operations.c ./Source/Image.c ./Source/Convolution.c ./Source/Contour.c   ./Header/Contour.h  -I. -lm
+traitement_image:  ./Source/Operations.c ./Source/Image.c ./Source/Convolution.c ./Source/Contour.c   Header/Contour.h
+	gcc -o traitement_image -Wall main.c  ./Source/Operations.c ./Source/Image.c ./Source/Convolution.c ./Source/Contour.c   ./Header/Contour.h  -I. -lm
 run:
-	./test
+	./traitement_image
 clean:
-	rm test
+	rm traitement_image
