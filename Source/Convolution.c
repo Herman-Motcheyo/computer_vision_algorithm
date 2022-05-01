@@ -119,6 +119,9 @@ Image convolution(Image img, char *nom_filtre, int rayon)
         img.M = conv;
         // freeMatrice(conv , img.largeur);
         return img;
+    }else{
+        printf("Puisque le nom du filtre ne correspond a aucun nom , \n par defaut le median est applique\n");
+        return filter_with_median(img ,rayon);
     }
 }
 

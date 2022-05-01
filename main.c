@@ -45,11 +45,12 @@ int j=0;
 
 //int tab[14] = {15,78,21,98,23,82,32,12,7,14 ,0,1,7};
  //findMedianWithBubbleSort(tab , 14);
- //Image im = filter_with_median(img1 , 1);
- //write_Image_to_file(im ,"./image/convolution/median_test.pgm");
+ Image im = convolution(img1 ,"median", 1);
+ write_Image_to_file(im ,"./image/convolution/median_ok.pgm");
  printf("work\n");
  Image m = derive(img1 , 25);
  write_Image_to_file(laplacien(m ,25) , "./image/contour/laplacien.pgm");
-
+Image prew = contour_with_Prewitt(img1 );
+ write_Image_to_file(prew, "./image/contour/prewitt.pgm");
     return 0;
 }
