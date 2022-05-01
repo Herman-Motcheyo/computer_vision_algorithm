@@ -48,8 +48,8 @@ int j=0;
  //Image im = filter_with_median(img1 , 1);
  //write_Image_to_file(im ,"./image/convolution/median_test.pgm");
  printf("work\n");
- Image m = derive(img1 , 50);
- write_Image_to_file(m , "./image/contour/derivee.pgm");
+ Image m = derive(img1 , 25);
+ write_Image_to_file(laplacien(m ,25) , "./image/contour/laplacien.pgm");
 
     return 0;
 }
