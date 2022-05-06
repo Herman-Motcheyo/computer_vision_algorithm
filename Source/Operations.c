@@ -345,6 +345,23 @@ struct Image luminanceImage(struct Image img){
 }
 
 
+struct Image contrasteImage(struct Image img){
+   float contrast = contraste(img);
+   int i = 0,j=0;
+   for ( i = 0; i < img.largeur; i++)
+   {
+       for ( j = 0; j < img.largeur; j++)
+       {
+           if (img.M[i][j] + contrast  < img.MAX_PIXEL_VALUE )
+           {
+              img.M[i][j] = img.M[i][j]+contrast; 
+           }
+           
+       }
+       
+   }
+   return img;
+}
 struct Image Et(Image img1 , Image img2){
 
 }

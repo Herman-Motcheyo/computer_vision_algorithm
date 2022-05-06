@@ -22,6 +22,7 @@ struct Image multiplication(struct Image img1, float ratio);
 struct Image binarisation(struct Image img , int seuil);
 struct Image negatif_image(struct Image);
 struct Image luminanceImage(struct Image);
+struct Image contrasteImage(struct Image img);
 
 struct Image Et(Image , Image);
 struct Image OU(Image , Image);

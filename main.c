@@ -60,7 +60,8 @@ Image prew = contour_with_Prewitt(img1 );
  write_Image_to_file(soble, "./image/contour/sobel.pgm");
  */
   Image m = read_Image_file("./image/cours/img1.pgm");
-  Image m2 = luminanceImage(m);
-  write_Image_to_file(m2 ,"./image/cours/luminance.pgm" );
+  //Image m2 = luminanceImage(m);
+  Image m2 = contrasteImage(m);
+  write_Image_to_file(m2 ,"./image/cours/constrate.pgm" );
     return 0;
 }
