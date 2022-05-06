@@ -398,9 +398,31 @@ void write_Histogramme_to_File(int* hist){
     }
 }
 
-struct Image Et(Image img1 , Image img2){
-
+int findMaxPixelValueInM(Image m){
+    int max =0 ,i=0,j=0;
+for ( i = 0; i < m.largeur; i++)
+{
+    for ( j = 0; j < m.hauteur; j++)
+    {
+        if (m.M[i][j] > max) max = m.M[i][j];
+        
+    }
+    
 }
-struct Image OU(Image img1 , Image img2){
+return max;
+}
 
+
+int findMinPixelValueInM(Image m){
+    int min =255 ,i=0,j=0;
+for ( i = 0; i < m.largeur; i++)
+{
+    for ( j = 0; j < m.hauteur; j++)
+    {
+        if (m.M[i][j] < min) min = m.M[i][j];
+        
+    }
+    
+}
+return min;
 }

@@ -63,6 +63,8 @@ Image prew = contour_with_Prewitt(img1 );
   //Image m2 = luminanceImage(m);
   Image m2 = contrasteImage(m);
   write_Image_to_file(m2 ,"./image/cours/constrate.pgm" );
-  histogramme(m);
+  //histogramme(m);
+printf("%d\n" , findMinPixelValueInM(m));
+printf("%d\n" , findMaxPixelValueInM(m));
     return 0;
 }

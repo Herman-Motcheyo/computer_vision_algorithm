@@ -27,6 +27,9 @@ struct Image contrasteImage(struct Image img);
 void histogramme(Image m);
 void write_Histogramme_to_File(int*);
 
+int findMinPixelValueInM(Image m);
+int findMaxPixelValueInM(Image m);
+
 struct Image Et(Image , Image);
 struct Image OU(Image , Image);
  
