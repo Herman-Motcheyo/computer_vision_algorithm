@@ -32,7 +32,7 @@ Image derive(Image m , int seuil){
 }
 
 Image laplacien(Image m , int seuil){
-   return derive(m , seuil);
+   return derive(derive(m , seuil),seuil);
 }
 
 
@@ -67,8 +67,32 @@ Image contour_with_Prewitt(Image m ){
      Prewitt[2][1] = 1;
      Prewitt[2][2] = 1;
 
+
     m.M = convolveMult(m.M, Prewitt, m.largeur, m.hauteur, 1, m.MAX_PIXEL_VALUE);
 
     freeFilter(Prewitt , 3);
+
+    return m;
+}
+
+
+Image contour_with_Roberts(Image m){
+    float **roberts = initialise_filtre(1);
+     float **roberts2 = initialise_filtre(1);
+     roberts[0][0] = 1;
+     roberts[0][1] = 0;
+     roberts[1][0] = 0;
+     roberts[1][1] = -1;
+
+      roberts2[0][0] = 0;
+     roberts2[0][1] = 1;
+     roberts2[1][0] = -1;
+     roberts2[1][1] = 0;
+
+
+    m.M = convolveMult(m.M, roberts, m.largeur, m.hauteur, 1, m.MAX_PIXEL_VALUE);
+    m.M = convolveMult(m.M, roberts2, m.largeur, m.hauteur, 1, m.MAX_PIXEL_VALUE);
+    freeFilter(roberts , 3);
+     freeFilter(roberts2 , 3);
     return m;
 }

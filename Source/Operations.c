@@ -325,6 +325,26 @@ struct Image negatif_image(struct Image img){
     return  img;
 }
 
+//la luminance est definie comme la moyenne de tous les pixels de l'image
+struct Image luminanceImage(struct Image img){
+   float moyenne = luminance(img);
+   int i = 0,j=0;
+   for ( i = 0; i < img.largeur; i++)
+   {
+       for ( j = 0; j < img.largeur; j++)
+       {
+           if (img.M[i][j] + moyenne  < img.MAX_PIXEL_VALUE )
+           {
+              img.M[i][j] = img.M[i][j]+moyenne; 
+           }
+           
+       }
+       
+   }
+   return img;
+}
+
+
 struct Image Et(Image img1 , Image img2){
 
 }
