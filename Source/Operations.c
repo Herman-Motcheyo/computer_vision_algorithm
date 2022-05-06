@@ -52,7 +52,7 @@ struct Image read_Image_file(char *path)
 void write_Image_to_file(struct Image img, char *path)
 {
     FILE *file_write = NULL;
-    file_write = fopen(path, "a");
+    file_write = fopen(path, "w");
     int i, j = 0;
     if (file_write != NULL)
     {
@@ -106,8 +106,10 @@ struct Image transpose_Image(struct Image img)
 * this function is used to improve constrate of an Image using 
 *   linear transformation
 */
-struct Image transformation_lineaire(struct Image img, int max, int min)
-{
+struct Image transformation_lineaire(struct Image img)
+{   
+    int max = findMaxPixelValueInM(img);
+    int min = findMinPixelValueInM(img);
     int i = 0, j = 0, tmp = 0;
     int **m_prime = generate_matrice(img.largeur, img.hauteur);
     for (i = 0; i < img.largeur; i++)
@@ -132,8 +134,23 @@ struct Image transformation_lineaire(struct Image img, int max, int min)
 }
 
 
-struct Image transformation_saturation(struct Image img, int max, int min, int smax, int smin)
+struct Image transformation_saturation(struct Image img, int smax, int smin)
 {
+       if (smax > findMaxPixelValueInM(img)  )
+    {
+        printf("la valeur maximale entree est tres superieur au pixel max qui est %d",findMaxPixelValueInM(img));
+        exit(1);
+    }
+    else if (smin < findMinPixelValueInM(img) )
+    {
+        printf("La valeur min du pixel spécifie est inferieur à val min de l'image qui est %d" , findMinPixelValueInM(img));
+        exit(1);
+    }else if (smin > smax)
+    {
+        printf("Le max doit etre inferieur au min smax = %d smin= %d " ,smax , smin );
+        exit(1);
+    }
+    
   int i = 0, j = 0, tmp = 0;
     int **m_prime = generate_matrice(img.largeur, img.hauteur);
     for (i = 0; i < img.largeur; i++)

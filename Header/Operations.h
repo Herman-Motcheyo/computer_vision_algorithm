@@ -12,8 +12,8 @@ struct Image transpose_Image(struct Image);
 /*  Amelioration du contraste */
 /* rappel herman :NB: min < max */
 
-struct Image transformation_lineaire(struct Image , int max , int min);
-struct Image transformation_saturation( struct  Image , int max , int min ,int smax , int smin);
+struct Image transformation_lineaire(struct Image );
+struct Image transformation_saturation( struct  Image ,int smax , int smin);
 struct Image egalisation_histogramme(Image);
 int MAX_VALUE(int  ,int );
 struct Image addition(struct Image , struct Image);

@@ -59,12 +59,16 @@ Image prew = contour_with_Prewitt(img1 );
   Image soble = contour_with_sobel(img1);
  write_Image_to_file(soble, "./image/contour/sobel.pgm");
  */
-  Image m = read_Image_file("./image/cours/img1.pgm");
+  Image m = read_Image_file("./image/cours/transLinear.pgm");
   //Image m2 = luminanceImage(m);
-  Image m2 = contrasteImage(m);
-  write_Image_to_file(m2 ,"./image/cours/constrate.pgm" );
+  //Image m2 = contrasteImage(m);
+ // write_Image_to_file(m2 ,"./image/cours/constrate.pgm" );
   //histogramme(m);
 printf("%d\n" , findMinPixelValueInM(m));
 printf("%d\n" , findMaxPixelValueInM(m));
+Image m2 = transformation_lineaire(m);
+  write_Image_to_file(m2 ,"./image/cours/transformationLineaire.pgm" );
+Image m3 = transformation_saturation(m , 150 ,40);
+  write_Image_to_file(m3 ,"./image/cours/transformationSaturation.pgm" );
     return 0;
 }
