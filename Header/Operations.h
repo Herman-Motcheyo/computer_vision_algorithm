@@ -24,6 +24,9 @@ struct Image negatif_image(struct Image);
 struct Image luminanceImage(struct Image);
 struct Image contrasteImage(struct Image img);
 
+void histogramme(Image m);
+void write_Histogramme_to_File(int*);
+
 struct Image Et(Image , Image);
 struct Image OU(Image , Image);
  

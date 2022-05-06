@@ -362,6 +362,42 @@ struct Image contrasteImage(struct Image img){
    }
    return img;
 }
+
+void histogramme(Image m){
+ int *LUT = calloc(256 ,sizeof(int));
+ int i =0 ,j=0;
+ for ( i = 0; i < m.largeur; i++)
+ {
+     for ( j = 0; j < m.hauteur; j++)
+     {
+         LUT[m.M[i][j]]++;
+     }
+     
+ }
+ for (i = 0; i < 256; i++)
+ {
+     printf("%d \t" , LUT[i]);
+ }
+ write_Histogramme_to_File(LUT);
+ free(LUT);
+}
+
+void write_Histogramme_to_File(int* hist){
+    FILE *file = NULL;
+    int i = 0;
+    file = fopen("./image/cours/histogramme.txt" ,"a");
+    if (file != NULL)
+    {   fprintf(file ,"Numero  Count\n");
+        for ( i = 0; i < 256; i++)
+        {
+            fprintf(file , "%d     %d\n" , i , hist[i]);
+        }
+        
+    }else{
+        printf("Impossible d'ouvrir le fichier pour l'ecriture de l'histogramme");
+    }
+}
+
 struct Image Et(Image img1 , Image img2){
 
 }
