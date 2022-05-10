@@ -6,14 +6,14 @@
 #include "./Header/Contour.h"
 
 int main(void){
- //struct Image img = read_Image_file("./image/obscure.pgm");
- // struct Image img1 = read_Image_file("./image/contour/Fig2.pgm");
+ struct Image img = read_Image_file("./image/obscure.pgm");
+  struct Image img1 = read_Image_file("./image/contour/obscure.pgm");
  //struct Image img_transpose =transpose_Image(img );
  //write_Image_to_file(img_transpose , "./Image/Image_transpose.pgm");
 //Image img_transformation_lineaire =transformation_lineaire(img ,100 , 20);
-/* Image add = addition(img , img);
-  write_Image_to_file(add , "./image/addition.pgm");
- Image sous = soustration(img , img_transformation_lineaire);
+ Image add = addition(img , img1);
+  write_Image_to_file(add , "./image/cours/addition2.pgm");
+ /*Image sous = soustration(img , img_transformation_lineaire);
   write_Image_to_file(sous , "./image/soustration.pgm");
    Image mul = multiplication(img ,1.5);
   write_Image_to_file(mul , "./image/mutiplication.pgm");
@@ -59,7 +59,7 @@ Image prew = contour_with_Prewitt(img1 );
   Image soble = contour_with_sobel(img1);
  write_Image_to_file(soble, "./image/contour/sobel.pgm");
  */
-  Image m = read_Image_file("./image/cours/transLinear.pgm");
+  /* Image m = read_Image_file("./image/cours/transLinear.pgm");
   //Image m2 = luminanceImage(m);
   //Image m2 = contrasteImage(m);
  // write_Image_to_file(m2 ,"./image/cours/constrate.pgm" );
@@ -70,5 +70,5 @@ Image m2 = transformation_lineaire(m);
   write_Image_to_file(m2 ,"./image/cours/transformationLineaire.pgm" );
 Image m3 = transformation_saturation(m , 150 ,40);
   write_Image_to_file(m3 ,"./image/cours/transformationSaturation.pgm" );
-    return 0;
+ */   return 0;
 }

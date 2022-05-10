@@ -235,7 +235,11 @@ int MIN_VALUE(int a ,int b){
 
 
 struct Image addition(struct Image img1, struct Image img2)
-{
+{    
+    if((img1.hauteur * img1.largeur) != (img2.hauteur * img2.largeur) ){
+        printf("les 2 images doivent avoir la meme taille");
+        exit(1);
+    }
     int i = 0, j = 0;
     struct Image addition;
     addition.hauteur= img1.hauteur;
@@ -259,7 +263,10 @@ struct Image addition(struct Image img1, struct Image img2)
 
 
 struct Image soustration(struct Image img1, struct Image img2)
-{
+{   if((img1.hauteur * img1.largeur) != (img2.hauteur * img2.largeur) ){
+        printf("les 2 images doivent avoir la meme taille");
+        exit(1);
+    }
     int i = 0, j = 0;
     struct Image soustration;
     soustration.hauteur= img1.hauteur;
