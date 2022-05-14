@@ -82,22 +82,22 @@ void write_Image_to_file(struct Image img, char *path)
 struct Image transpose_Image(struct Image img)
 {
     int i = 0, j = 0;
-    int tmp;
-    int **m_trans = generate_matrice(img.hauteur, img.largeur);
+    Image m;
+    m.M = generate_matrice(img.hauteur, img.largeur);
     for (i = 0; i < img.largeur; i++)
     {
         for (j = 0; j < img.hauteur; j++)
         {
-            m_trans[j][i] = img.M[i][j];
+             m.M[j][i] =  img.M[i][j];
         }
     }
-    img.M = m_trans;
-    tmp = img.largeur;
-    img.largeur = img.hauteur;
-    img.hauteur = tmp;
-    strcpy(img.description, "# transpose by herman");
+    m.largeur = img.hauteur;
+    m.hauteur = img.largeur;
+    m.MAX_PIXEL_VALUE = img.MAX_PIXEL_VALUE;
+    strcpy(m.name,img.name);
+    strcpy(m.description, "# transpose by herman");
 
-    return img;
+    return m;
 }   
 
 /* Amelioration du constraste de l'Image */
@@ -111,7 +111,8 @@ struct Image transformation_lineaire(struct Image img)
     int max = findMaxPixelValueInM(img);
     int min = findMinPixelValueInM(img);
     int i = 0, j = 0, tmp = 0;
-    int **m_prime = generate_matrice(img.largeur, img.hauteur);
+    Image m ;
+    m.M = generate_matrice(img.largeur, img.hauteur);
     for (i = 0; i < img.largeur; i++)
     {
         for (j = 0; j < img.hauteur; j++)
@@ -120,17 +121,20 @@ struct Image transformation_lineaire(struct Image img)
             if (tmp < 0)
             {
                 tmp = 0;
-                m_prime[i][j] = tmp;
+                m.M[i][j] = tmp;
             }
             else
             {
-                m_prime[i][j] = (tmp * 255) / (max - min);
+                m.M[i][j] = (tmp * 255) / (max - min);
             }
         }
     }
-    strcpy(img.description, "# amelioration du constraste et transformation lineaire by herman");
-    img.M = m_prime;
-    return img;
+    strcpy(m.description, "# amelioration du constraste et transformation lineaire by herman");
+    m.MAX_PIXEL_VALUE = img.MAX_PIXEL_VALUE;
+    strcpy(m.name,img.name);
+    m.largeur = img.largeur;
+    m.hauteur = img.hauteur;
+    return m;
 }
 
 
@@ -150,9 +154,9 @@ struct Image transformation_saturation(struct Image img, int smax, int smin)
         printf("Le max doit etre inferieur au min smax = %d smin= %d " ,smax , smin );
         exit(1);
     }
-    
-  int i = 0, j = 0, tmp = 0;
-    int **m_prime = generate_matrice(img.largeur, img.hauteur);
+    int i=0 , j=0 , tmp=0;
+  Image m ;
+    m.M = generate_matrice(img.largeur, img.hauteur);
     for (i = 0; i < img.largeur; i++)
     {
         for (j = 0; j < img.hauteur; j++)
@@ -161,18 +165,20 @@ struct Image transformation_saturation(struct Image img, int smax, int smin)
             if (tmp < 0)
             {
                 tmp = 0;
-                m_prime[i][j] = tmp;
+                m.M[i][j] = tmp;
             }
             else
             {
-                m_prime[i][j] = (tmp * 255) / (smax - smin);
+                m.M[i][j] = (tmp * 255) / (smax - smin);
             }
         }
     }
-    strcpy(img.description, "# amelioration du constraste et transformation lineaire by herman");
-    img.M = m_prime;
-    return img;
-
+    strcpy(m.description, "#  transformation lineaire avec saturation by herman");
+    m.MAX_PIXEL_VALUE = img.MAX_PIXEL_VALUE;
+    strcpy(m.name,img.name);
+    m.largeur = img.largeur;
+    m.hauteur = img.hauteur;
+    return m;
 }
 /*
 * This function is used to improve contrast (à partir de l'etirement de l'histogramme)
@@ -182,7 +188,8 @@ struct Image egalisation_histogramme(Image img){
    float sum=0;
    float *H = calloc(img.MAX_PIXEL_VALUE , sizeof(float));
    float *C = calloc(img.MAX_PIXEL_VALUE ,  sizeof(float));
-   int **F_prime = generate_matrice(img.largeur , img.hauteur);
+   Image m;
+   m.M = generate_matrice(img.largeur , img.hauteur);
 // Etape 1 : Calcul de l'histogramme
    for (i  = 0; i < img.largeur; i++)
    {
@@ -213,13 +220,16 @@ struct Image egalisation_histogramme(Image img){
    {
        for (j = 0; j < img.hauteur; j++)
        {
-           F_prime[i][j] = C[img.M[i][j]] *img.MAX_PIXEL_VALUE;
+           m.M[i][j] = C[img.M[i][j]] *img.MAX_PIXEL_VALUE;
        }
        
    }
-   img.M = F_prime;
-   strcpy(img.description , "# Egalisation by tcheneghon Herman");
-   return img;
+   strcpy(m.description , "# Egalisation by tcheneghon Herman");
+    m.MAX_PIXEL_VALUE = img.MAX_PIXEL_VALUE;
+    strcpy(m.name,img.name);
+    m.largeur = img.largeur;
+    m.hauteur = img.hauteur;
+    return m;
 }
 
 int MAX_VALUE(int a ,int b){
@@ -312,46 +322,55 @@ struct Image multiplication(struct Image img1, float ratio)
 }
 
 struct Image binarisation(Image img , int seuil){
+
+    
     int i =0 , j=0;
-    int **bin = generate_matrice(img.largeur , img.hauteur);
+    Image m;
+    m.hauteur= img.hauteur;
+    m.largeur = img.largeur;
+    m.M = generate_matrice(img.largeur , img.hauteur);
     for ( i = 0; i < img.largeur; i++)
     {
        for ( j = 0; j < img.hauteur; j++)
        {
-           bin[i][j] = (img.M[i][j]< seuil ) ? 0 : 1 ;
+           m.M[i][j] = (img.M[i][j]< seuil ) ? 0 : 1 ;
 
        }
        
     }
-    img.M = bin ;
-    strcpy(img.name ,"P1");
-/*
-    for ( i = 0; i < img.largeur; i++)
-    {
-        free(bin[i]);
-    }
-    free(bin);
-*/
+    strcpy(m.name ,"P1");
+
     return img;
     
 }
 
+//  negatif de l' image 255 -M[i][j]
 struct Image negatif_image(struct Image img){
     int i = 0, j=0;
+    struct Image m;
+    m.hauteur= img.hauteur;
+    m.largeur = img.largeur;
+    strcpy(m.name , img.name);
+    strcpy(m.description , "# Herman Motcheyo negatif d'une image");
+    m.MAX_PIXEL_VALUE =255;
+
+    m.M = generate_matrice(img.largeur , img.hauteur);
     for ( i = 0; i < img.largeur; i++)
     {
         for ( j = 0; j < img.hauteur; j++)
         {
-            img.M[i][j] = 255 -img.M[i][j];
+            m.M[i][j] = 255 -img.M[i][j];
         }
         
     }
-    return  img;
+    return  m;
 }
 
 //la luminance est definie comme la moyenne de tous les pixels de l'image
 struct Image luminanceImage(struct Image img){
    float moyenne = luminance(img);
+   Image m = create_image(img);
+
    int i = 0,j=0;
    for ( i = 0; i < img.largeur; i++)
    {
@@ -359,18 +378,21 @@ struct Image luminanceImage(struct Image img){
        {
            if (img.M[i][j] + moyenne  < img.MAX_PIXEL_VALUE )
            {
-              img.M[i][j] = img.M[i][j]+moyenne; 
+              m.M[i][j] = img.M[i][j]+moyenne; 
+           }else{
+               m.M[i][j] = img.M[i][j];
            }
            
        }
        
    }
-   return img;
+   return m;
 }
 
 
 struct Image contrasteImage(struct Image img){
    float contrast = contraste(img);
+   Image m = create_image(img);
    int i = 0,j=0;
    for ( i = 0; i < img.largeur; i++)
    {
@@ -378,13 +400,15 @@ struct Image contrasteImage(struct Image img){
        {
            if (img.M[i][j] + contrast  < img.MAX_PIXEL_VALUE )
            {
-              img.M[i][j] = img.M[i][j]+contrast; 
+              m.M[i][j] = img.M[i][j]+contrast; 
+           }else{
+               m.M[i][j] = img.M[i][j];
            }
            
        }
        
    }
-   return img;
+   return m;
 }
 
 void histogramme(Image m){

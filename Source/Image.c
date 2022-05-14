@@ -8,6 +8,19 @@
 **  this function is used to generate matrix 
 */
 
+/// This function is using to create image
+
+Image create_image(Image m){
+    Image prime ;
+    prime.hauteur = m.hauteur;
+    prime.largeur = m.largeur;
+    strcpy(prime.description , m.description);
+    strcpy(prime.name , m.name);
+    prime.MAX_PIXEL_VALUE = m.MAX_PIXEL_VALUE;
+    prime.M = generate_matrice(m.largeur , m.hauteur);
+    return prime;
+}
+
 int **generate_matrice(int nb_line, int nb_column)
 {
     int i = 0;

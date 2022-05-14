@@ -11,6 +11,8 @@ typedef struct Image
     int **M;
 } Image;
 
+Image create_image(Image m);
+
 int **generate_matrice(int nb_line, int nb_column);
 void freeMatrice(int **m, int nb_line);
 
