@@ -7,12 +7,12 @@
 
 int main(void){
  struct Image img = read_Image_file("./image/obscure.pgm");
-  struct Image img1 = read_Image_file("./image/contour/obscure.pgm");
+  struct Image img1 = read_Image_file("./image/convolution/Fig3.pgm");
  //struct Image img_transpose =transpose_Image(img );
  //write_Image_to_file(img_transpose , "./Image/Image_transpose.pgm");
 //Image img_transformation_lineaire =transformation_lineaire(img ,100 , 20);
- Image add = addition(img , img1);
-  write_Image_to_file(add , "./image/cours/addition2.pgm");
+// Image add = addition(img , img1);
+ // write_Image_to_file(add , "./image/cours/addition2.pgm");
  /*Image sous = soustration(img , img_transformation_lineaire);
   write_Image_to_file(sous , "./image/soustration.pgm");
    Image mul = multiplication(img ,1.5);
@@ -45,8 +45,8 @@ int j=0;
 
 //int tab[14] = {15,78,21,98,23,82,32,12,7,14 ,0,1,7};
  //findMedianWithBubbleSort(tab , 14);
- //Image im = convolution(img1 ,"median", 1);
- //write_Image_to_file(im ,"./image/convolution/median_ok.pgm");
+ Image im = convolution(img1 ,"gaussien", 1);
+ write_Image_to_file(im ,"./image/convolution/gaussien2.pgm");
  /* printf("work\n");
  Image m = derive(img1 , 25);
  write_Image_to_file(m , "./image/contour/derivee.pgm");

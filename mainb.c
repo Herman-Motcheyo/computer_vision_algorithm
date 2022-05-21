@@ -1,14 +1,41 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-
 #include "./Header/Contour.h"
 
-int main(void){
-    char path[100];
-    printf("************************************ Bienvenue sur notre application de Traitement d'image ************************************\n");
-    printf("****************Chapitre 1 - Operation sur les images****************\n");
+int main(void)
+{
+  char path[100];
+  char *choix_menu;
+  unsigned int incorrect = 1;
+  printf("************************************ Bienvenue sur notre application de Traitement d'image ************************************\n");
+  printf("****************Chapitre 02-Traitement de base****************\n\n");
+  printf("****************Chapitre 03-Convolution****************\n\n");
+  printf("****************Chapitre 04-Transdormee de fourier****************\n\n");
+  printf("****************Chapitre 05-Contours****************\n\n");
+  printf("****************Chapitre 06-Segmentation****************\n\n");
+  printf("****************Chapitre 07-Images_binaires****************\n\n");
+  printf("****************Chapitre 08-Detection-Reconnaissance-2D****************\n\n");
+
+  printf("**********Faites votre choix***************** \n");
+    scanf("%s", choix_menu);
+  do
+  { 
+    if ( choix_menu <= 1 || choix_menu > 8)
+    {
+      printf("choix incorrect ! Veuillez  reessayer \t");
+          scanf("%s", choix_menu);
+
+    }
+    else
+    {
+      printf("bon choix");
+      incorrect = 0;
+    }
+
+  } while (incorrect ==1);
+
+  /*   
     printf("*****************Entrer le chemin de l'image ******************************\n");
   //  scanf("%s" , path) ;
       Image img = read_Image_file("./image/obscure.pgm");
@@ -59,7 +86,7 @@ Image constr = contrasteImage(Lum_const);
     write_Image_to_file(constr , "./image/cours/constrate.pgm");
       freeMatrice(constr.M , constr.largeur);
      
+*/
 
-
-    return 0;
+  return 0;
 }
