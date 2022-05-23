@@ -23,6 +23,9 @@ struct Image binarisation(struct Image img , int seuil);
 struct Image negatif_image(struct Image);
 struct Image luminanceImage(struct Image);
 struct Image contrasteImage(struct Image img);
+//https://chowdera.com/2022/03/202203010744372381.html
+
+struct Image interpolationPlusProcheVoisin(struct Image img , int x , int y);
 
 void histogramme(Image m);
 void write_Histogramme_to_File(int*);

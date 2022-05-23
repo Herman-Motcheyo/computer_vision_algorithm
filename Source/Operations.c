@@ -432,3 +432,29 @@ for ( i = 0; i < m.largeur; i++)
 }
 return min;
 }
+struct Image interpolationPlusProcheVoisin(struct Image img , int x , int y){
+    if (x == 0 || y == 0)
+    {
+        printf(" les arguments x et y doivent etre non null");
+        exit(1);
+    }
+    Image zoom = create_image(img);
+    zoom.M = generate_matrice(x,y);
+    zoom.largeur = x;
+    zoom.hauteur= y;
+    float a = img.largeur /(float)x;
+    float b = img.hauteur / (float)y;
+    printf("%f %f" , a , b);
+    int srcX  = 0,srcY = 0;
+    for (int i = 0; i < x; i++)
+    {
+        for (int j = 0; j < y; j++)
+        {
+            srcX = i* a;
+            srcY = j* b;
+            zoom.M[i][j] =img.M[srcX][srcY];  
+        }
+        
+    }
+    return zoom;
+}

@@ -6,7 +6,7 @@
 #include "./Header/Contour.h"
 
 int main(void){
- struct Image img = read_Image_file("./image/obscure.pgm");
+ struct Image img = read_Image_file("./image/lena.pgm");
   struct Image img1 = read_Image_file("./image/convolution/Fig3.pgm");
  //struct Image img_transpose =transpose_Image(img );
  //write_Image_to_file(img_transpose , "./Image/Image_transpose.pgm");
@@ -45,8 +45,8 @@ int j=0;
 
 //int tab[14] = {15,78,21,98,23,82,32,12,7,14 ,0,1,7};
  //findMedianWithBubbleSort(tab , 14);
- Image im = convolution(img1 ,"gaussien", 1);
- write_Image_to_file(im ,"./image/convolution/gaussien2.pgm");
+ //Image im = convolution(img1 ,"gaussien", 1);
+ //write_Image_to_file(im ,"./image/convolution/gaussien2.pgm");
  /* printf("work\n");
  Image m = derive(img1 , 25);
  write_Image_to_file(m , "./image/contour/derivee.pgm");
@@ -70,5 +70,10 @@ Image m2 = transformation_lineaire(m);
   write_Image_to_file(m2 ,"./image/cours/transformationLineaire.pgm" );
 Image m3 = transformation_saturation(m , 150 ,40);
   write_Image_to_file(m3 ,"./image/cours/transformationSaturation.pgm" );
- */   return 0;
+  
+ */ 
+Image im = interpolationPlusProcheVoisin( img , 1000 , 500);
+ write_Image_to_file(im ,"./image/plusprochevoisin.pgm");
+ 
+ return 0;
 }

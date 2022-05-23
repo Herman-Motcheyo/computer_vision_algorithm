@@ -3,9 +3,10 @@
 
 #include "Image.h"
 
-void mean_cluster();
-void upate_center();
+
 int Manathan(int* , int* , int ,int);
+float *update_cluster(int **data, int n, int nbcolumn);
+int length_cluster(int *points, int clusterId, int length_point);
 void kmeans(Image , int k , int min_inertia , int);
 
 #endif
