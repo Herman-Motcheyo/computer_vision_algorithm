@@ -167,6 +167,71 @@ struct Image transformation_saturation(struct Image img, int smax, int smin)
     strcpy(m.description, "#  transformation lineaire avec saturation by herman");
     return m;
 }
+
+//les pixels entre smax et smin sont mise à 255 et le reste est  inchangé
+struct Image transformation_morceau(struct Image img, int smax , int smin){
+       if  (smin >= smax)
+    {
+        printf("Le max doit etre inferieur au min smax = %d smin= %d " ,smax , smin );
+        exit(1);
+    }else if(smin  < 0 || smax  < 0 )
+    {
+                printf("Le max ou le min doit etre strictement superieur à 0 smax = %d smin= %d " ,smax , smin );
+        exit(1);
+    }else if(smin  > 255 || smax  > 255 )
+    {
+        printf("Le max ou le min doit etre strictement compris dans [0, 255] smax = %d smin= %d " ,smax , smin );
+        exit(1);
+    }
+    
+    
+    Image morceau = create_image(img);
+    int i = 0 , j=0;
+    for (int i = 0; i < morceau.largeur; i++)
+    {
+        for (int j = 0; j <morceau.hauteur; j++)
+        {
+            if( img.M[i][j] < smax && img.M[i][j] > smin  )
+                 morceau.M[i][j] = 255;
+            else
+                 morceau.M[i][j] = img.M[i][j];
+        }
+        
+    }
+    return morceau;
+}
+struct Image transformation_morceau_inverse(struct Image img, int smax , int smin){
+        if  (smin >= smax)
+    {
+        printf("Le max doit etre inferieur au min smax = %d smin= %d " ,smax , smin );
+        exit(1);
+    }else if(smin  < 0 || smax  < 0 )
+    {
+                printf("Le max ou le min doit etre strictement superieur à 0 smax = %d smin= %d " ,smax , smin );
+        exit(1);
+    }else if(smin  > 255 || smax  > 255 )
+    {
+        printf("Le max ou le min doit etre strictement compris dans [0, 255] smax = %d smin= %d " ,smax , smin );
+        exit(1);
+    }
+    
+    
+    Image morceau = create_image(img);
+    int i = 0 , j=0;
+    for (int i = 0; i < morceau.largeur; i++)
+    {
+        for (int j = 0; j <morceau.hauteur; j++)
+        {
+            if( img.M[i][j] < smax && img.M[i][j] > smin  )
+                 morceau.M[i][j] = img.M[i][j];
+            else
+                 morceau.M[i][j] = 0;
+        }
+        
+    }
+    return morceau;
+}
+
 /*
 * This function is used to improve contrast (à partir de l'etirement de l'histogramme)
 */
@@ -457,4 +522,8 @@ struct Image interpolationPlusProcheVoisin(struct Image img , int x , int y){
         
     }
     return zoom;
+}
+
+struct Image bilineaire(Image m , int x , int y ){
+
 }

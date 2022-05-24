@@ -14,6 +14,9 @@ struct Image transpose_Image(struct Image);
 
 struct Image transformation_lineaire(struct Image );
 struct Image transformation_saturation( struct  Image ,int smax , int smin);
+struct Image transformation_morceau(struct Image , int smax , int smin);
+struct Image transformation_morceau_inverse(struct Image , int smax , int smin);
+
 struct Image egalisation_histogramme(Image);
 int MAX_VALUE(int  ,int );
 struct Image addition(struct Image , struct Image);
@@ -25,13 +28,15 @@ struct Image luminanceImage(struct Image);
 struct Image contrasteImage(struct Image img);
 //https://chowdera.com/2022/03/202203010744372381.html
 
-struct Image interpolationPlusProcheVoisin(struct Image img , int x , int y);
 
 void histogramme(Image m);
 void write_Histogramme_to_File(int*);
 
 int findMinPixelValueInM(Image m);
 int findMaxPixelValueInM(Image m);
+
+struct Image interpolationPlusProcheVoisin(struct Image img , int x , int y);
+struct Image bilineaire(Image , int x , int y );
 
 struct Image Et(Image , Image);
 struct Image OU(Image , Image);

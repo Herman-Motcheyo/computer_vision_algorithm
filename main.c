@@ -72,8 +72,20 @@ Image m3 = transformation_saturation(m , 150 ,40);
   write_Image_to_file(m3 ,"./image/cours/transformationSaturation.pgm" );
   
  */ 
+
+
 Image im = interpolationPlusProcheVoisin( img , 1000 , 500);
  write_Image_to_file(im ,"./image/plusprochevoisin.pgm");
- 
+ freeMatrice(im.M , im.largeur);
+
+  struct Image ms = read_Image_file("./image/cours/original/barbara.pgm");
+  Image  m = transformation_morceau(ms, 140, 70);
+      write_Image_to_file(m ,"./image/cours/transformationmorceau.pgm" );
+      freeMatrice(m.M , m.largeur);
+
+  Image  ma = transformation_morceau(ms, 180, 50);
+      write_Image_to_file(ma ,"./image/cours/transformationmorceau_inverse.pgm" );
+      freeMatrice(ma.M , ma.largeur);
+
  return 0;
 }
