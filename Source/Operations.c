@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include  <math.h>
+#include <math.h>
 #include "../Header/Operations.h"
-
 
 /*
     this function is used to read and Image 
@@ -36,7 +35,7 @@ struct Image read_Image_file(char *path)
                 }
             }
         }
-        printf("chargement reussi image de taille %d * %d \n" , img.largeur , img.hauteur);
+        printf("chargement reussi image de taille %d * %d \n", img.largeur, img.hauteur);
         fclose(file);
         return img;
     }
@@ -69,7 +68,7 @@ void write_Image_to_file(struct Image img, char *path)
                 fprintf(file_write, "%d\n", img.M[i][j]);
             }
         }
-        printf("Operation de traitement reussi image de taille %d * %d \n" , img.largeur , img.hauteur);
+        printf("Operation de traitement reussi image de taille %d * %d \n", img.largeur, img.hauteur);
 
         fclose(file_write);
     }
@@ -85,19 +84,19 @@ struct Image transpose_Image(struct Image img)
 {
     int i = 0, j = 0;
     Image m = create_image(img);
-     m.M = generate_matrice(img.hauteur , img.largeur);
+    m.M = generate_matrice(img.hauteur, img.largeur);
 
     for (i = 0; i < img.largeur; i++)
     {
         for (j = 0; j < img.hauteur; j++)
         {
-             m.M[j][i] =  img.M[i][j];
+            m.M[j][i] = img.M[i][j];
         }
     }
     strcpy(m.description, "# transpose by herman");
 
     return m;
-}   
+}
 
 /* Amelioration du constraste de l'Image */
 
@@ -106,12 +105,12 @@ struct Image transpose_Image(struct Image img)
 *   linear transformation
 */
 struct Image transformation_lineaire(struct Image img)
-{   
+{
     int max = findMaxPixelValueInM(img);
     int min = findMinPixelValueInM(img);
     int i = 0, j = 0, tmp = 0;
-    Image m = create_image(img) ;
-     for (i = 0; i < img.largeur; i++)
+    Image m = create_image(img);
+    for (i = 0; i < img.largeur; i++)
     {
         for (j = 0; j < img.hauteur; j++)
         {
@@ -131,25 +130,25 @@ struct Image transformation_lineaire(struct Image img)
     return m;
 }
 
-
 struct Image transformation_saturation(struct Image img, int smax, int smin)
 {
-       if (smax > findMaxPixelValueInM(img)  )
+    if (smax > findMaxPixelValueInM(img))
     {
-        printf("la valeur maximale entree est tres superieur au pixel max qui est %d",findMaxPixelValueInM(img));
+        printf("la valeur maximale entree est tres superieur au pixel max qui est %d", findMaxPixelValueInM(img));
         exit(1);
     }
-    else if (smin < findMinPixelValueInM(img) )
+    else if (smin < findMinPixelValueInM(img))
     {
-        printf("La valeur min du pixel spécifie est inferieur à val min de l'image qui est %d" , findMinPixelValueInM(img));
-        exit(1);
-    }else if (smin > smax)
-    {
-        printf("Le max doit etre inferieur au min smax = %d smin= %d " ,smax , smin );
+        printf("La valeur min du pixel spécifie est inferieur à val min de l'image qui est %d", findMinPixelValueInM(img));
         exit(1);
     }
-    int i=0 , j=0 , tmp=0;
-  Image m = create_image(img) ;
+    else if (smin > smax)
+    {
+        printf("Le max doit etre inferieur au min smax = %d smin= %d ", smax, smin);
+        exit(1);
+    }
+    int i = 0, j = 0, tmp = 0;
+    Image m = create_image(img);
     for (i = 0; i < img.largeur; i++)
     {
         for (j = 0; j < img.hauteur; j++)
@@ -171,179 +170,184 @@ struct Image transformation_saturation(struct Image img, int smax, int smin)
 }
 
 //les pixels entre smax et smin sont mise à 255 et le reste est  inchangé
-struct Image transformation_morceau(struct Image img, int smax , int smin){
-       if  (smin >= smax)
+struct Image transformation_morceau(struct Image img, int smax, int smin)
+{
+    if (smin >= smax)
     {
-        printf("Le max doit etre inferieur au min smax = %d smin= %d " ,smax , smin );
-        exit(1);
-    }else if(smin  < 0 || smax  < 0 )
-    {
-                printf("Le max ou le min doit etre strictement superieur à 0 smax = %d smin= %d " ,smax , smin );
-        exit(1);
-    }else if(smin  > 255 || smax  > 255 )
-    {
-        printf("Le max ou le min doit etre strictement compris dans [0, 255] smax = %d smin= %d " ,smax , smin );
+        printf("Le max doit etre inferieur au min smax = %d smin= %d ", smax, smin);
         exit(1);
     }
-    
-    
+    else if (smin < 0 || smax < 0)
+    {
+        printf("Le max ou le min doit etre strictement superieur à 0 smax = %d smin= %d ", smax, smin);
+        exit(1);
+    }
+    else if (smin > 255 || smax > 255)
+    {
+        printf("Le max ou le min doit etre strictement compris dans [0, 255] smax = %d smin= %d ", smax, smin);
+        exit(1);
+    }
+
     Image morceau = create_image(img);
     for (int i = 0; i < morceau.largeur; i++)
     {
-        for (int j = 0; j <morceau.hauteur; j++)
+        for (int j = 0; j < morceau.hauteur; j++)
         {
-            if( img.M[i][j] < smax && img.M[i][j] > smin  )
-                 morceau.M[i][j] = 255;
+            if (img.M[i][j] < smax && img.M[i][j] > smin)
+                morceau.M[i][j] = 255;
             else
-                 morceau.M[i][j] = img.M[i][j];
+                morceau.M[i][j] = img.M[i][j];
         }
-        
     }
     return morceau;
 }
-struct Image transformation_morceau_inverse(struct Image img, int smax , int smin){
-        if  (smin >= smax)
+struct Image transformation_morceau_inverse(struct Image img, int smax, int smin)
+{
+    if (smin >= smax)
     {
-        printf("Le max doit etre inferieur au min smax = %d smin= %d " ,smax , smin );
-        exit(1);
-    }else if(smin  < 0 || smax  < 0 )
-    {
-                printf("Le max ou le min doit etre strictement superieur à 0 smax = %d smin= %d " ,smax , smin );
-        exit(1);
-    }else if(smin  > 255 || smax  > 255 )
-    {
-        printf("Le max ou le min doit etre strictement compris dans [0, 255] smax = %d smin= %d " ,smax , smin );
+        printf("Le max doit etre inferieur au min smax = %d smin= %d ", smax, smin);
         exit(1);
     }
-    
-    
+    else if (smin < 0 || smax < 0)
+    {
+        printf("Le max ou le min doit etre strictement superieur à 0 smax = %d smin= %d ", smax, smin);
+        exit(1);
+    }
+    else if (smin > 255 || smax > 255)
+    {
+        printf("Le max ou le min doit etre strictement compris dans [0, 255] smax = %d smin= %d ", smax, smin);
+        exit(1);
+    }
+
     Image morceau = create_image(img);
     for (int i = 0; i < morceau.largeur; i++)
     {
-        for (int j = 0; j <morceau.hauteur; j++)
+        for (int j = 0; j < morceau.hauteur; j++)
         {
-            if( img.M[i][j] < smax && img.M[i][j] > smin  )
-                 morceau.M[i][j] = img.M[i][j];
+            if (img.M[i][j] < smax && img.M[i][j] > smin)
+                morceau.M[i][j] = img.M[i][j];
             else
-                 morceau.M[i][j] = 0;
+                morceau.M[i][j] = 0;
         }
-        
     }
     return morceau;
 }
 //https://www.tutorialspoint.com/dip/gray_level_transformations.htm
-struct Image transformation_gamma(Image img ,int c, float gamma){
-  Image m = create_image(img);
-  int s =0;
-  for (int i = 0; i < m.largeur; i++)
-  {
-      for (int j = 0; j < m.hauteur; j++)
-      {
-          s =c * pow(img.M[i][j] , 1/gamma);
-          m.M[i][j] = s;
-      }
-      
-  }
-  return m; 
+struct Image transformation_gamma(Image img, int c, float gamma)
+{
+    Image m = create_image(img);
+    int s = 0;
+    for (int i = 0; i < m.largeur; i++)
+    {
+        for (int j = 0; j < m.hauteur; j++)
+        {
+            s = c * pow(img.M[i][j], 1 / gamma);
+            m.M[i][j] = s;
+        }
+    }
+    return m;
 }
 
 /*
 * This function is used to improve contrast (à partir de l'etirement de l'histogramme)
 */
-struct Image egalisation_histogramme(Image img){
-   int i =0,j=0 ;
-   float sum=0;
-   float *H = calloc(img.MAX_PIXEL_VALUE , sizeof(float));
-   float *C = calloc(img.MAX_PIXEL_VALUE ,  sizeof(float));
-   Image m = create_image(img);
-// Etape 1 : Calcul de l'histogramme
-   for (i  = 0; i < img.largeur; i++)
-   {
-       for ( j = 0; j < img.hauteur; j++)
-       {
-           H[img.M[i][j]] += 1;
-       }
-       
-   }
-   //Etape 2 : Normalisation de l'histogramme
-   for ( i = 0; i < img.MAX_PIXEL_VALUE; i++)
-   {
-       H[i] = H[i]/(img.largeur *img.hauteur) ;
-   }
-   
-   // Etape 3 : Densité de probabilité normalisé
-   for ( i = 0; i < img.MAX_PIXEL_VALUE; i++)
-   {   
-       for ( j = 0; j < i; j++)
-       {
-           sum += H[j];
-       }
-       C[i] = sum;
-       sum = 0;
-   }
-   //Etape 4 : Transformation des niveaux de gris de l'image
-   for ( i = 0; i < img.largeur; i++)
-   {
-       for (j = 0; j < img.hauteur; j++)
-       {
-           m.M[i][j] = C[img.M[i][j]] *img.MAX_PIXEL_VALUE;
-       }
-       
-   }
-   strcpy(m.description , "# Egalisation by tcheneghon Herman");
+struct Image egalisation_histogramme(Image img)
+{
+    int i = 0, j = 0;
+    float sum = 0;
+    float *H = calloc(img.MAX_PIXEL_VALUE, sizeof(float));
+    float *C = calloc(img.MAX_PIXEL_VALUE, sizeof(float));
+    Image m = create_image(img);
+    // Etape 1 : Calcul de l'histogramme
+    for (i = 0; i < img.largeur; i++)
+    {
+        for (j = 0; j < img.hauteur; j++)
+        {
+            H[img.M[i][j]] += 1;
+        }
+    }
+    //Etape 2 : Normalisation de l'histogramme
+    for (i = 0; i < img.MAX_PIXEL_VALUE; i++)
+    {
+        H[i] = H[i] / (img.largeur * img.hauteur);
+    }
+
+    // Etape 3 : Densité de probabilité normalisé
+    for (i = 0; i < img.MAX_PIXEL_VALUE; i++)
+    {
+        for (j = 0; j < i; j++)
+        {
+            sum += H[j];
+        }
+        C[i] = sum;
+        sum = 0;
+    }
+    //Etape 4 : Transformation des niveaux de gris de l'image
+    for (i = 0; i < img.largeur; i++)
+    {
+        for (j = 0; j < img.hauteur; j++)
+        {
+            m.M[i][j] = C[img.M[i][j]] * img.MAX_PIXEL_VALUE;
+        }
+    }
+    strcpy(m.description, "# Egalisation by tcheneghon Herman");
     return m;
 }
 
-int MAX_VALUE(int a ,int b){
-    if (a<b )return b;
-    else return a ;
+int MAX_VALUE(int a, int b)
+{
+    if (a < b)
+        return b;
+    else
+        return a;
 }
 
-
-int MIN_VALUE(int a ,int b){
-    if (a<b )return a;
-    else return b ;
+int MIN_VALUE(int a, int b)
+{
+    if (a < b)
+        return a;
+    else
+        return b;
 }
-
 
 struct Image addition(struct Image img1, struct Image img2)
-{    
-    if((img1.hauteur * img1.largeur) != (img2.hauteur * img2.largeur) ){
+{
+    if ((img1.hauteur * img1.largeur) != (img2.hauteur * img2.largeur))
+    {
         printf("les 2 images doivent avoir la meme taille");
         exit(1);
     }
     int i = 0, j = 0;
     struct Image addition = create_image(img1);
-    strcpy(addition.description , "# Herman Motcheyo addition");
+    strcpy(addition.description, "# Herman Motcheyo addition");
     for (i = 0; i < img1.largeur; i++)
     {
-        for ( j = 0; j < img1.hauteur; j++)
+        for (j = 0; j < img1.hauteur; j++)
         {
-            addition.M[i][j] = MIN_VALUE(img1.M[i][j]+ img2.M[i][j] , 255);
+            addition.M[i][j] = MIN_VALUE(img1.M[i][j] + img2.M[i][j], 255);
         }
-        
     }
     return addition;
 }
 
-
 struct Image soustration(struct Image img1, struct Image img2)
-{   if((img1.hauteur * img1.largeur) != (img2.hauteur * img2.largeur) ){
+{
+    if ((img1.hauteur * img1.largeur) != (img2.hauteur * img2.largeur))
+    {
         printf("les 2 images doivent avoir la meme taille");
         exit(1);
     }
     int i = 0, j = 0;
-    struct Image soustration  = create_image(img1);
-   
-    strcpy(soustration.description , "# Herman Motcheyo soustration");
-    soustration.MAX_PIXEL_VALUE =255;
+    struct Image soustration = create_image(img1);
+
+    strcpy(soustration.description, "# Herman Motcheyo soustration");
+    soustration.MAX_PIXEL_VALUE = 255;
     for (i = 0; i < img1.largeur; i++)
     {
-        for ( j = 0; j < img1.hauteur; j++)
+        for (j = 0; j < img1.hauteur; j++)
         {
-            soustration.M[i][j] = MAX_VALUE(img1.M[i][j]- img2.M[i][j] , 0);
+            soustration.M[i][j] = MAX_VALUE(img1.M[i][j] - img2.M[i][j], 0);
         }
-        
     }
     return soustration;
 }
@@ -353,193 +357,276 @@ struct Image multiplication(struct Image img1, float ratio)
     int i = 0, j = 0;
     struct Image multiplication = create_image(img1);
 
-    strcpy(multiplication.description , "# Herman Motcheyo multiplication");
+    strcpy(multiplication.description, "# Herman Motcheyo multiplication");
     for (i = 0; i < img1.largeur; i++)
     {
-        for ( j = 0; j < img1.hauteur; j++)
+        for (j = 0; j < img1.hauteur; j++)
         {
-            multiplication.M[i][j] = MAX_VALUE(img1.M[i][j]*ratio , 255);
+            multiplication.M[i][j] = MAX_VALUE(img1.M[i][j] * ratio, 255);
         }
-        
     }
     return multiplication;
 }
 
-struct Image binarisation(Image img , int seuil){
+struct Image binarisation(Image img, int seuil)
+{
 
-    
-    int i =0 , j=0;
+    int i = 0, j = 0;
     Image m;
-    m.hauteur= img.hauteur;
+    m.hauteur = img.hauteur;
     m.largeur = img.largeur;
-    m.M = generate_matrice(img.largeur , img.hauteur);
-    for ( i = 0; i < img.largeur; i++)
+    m.M = generate_matrice(img.largeur, img.hauteur);
+    for (i = 0; i < img.largeur; i++)
     {
-       for ( j = 0; j < img.hauteur; j++)
-       {
-           m.M[i][j] = (img.M[i][j]< seuil ) ? 0 : 1 ;
-
-       }
-       
+        for (j = 0; j < img.hauteur; j++)
+        {
+            m.M[i][j] = (img.M[i][j] < seuil) ? 0 : 1;
+        }
     }
-    strcpy(m.name ,"P1");
+    strcpy(m.name, "P1");
 
     return img;
-    
 }
 
 //  negatif de l' image 255 -M[i][j]
-struct Image negatif_image(struct Image img){
-    int i = 0, j=0;
+struct Image negatif_image(struct Image img)
+{
+    int i = 0, j = 0;
     struct Image m = create_image(img);
-    strcpy(m.description , "# Herman Motcheyo negatif d'une image");
-    for ( i = 0; i < img.largeur; i++)
+    strcpy(m.description, "# Herman Motcheyo negatif d'une image");
+    for (i = 0; i < img.largeur; i++)
     {
-        for ( j = 0; j < img.hauteur; j++)
+        for (j = 0; j < img.hauteur; j++)
         {
-            m.M[i][j] = 255 -img.M[i][j];
+            m.M[i][j] = 255 - img.M[i][j];
         }
-        
     }
-    return  m;
+    return m;
 }
 
 //la luminance est definie comme la moyenne de tous les pixels de l'image
-struct Image luminanceImage(struct Image img){
-   float moyenne = luminance(img);
-   Image m = create_image(img);
+struct Image luminanceImage(struct Image img)
+{
+    float moyenne = luminance(img);
+    Image m = create_image(img);
 
-   int i = 0,j=0;
-   for ( i = 0; i < img.largeur; i++)
-   {
-       for ( j = 0; j < img.largeur; j++)
-       {
-           if (img.M[i][j] + moyenne  < img.MAX_PIXEL_VALUE )
-           {
-              m.M[i][j] = img.M[i][j]+moyenne; 
-           }else{
-               m.M[i][j] = img.M[i][j];
-           }
-           
-       }
-       
-   }
-   return m;
+    int i = 0, j = 0;
+    for (i = 0; i < img.largeur; i++)
+    {
+        for (j = 0; j < img.largeur; j++)
+        {
+            if (img.M[i][j] + moyenne < img.MAX_PIXEL_VALUE)
+            {
+                m.M[i][j] = img.M[i][j] + moyenne;
+            }
+            else
+            {
+                m.M[i][j] = img.M[i][j];
+            }
+        }
+    }
+    return m;
 }
 
-
-struct Image contrasteImage(struct Image img){
-   float contrast = contraste(img);
-   Image m = create_image(img);
-   int i = 0,j=0;
-   for ( i = 0; i < img.largeur; i++)
-   {
-       for ( j = 0; j < img.largeur; j++)
-       {
-           if (img.M[i][j] + contrast  < img.MAX_PIXEL_VALUE )
-           {
-              m.M[i][j] = img.M[i][j]+contrast; 
-           }else{
-               m.M[i][j] = img.M[i][j];
-           }
-           
-       }
-       
-   }
-   return m;
+struct Image contrasteImage(struct Image img)
+{
+    float contrast = contraste(img);
+    Image m = create_image(img);
+    int i = 0, j = 0;
+    for (i = 0; i < img.largeur; i++)
+    {
+        for (j = 0; j < img.largeur; j++)
+        {
+            if (img.M[i][j] + contrast < img.MAX_PIXEL_VALUE)
+            {
+                m.M[i][j] = img.M[i][j] + contrast;
+            }
+            else
+            {
+                m.M[i][j] = img.M[i][j];
+            }
+        }
+    }
+    return m;
 }
 
-void histogramme(Image m){
- int *LUT = calloc(256 ,sizeof(int));
- int i =0 ,j=0;
- for ( i = 0; i < m.largeur; i++)
- {
-     for ( j = 0; j < m.hauteur; j++)
-     {
-         LUT[m.M[i][j]]++;
-     }
-     
- }
- for (i = 0; i < 256; i++)
- {
-     printf("%d \t" , LUT[i]);
- }
- write_Histogramme_to_File(LUT);
- free(LUT);
+void histogramme(Image m)
+{
+    int *LUT = calloc(256, sizeof(int));
+    int i = 0, j = 0;
+    for (i = 0; i < m.largeur; i++)
+    {
+        for (j = 0; j < m.hauteur; j++)
+        {
+            LUT[m.M[i][j]]++;
+        }
+    }
+    for (i = 0; i < 256; i++)
+    {
+        printf("%d \t", LUT[i]);
+    }
+    write_Histogramme_to_File(LUT);
+    free(LUT);
 }
 
-void write_Histogramme_to_File(int* hist){
+void write_Histogramme_to_File(int *hist)
+{
     FILE *file = NULL;
     int i = 0;
-    file = fopen("./image/cours/histogramme.txt" ,"a");
+    file = fopen("./image/cours/histogramme.txt", "a");
     if (file != NULL)
-    {   fprintf(file ,"Numero  Count\n");
-        for ( i = 0; i < 256; i++)
+    {
+        fprintf(file, "Numero  Count\n");
+        for (i = 0; i < 256; i++)
         {
-            fprintf(file , "%d     %d\n" , i , hist[i]);
+            fprintf(file, "%d     %d\n", i, hist[i]);
         }
-        
-    }else{
+    }
+    else
+    {
         printf("Impossible d'ouvrir le fichier pour l'ecriture de l'histogramme");
     }
 }
 
-int findMaxPixelValueInM(Image m){
-    int max =0 ,i=0,j=0;
-for ( i = 0; i < m.largeur; i++)
+int findMaxPixelValueInM(Image m)
 {
-    for ( j = 0; j < m.hauteur; j++)
+    int max = 0, i = 0, j = 0;
+    for (i = 0; i < m.largeur; i++)
     {
-        if (m.M[i][j] > max) max = m.M[i][j];
-        
+        for (j = 0; j < m.hauteur; j++)
+        {
+            if (m.M[i][j] > max)
+                max = m.M[i][j];
+        }
     }
-    
-}
-return max;
+    return max;
 }
 
-
-int findMinPixelValueInM(Image m){
-    int min =255 ,i=0,j=0;
-for ( i = 0; i < m.largeur; i++)
+int findMinPixelValueInM(Image m)
 {
-    for ( j = 0; j < m.hauteur; j++)
+    int min = 255, i = 0, j = 0;
+    for (i = 0; i < m.largeur; i++)
     {
-        if (m.M[i][j] < min) min = m.M[i][j];
-        
+        for (j = 0; j < m.hauteur; j++)
+        {
+            if (m.M[i][j] < min)
+                min = m.M[i][j];
+        }
     }
-    
+    return min;
 }
-return min;
-}
-struct Image interpolationPlusProcheVoisin(struct Image img , int x , int y){
+struct Image interpolationPlusProcheVoisin(struct Image img, int x, int y)
+{
     if (x == 0 || y == 0)
     {
         printf(" les arguments x et y doivent etre non null");
         exit(1);
     }
     Image zoom;
-    strcpy(zoom.name , "P2");
-    strcpy(zoom.description ,"# Zoom");
-    zoom.MAX_PIXEL_VALUE= 255;
+    strcpy(zoom.name, "P2");
+    strcpy(zoom.description, "# Zoom");
+    zoom.MAX_PIXEL_VALUE = 255;
     zoom.largeur = x;
-    zoom.hauteur= y;
-    zoom.M = generate_matrice(x,y);
+    zoom.hauteur = y;
+    zoom.M = generate_matrice(x, y);
 
-    float a = img.largeur /(float)x;
+    float a = img.largeur / (float)x;
     float b = img.hauteur / (float)y;
- int srcX  = 0,srcY = 0;
+    int srcX = 0, srcY = 0;
     for (int i = 0; i < x; i++)
     {
         for (int j = 0; j < y; j++)
         {
-            srcX = i* a;
-            srcY = j* b;
-            zoom.M[i][j] =img.M[srcX][srcY];  
+            srcX = i * a;
+            srcY = j * b;
+            zoom.M[i][j] = img.M[srcX][srcY];
         }
-        
     }
-    
+
     return zoom;
 }
 
+struct Image and (const Image f, const Image g)
+{
+    int largeur , hauteur =0;
+    largeur = MIN_VALUE(f.largeur , g.largeur);
+    hauteur = MIN_VALUE(g.hauteur , g.hauteur);
+  
+    Image fprim = seuillage_historgramme(f);
+    Image gprim = seuillage_historgramme(g);
+    Image result ;
+    result.M = generate_matrice(largeur , hauteur);
+    strcpy(result.name , "P1");
+    strcpy(result.description , "# image And");
+    result.largeur = largeur;
+    result.hauteur = hauteur;
+    result.MAX_PIXEL_VALUE = 1;
+    for (int i = 0; i < largeur; i++)
+    {
+        for (int j = 0; j < hauteur; j++)
+        {
+          //  result.M[i][j] = fprim.M[i][j] && gprim.M[i][j];
+            result.M[i][j] = fprim.M[i][j] != gprim.M[i][j] ? 0 : 1;
+            //(fprim.M[i][j] && gprim.M[i][j]);
+        }
+    }
+    freeMatrice(fprim.M, fprim.largeur);
+    freeMatrice(gprim.M, gprim.largeur);
+    return result;
+}
+
+struct Image or (const Image f, const Image g)
+{
+    if ((f.largeur * f.hauteur) != (g.largeur * g.hauteur))
+    {
+        printf(" Les 2 images pour OR doivent avoir la meme  taille");
+        exit(1);
+    }
+    Image fprim = seuillage_historgramme(f);
+    Image gprim = seuillage_historgramme(g);
+    Image result = create_image(fprim);
+    for (int i = 0; i < f.largeur; i++)
+    {
+        for (int j = 0; j < f.hauteur; j++)
+        {
+            result.M[i][j] = fprim.M[i][j] || gprim.M[i][j] ;
+            //(fprim.M[i][j] == 0 && gprim.M[i][j] == 0) ? 0 : 1;
+            //    (fprim.M[i][j] || gprim.M[i][j]);
+        }
+    }
+    freeMatrice(fprim.M, fprim.largeur);
+    freeMatrice(gprim.M, gprim.largeur);
+    return result;
+}
+struct Image xor (const Image f, const Image g)
+{
+    if ((f.largeur * f.hauteur) != (g.largeur * g.hauteur))
+    {
+        printf(" Les 2 images pour le XOR doivent avoir la meme  taille");
+        exit(1);
+    }
+    Image fprim = seuillage_historgramme(f);
+    Image gprim = seuillage_historgramme(g);
+    Image result = create_image(fprim);
+    for (int i = 0; i < f.largeur; i++)
+    {
+        for (int j = 0; j < f.hauteur; j++)
+        {
+            if (fprim.M[i][j] == 1 && gprim.M[i][j] == 1)
+            {
+                result.M[i][j] = 0;
+            }
+            else if (fprim.M[i][j] == 0 && gprim.M[i][j] == 0)
+            {
+                result.M[i][j] = 0;
+            }
+            else
+            {
+                result.M[i][j] = 1;
+            }
+        }
+    }
+    freeMatrice(fprim.M, fprim.largeur);
+    freeMatrice(gprim.M, gprim.largeur);
+    return result;
+}

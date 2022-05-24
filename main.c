@@ -6,7 +6,9 @@
 #include "./Header/Contour.h"
 
 int main(void){
- struct Image img = read_Image_file("./image/cours/original/albert.pgm");
+ struct Image img = read_Image_file("./image/cours/original/tour.pgm");
+  struct Image img2 = read_Image_file("./image/cours/original/petitcoinOu.pgm");
+
  // struct Image img1 = read_Image_file("./image/convolution/Fig3.pgm");
  //struct Image img_transpose =transpose_Image(img );
  //write_Image_to_file(img_transpose , "./Image/Image_transpose.pgm");
@@ -73,7 +75,7 @@ Image m3 = transformation_saturation(m , 150 ,40);
   
  */ 
 
-
+/*
 Image im = interpolationPlusProcheVoisin( img , 50 , 50);
  write_Image_to_file(im ,"./image/plusprochevoisin.pgm");
  freeMatrice(im.M , im.largeur);
@@ -89,6 +91,25 @@ Image im = interpolationPlusProcheVoisin( img , 50 , 50);
     ma = transformation_gamma(img , 100 , 50);
       write_Image_to_file(ma ,"./image/cours/albert_gamma.pgm" );
       freeMatrice(ma.M , ma.largeur);
+*/
 
+Image b = seuillage_historgramme(img);
+Image b1 = seuillage_historgramme(img2);
+Image r1 = and(b ,b1);
+write_Image_to_file_Pbm(r1 ,"./image/cours/et.pgm");
+write_Image_to_file_Pbm(b ,"./image/cours/seuillageET.pgm");
+write_Image_to_file_Pbm(b1 ,"./image/cours/seuillageOU.pgm");
+
+   freeMatrice(r1.M , r1.largeur);
+/*Image  r2= or(b ,b1);
+Image r3 = xor(b ,b1);
+
+write_Image_to_file_Pbm(r2 ,"./image/cours/ou.pgm");
+write_Image_to_file_Pbm(r3 ,"./image/cours/xor.pgm");
+ freeMatrice(b.M , b.largeur);
+  freeMatrice(b1.M , b1.largeur);
+   freeMatrice(r1.M , r1.largeur);
+    freeMatrice(r2.M , r2.largeur);
+     freeMatrice(r3.M , r3.largeur);*/
  return 0;
 }

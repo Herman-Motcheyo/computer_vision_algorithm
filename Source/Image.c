@@ -54,6 +54,23 @@ float luminance(Image m){
     return s/ (m.hauteur *m.largeur);
 }
 
+
+Image seuillage_historgramme(const Image m){
+    float T = luminance(m);
+    Image seuille = create_image(m);
+    strcpy(seuille.name ,  "P1");
+    seuille.MAX_PIXEL_VALUE =1;
+    for (int i = 0; i < seuille.largeur; i++)
+    {
+        for (int j = 0; j < seuille.hauteur; j++)
+        {
+            seuille.M[i][j] = (m.M[i][j] < T )? 0:1 ;
+        }
+        
+    }
+    return seuille;
+}
+
 float contraste(Image m){
   float moyenne  = luminance(m);
   int i=0 ,j = 0;

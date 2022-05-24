@@ -19,6 +19,8 @@ void freeMatrice(int **m, int nb_line);
 //la luminance est definie la moyenne de tous les pixels de l'image
 float luminance(Image m);
 
+Image seuillage_historgramme(const Image);
+
 //le contraste peut aussi etre defini comme l'ecart type  des variations des niveaux de gris
 float contraste(Image m);
 //lecture image binaire

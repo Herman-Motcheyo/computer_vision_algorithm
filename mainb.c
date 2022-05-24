@@ -6,7 +6,8 @@
 int main(void)
 {
   char path[100];
-  char *choix_menu;
+  int choix_menu;
+  int rep =0;
   unsigned int incorrect = 1;
   printf("************************************ Bienvenue sur notre application de Traitement d'image ************************************\n");
   printf("****************Chapitre 02-Traitement de base****************\n\n");
@@ -18,18 +19,44 @@ int main(void)
   printf("****************Chapitre 08-Detection-Reconnaissance-2D****************\n\n");
 
   printf("**********Faites votre choix***************** \n");
-    scanf("%s", choix_menu);
+    scanf("%d", choix_menu);
   do
   { 
     if ( choix_menu <= 1 || choix_menu > 8)
     {
       printf("choix incorrect ! Veuillez  reessayer \t");
           scanf("%s", choix_menu);
-
     }
     else
     {
-      printf("bon choix");
+      switch (choix_menu)
+      {
+      case 1:
+          printf("******************    Chapitre 02-Traitement de base  ****************\n\n");
+          printf("******************    1 -Amelioration de la  Luminance  ****************\n\n");
+          printf("******************    2 -Amelioration du Constrate  ****************\n\n");
+          printf("******************    3 -Histogramme et Egalisation  ****************\n\n");
+          printf("******************    4 -Operations sur Image  ****************\n\n");
+          printf("******************    5 -Iterpolation d'images   ****************\n\n");
+
+          printf("Veuillez faire un choix \t");
+          scanf("%d" , &rep);
+
+          switch (rep)
+          {
+          case 1:
+                printf("******************    1 -Amelioration de la  Luminance  ****************\n\n");
+            break;
+          
+          default:
+            break;
+          }
+          printf("");
+        break;
+      
+      default:
+        break;
+      }
       incorrect = 0;
     }
 
