@@ -16,12 +16,15 @@ struct Image transformation_lineaire(struct Image );
 struct Image transformation_saturation( struct  Image ,int smax , int smin);
 struct Image transformation_morceau(struct Image , int smax , int smin);
 struct Image transformation_morceau_inverse(struct Image , int smax , int smin);
+struct Image transformation_gamma(Image  ,int c , float gamma);
 
 struct Image egalisation_histogramme(Image);
+
 int MAX_VALUE(int  ,int );
 struct Image addition(struct Image , struct Image);
 struct Image soustration(struct Image img1, struct Image img2);
 struct Image multiplication(struct Image img1, float ratio);
+
 struct Image binarisation(struct Image img , int seuil);
 struct Image negatif_image(struct Image);
 struct Image luminanceImage(struct Image);

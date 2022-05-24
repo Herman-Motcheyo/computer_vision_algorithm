@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include  <math.h>
 #include "../Header/Operations.h"
 
 
@@ -36,6 +36,7 @@ struct Image read_Image_file(char *path)
                 }
             }
         }
+        printf("chargement reussi image de taille %d * %d \n" , img.largeur , img.hauteur);
         fclose(file);
         return img;
     }
@@ -68,6 +69,7 @@ void write_Image_to_file(struct Image img, char *path)
                 fprintf(file_write, "%d\n", img.M[i][j]);
             }
         }
+        printf("Operation de traitement reussi image de taille %d * %d \n" , img.largeur , img.hauteur);
 
         fclose(file_write);
     }
@@ -186,7 +188,6 @@ struct Image transformation_morceau(struct Image img, int smax , int smin){
     
     
     Image morceau = create_image(img);
-    int i = 0 , j=0;
     for (int i = 0; i < morceau.largeur; i++)
     {
         for (int j = 0; j <morceau.hauteur; j++)
@@ -217,7 +218,6 @@ struct Image transformation_morceau_inverse(struct Image img, int smax , int smi
     
     
     Image morceau = create_image(img);
-    int i = 0 , j=0;
     for (int i = 0; i < morceau.largeur; i++)
     {
         for (int j = 0; j <morceau.hauteur; j++)
@@ -230,6 +230,21 @@ struct Image transformation_morceau_inverse(struct Image img, int smax , int smi
         
     }
     return morceau;
+}
+//https://www.tutorialspoint.com/dip/gray_level_transformations.htm
+struct Image transformation_gamma(Image img ,int c, float gamma){
+  Image m = create_image(img);
+  int s =0;
+  for (int i = 0; i < m.largeur; i++)
+  {
+      for (int j = 0; j < m.hauteur; j++)
+      {
+          s =c * pow(img.M[i][j] , 1/gamma);
+          m.M[i][j] = s;
+      }
+      
+  }
+  return m; 
 }
 
 /*
@@ -503,14 +518,17 @@ struct Image interpolationPlusProcheVoisin(struct Image img , int x , int y){
         printf(" les arguments x et y doivent etre non null");
         exit(1);
     }
-    Image zoom = create_image(img);
-    zoom.M = generate_matrice(x,y);
+    Image zoom;
+    strcpy(zoom.name , "P2");
+    strcpy(zoom.description ,"# Zoom");
+    zoom.MAX_PIXEL_VALUE= 255;
     zoom.largeur = x;
     zoom.hauteur= y;
+    zoom.M = generate_matrice(x,y);
+
     float a = img.largeur /(float)x;
     float b = img.hauteur / (float)y;
-    printf("%f %f" , a , b);
-    int srcX  = 0,srcY = 0;
+ int srcX  = 0,srcY = 0;
     for (int i = 0; i < x; i++)
     {
         for (int j = 0; j < y; j++)
@@ -521,9 +539,7 @@ struct Image interpolationPlusProcheVoisin(struct Image img , int x , int y){
         }
         
     }
+    
     return zoom;
 }
 
-struct Image bilineaire(Image m , int x , int y ){
-
-}
