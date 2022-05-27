@@ -6,8 +6,8 @@
 #include "./Header/Contour.h"
 
 int main(void){
- struct Image img = read_Image_file("./image/cours/original/tour.pgm");
-  struct Image img2 = read_Image_file("./image/cours/original/petitcoinOu.pgm");
+ struct Image img = read_Image_file("./image/contour/Fig2.pgm");
+ // struct Image img2 = read_Image_file("./image/cours/original/petitcoinOu.pgm");
 
  // struct Image img1 = read_Image_file("./image/convolution/Fig3.pgm");
  //struct Image img_transpose =transpose_Image(img );
@@ -92,7 +92,7 @@ Image im = interpolationPlusProcheVoisin( img , 50 , 50);
       write_Image_to_file(ma ,"./image/cours/albert_gamma.pgm" );
       freeMatrice(ma.M , ma.largeur);
 */
-
+/*
 Image b = seuillage_historgramme(img);
 Image b1 = seuillage_historgramme(img2);
 Image r1 = and(b ,b1);
@@ -101,6 +101,8 @@ write_Image_to_file_Pbm(b ,"./image/cours/seuillageET.pgm");
 write_Image_to_file_Pbm(b1 ,"./image/cours/seuillageOU.pgm");
 
    freeMatrice(r1.M , r1.largeur);
+*/
+
 /*Image  r2= or(b ,b1);
 Image r3 = xor(b ,b1);
 
@@ -111,5 +113,8 @@ write_Image_to_file_Pbm(r3 ,"./image/cours/xor.pgm");
    freeMatrice(r1.M , r1.largeur);
     freeMatrice(r2.M , r2.largeur);
      freeMatrice(r3.M , r3.largeur);*/
+ 
+ //read_filter("./filtre/filtre1.txt");
+    contour(img , "sobel" , 25);
  return 0;
 }
