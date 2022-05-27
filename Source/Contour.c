@@ -35,6 +35,23 @@ Image laplacien(Image m , int seuil){
    return derive(derive(m , seuil),seuil);
 }
 
+void contour(Image m, char* type , int seuil){
+  if (strcmp(type , "sobel" )== 0)
+  {
+     Image m =  contour_filter("./filtre/sobel.txt" , m , seuil);
+     if (m.M == NULL)
+     {
+         printf("erreur de l'operation");
+     }else
+     {
+         write_Image_to_file(m , "sobel.pbm");
+         printf("filtrage reussi avec sobel");
+     }
+     
+     
+  }
+  
+}
 
 Image contour_with_sobel(Image m)
 {

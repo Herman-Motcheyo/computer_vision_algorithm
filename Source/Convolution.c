@@ -103,22 +103,23 @@ int **convolveMult(int **m, float **filtre, int largeur, int hauteur, int rayon,
 
 Image convolution(Image img, char *nom_filtre, int rayon)
 {
+    Image m = create_image(img);
     if (strcmp(nom_filtre, "moyenneur") == 0)
     {
         float **filtre = filtre_gaussien(rayon, contraste(img));
-        int **conv = convolveMult(img.M, filtre, img.largeur, img.hauteur, rayon, img.MAX_PIXEL_VALUE);
-        img.M = conv;
+        m.M = convolveMult(img.M, filtre, img.largeur, img.hauteur, rayon, img.MAX_PIXEL_VALUE);
+        freeFilter(filtre , rayon);
         // freeMatrice(conv , img.largeur);
-        return img;
+        return m;
     }
     else if (strcmp(nom_filtre, "gaussien") == 0)
     {
         float **filtre = filtre_gaussien(rayon, contraste(img));
         printFilter(filtre, rayon);
-        int **conv = convolveMult(img.M, filtre, img.largeur, img.hauteur, rayon, img.MAX_PIXEL_VALUE);
-        img.M = conv;
+        m.M = convolveMult(img.M, filtre, img.largeur, img.hauteur, rayon, img.MAX_PIXEL_VALUE);
+        freeFilter(filtre , rayon);
         // freeMatrice(conv , img.largeur);
-        return img;
+        return m;
     }
     else
     {
@@ -174,6 +175,7 @@ struct Image filter_with_median(struct Image img, int rayon)
     int n = 2 * rayon + 1;
     int *tab = calloc(n * n, sizeof(n * n));
     int s = 0;
+    Image m = create_image(img);
     for (i = 0; i < img.largeur - 1; i++)
     {
         for (j = 0; j < img.hauteur - 1; j++)
@@ -190,11 +192,11 @@ struct Image filter_with_median(struct Image img, int rayon)
                     }
                 }
             }
-            img.M[i][j] = findMedianWithBubbleSort(tab, n * n);
+            m.M[i][j] = findMedianWithBubbleSort(tab, n * n);
         }
     }
     free(tab);
-    return img;
+    return m;
 }
 struct Image filter_with_mean(struct Image img, int rayon)
 {
@@ -249,4 +251,112 @@ void freeFilter(float **m, int n)
         free(m[i]);
     }
     free(m);
+}
+
+float **read_filter(char *path)
+{
+    FILE *file = NULL;
+    int rayon = 0;
+    file = fopen(path, "r");
+    float **filtre = NULL;
+    if (file != NULL)
+    {
+        fscanf(file, "%d", &rayon);
+        if (rayon >  0)
+        {
+            filtre = initialise_filtre(rayon);
+            for (int i = 0; i < (2 * rayon + 1); i++)
+            {
+                for (int j = 0; j < (2 * rayon + 1); j++)
+                {
+                    fscanf(file, "%f", &filtre[i][j]);
+                }
+                printf("\n");
+            }
+            printFilter(filtre, (rayon));
+            return filtre;
+        }else
+        {
+            printf("Le rayon doit etre strictement positif");
+            return filtre;
+        }
+        
+    }
+    else
+    {
+        printf("Impossible  de lire le fichier . Probleme de chemin");
+    }
+    return filtre;
+}
+
+Image contour_filter(char *path, Image m, int seuil)
+{
+    FILE *file = NULL;
+    int rayon = 0;
+    file = fopen(path, "r");
+    float **sx = NULL;
+    float **sy = NULL;
+    int amplitude = 0;
+    Image spec ;
+    strcpy(spec.name ,"P1");
+    strcpy(spec.description , "# filtrage avec un filtre derivateur");
+    spec.largeur = m.largeur;
+    spec.hauteur = m.hauteur;
+    spec.M = NULL;
+    if (file != NULL)
+    {
+        fscanf(file, "%d", &rayon);
+        if (rayon >  0)
+        {
+            sx = initialise_filtre(rayon);
+            sy = initialise_filtre(rayon);
+            for (int i = 0; i < (2 * rayon + 1); i++)
+            {
+                for (int j = 0; j < (2 * rayon + 1); j++)
+                {
+                    fscanf(file, "%f", &sx[i][j]);
+                }
+                printf("\n");
+            }
+            for (int i = 0; i < (2 * rayon + 1); i++)
+            {
+                for (int j = 0; j < (2 * rayon + 1); j++)
+                {
+                    fscanf(file, "%f", &sy[i][j]);
+                }
+                printf("\n");
+            }
+            spec.M = generate_matrice(m.largeur, m.hauteur);
+            int **mx = convolveMult(m.M, sx, m.largeur, m.hauteur, rayon, m.MAX_PIXEL_VALUE);
+            int **my = convolveMult(m.M, sy, m.largeur, m.hauteur, rayon, m.MAX_PIXEL_VALUE);
+            for (int i = 0; i < m.largeur; i++)
+            {
+                for (int j = 0; j < m.hauteur; j++)
+                {
+                    amplitude = sqrt(pow(mx[i][j], 2) + pow(my[i][j], 2));
+                    if (amplitude > seuil)
+                    {
+                        spec.M[i][j] = 0;
+                    }else
+                    {
+                        spec.M[i][j] = 1;
+                    }
+                    
+                }
+            }
+           
+        //    printFilter(sy, rayon);
+            return spec;
+        }else
+        {
+            printf(" le Rayon du filtre doit strictement etre positif");
+            return spec;
+        }
+        
+    }
+    else
+    {
+        printf("Impossible  de lire le fichier . Probleme de chemin \n");
+    }
+    return spec;
 }
