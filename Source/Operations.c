@@ -466,6 +466,7 @@ void histogramme(Image m)
         printf("%d \t", LUT[i]);
     }
     write_Histogramme_to_File(LUT);
+    saveHistogramme(LUT, "./image/histo/histogramme.pgm");
     free(LUT);
 }
 
@@ -473,7 +474,7 @@ void write_Histogramme_to_File(int *hist)
 {
     FILE *file = NULL;
     int i = 0;
-    file = fopen("./image/cours/histogramme.txt", "a");
+    file = fopen("./image/histo/histogramme_file.txt", "a");
     if (file != NULL)
     {
         fprintf(file, "Numero  Count\n");
@@ -548,16 +549,16 @@ struct Image interpolationPlusProcheVoisin(struct Image img, int x, int y)
 
 struct Image and (const Image f, const Image g)
 {
-    int largeur , hauteur =0;
-    largeur = MIN_VALUE(f.largeur , g.largeur);
-    hauteur = MIN_VALUE(g.hauteur , g.hauteur);
-  
+    int largeur, hauteur = 0;
+    largeur = MIN_VALUE(f.largeur, g.largeur);
+    hauteur = MIN_VALUE(g.hauteur, g.hauteur);
+
     Image fprim = seuillage_historgramme(f);
     Image gprim = seuillage_historgramme(g);
-    Image result ;
-    result.M = generate_matrice(largeur , hauteur);
-    strcpy(result.name , "P1");
-    strcpy(result.description , "# image And");
+    Image result;
+    result.M = generate_matrice(largeur, hauteur);
+    strcpy(result.name, "P1");
+    strcpy(result.description, "# image And");
     result.largeur = largeur;
     result.hauteur = hauteur;
     result.MAX_PIXEL_VALUE = 1;
@@ -565,7 +566,7 @@ struct Image and (const Image f, const Image g)
     {
         for (int j = 0; j < hauteur; j++)
         {
-          //  result.M[i][j] = fprim.M[i][j] && gprim.M[i][j];
+            //  result.M[i][j] = fprim.M[i][j] && gprim.M[i][j];
             result.M[i][j] = fprim.M[i][j] != gprim.M[i][j] ? 0 : 1;
             //(fprim.M[i][j] && gprim.M[i][j]);
         }
@@ -589,7 +590,7 @@ struct Image or (const Image f, const Image g)
     {
         for (int j = 0; j < f.hauteur; j++)
         {
-            result.M[i][j] = fprim.M[i][j] || gprim.M[i][j] ;
+            result.M[i][j] = fprim.M[i][j] || gprim.M[i][j];
             //(fprim.M[i][j] == 0 && gprim.M[i][j] == 0) ? 0 : 1;
             //    (fprim.M[i][j] || gprim.M[i][j]);
         }
@@ -629,4 +630,48 @@ struct Image xor (const Image f, const Image g)
     freeMatrice(fprim.M, fprim.largeur);
     freeMatrice(gprim.M, gprim.largeur);
     return result;
+}
+
+    void saveHistogramme(int *hist, char *path)
+{
+    Image m;
+    float min, max;
+    int i, j;
+    m.M = generate_matrice(256, 256);
+    float *histotmp = calloc(256, sizeof(float));
+
+    //recherche du max et min dans histo
+    for (max = 0, min = INFINITY, i = 0; i < 256; i++)
+    {
+        if (hist[i] > max)
+            max = hist[i];
+        if (hist[i] < min)
+            min = hist[i];
+    }
+    printf("%f %f", max, min);
+    //On normalise l'histogramme
+    for (i = 0; i < 256; i++)
+    {
+        histotmp[i] = ((hist[i] - min) / max) * 255.0;
+    }
+
+    for (i = 0; i < 256; i++)
+    {
+        printf("%f\t", histotmp[i]);
+    }
+
+    /*Affichage sous forme image*/
+  for (i = 0; i < 255; i++)
+    for (j = 0; j < histotmp[i]; j++)
+      m.M[255 - j][i] = 255;
+
+m.hauteur = 256;
+m.largeur = 256;
+    strcpy(m.name, "P2");
+    strcpy(m.description, "# Image de l'egalisation de l'histogamme");
+    m.MAX_PIXEL_VALUE = 255;
+    write_Image_to_file(m, path);
+
+    freeMatrice(m.M, 256);
+    free(histotmp);
 }

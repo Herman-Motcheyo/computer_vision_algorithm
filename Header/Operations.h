@@ -45,4 +45,5 @@ struct Image and(const Image , const Image);
 struct Image or(const Image ,const Image);
 struct Image xor(const Image ,const Image);
 
+void saveHistogramme(int* , char*);
 #endif

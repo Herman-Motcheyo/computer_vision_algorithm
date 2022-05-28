@@ -121,5 +121,7 @@ write_Image_to_file_Pbm(r3 ,"./image/cours/xor.pgm");
     write_Image_to_file(m1, "./image/contour/derive.pgm");
      write_Image_to_file(laplacien(img , 15) , "./image/contour/laplacien.pgm");
 contour(img , "prewitt" , 60);
+  histogramme(img2);
+
  return 0;
 }

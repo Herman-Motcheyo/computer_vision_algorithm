@@ -10,6 +10,8 @@ Image derive(Image m , int seuil);
 Image laplacien(Image derive , int seuil);
 
 void contour(Image , char* type , int seuil);
+void hough(Image , int theta);
+
 Image contour_with_sobel(Image m) ;
 Image contour_with_Prewitt(Image m );
 Image contour_with_Roberts(Image m);
