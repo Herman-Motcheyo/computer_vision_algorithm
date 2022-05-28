@@ -12,7 +12,8 @@ Image derive(Image m , int seuil){
         printf("Le seuil doit etre compris entre %d et %d " , seuil , m.MAX_PIXEL_VALUE);
         exit(1);
     }
-    int** m_gradiant = generate_matrice(m.largeur, m.hauteur);
+    Image img = create_image(m);
+  //  int** m_gradiant = generate_matrice(m.largeur, m.hauteur);
     int i=0,j=0;
     float norme = 0;
     for ( i = 0; i < m.largeur-1; i++)
@@ -22,34 +23,45 @@ Image derive(Image m , int seuil){
             norme = sqrt( pow((m.M[i+1][j] - m.M[i][j]) ,2) + pow((m.M[i][j+1] - m.M[i][j]) ,2)  );
             if (norme > seuil)
             {
-                m_gradiant[i][j] = norme;
+                img.M[i][j] = norme;
             }
         }
         
     }
-    m.M = m_gradiant;
-    return m;
+   // m.M = m_gradiant;
+    return img;
 }
-
+//2free à faire
 Image laplacien(Image m , int seuil){
-   return derive(derive(m , seuil),seuil);
+    Image im = create_image(m);
+    im = derive(m,seuil);
+   return derive(im,seuil);
 }
 
 void contour(Image m, char* type , int seuil){
   if (strcmp(type , "sobel" )== 0)
   {
-     Image m =  contour_filter("./filtre/sobel.txt" , m , seuil);
-     if (m.M == NULL)
+     Image mp =  contour_filter("./filtre/sobel.txt" , m , seuil);
+     if (mp.M == NULL)
      {
-         printf("erreur de l'operation");
+         printf("erreur de l'operation de detection decontour");
      }else
      {
-         write_Image_to_file(m , "sobel.pbm");
-         printf("filtrage reussi avec sobel");
+         write_Image_to_file(mp , "./image/contour/filtrage_sobel.pbm");
+         printf("OPeration de contour  reussi avec sobel");
      }
-     
-     
-  }
+  }else {
+         
+     Image ms =  contour_filter("./filtre/prewitt.txt" , m , seuil);
+     if (ms.M == NULL)
+     {
+         printf("erreur de l'operation de detection decontour");
+     }else
+     {
+         write_Image_to_file(ms , "./image/contour/filtrage_prewitt.pbm");
+         printf("OPeration de contour  reussi avec prewitt");
+     }
+     }    
   
 }
 

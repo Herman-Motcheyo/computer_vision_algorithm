@@ -7,7 +7,9 @@
 
 int main(void){
  struct Image img = read_Image_file("./image/contour/Fig2.pgm");
- // struct Image img2 = read_Image_file("./image/cours/original/petitcoinOu.pgm");
+  struct Image img2 = read_Image_file("./image/cours/original/radio.pgm");
+
+ // struct Image img1 = read_Image_file("./image/cours/original/petitcoinOu.pgm");
 
  // struct Image img1 = read_Image_file("./image/convolution/Fig3.pgm");
  //struct Image img_transpose =transpose_Image(img );
@@ -115,6 +117,9 @@ write_Image_to_file_Pbm(r3 ,"./image/cours/xor.pgm");
      freeMatrice(r3.M , r3.largeur);*/
  
  //read_filter("./filtre/filtre1.txt");
-    contour(img , "sobel" , 25);
+    Image m1 = derive(img2 , 15) ;
+    write_Image_to_file(m1, "./image/contour/derive.pgm");
+     write_Image_to_file(laplacien(img , 15) , "./image/contour/laplacien.pgm");
+contour(img , "prewitt" , 60);
  return 0;
 }

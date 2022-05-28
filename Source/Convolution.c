@@ -108,7 +108,7 @@ Image convolution(Image img, char *nom_filtre, int rayon)
     {
         float **filtre = filtre_gaussien(rayon, contraste(img));
         m.M = convolveMult(img.M, filtre, img.largeur, img.hauteur, rayon, img.MAX_PIXEL_VALUE);
-        freeFilter(filtre , rayon);
+        freeFilter(filtre , 2*rayon +1);
         // freeMatrice(conv , img.largeur);
         return m;
     }
@@ -117,7 +117,7 @@ Image convolution(Image img, char *nom_filtre, int rayon)
         float **filtre = filtre_gaussien(rayon, contraste(img));
         printFilter(filtre, rayon);
         m.M = convolveMult(img.M, filtre, img.largeur, img.hauteur, rayon, img.MAX_PIXEL_VALUE);
-        freeFilter(filtre , rayon);
+        freeFilter(filtre , 2*rayon +1);
         // freeMatrice(conv , img.largeur);
         return m;
     }
@@ -271,9 +271,8 @@ float **read_filter(char *path)
                 {
                     fscanf(file, "%f", &filtre[i][j]);
                 }
-                printf("\n");
             }
-            printFilter(filtre, (rayon));
+            printFilter(filtre, rayon);
             return filtre;
         }else
         {
@@ -316,7 +315,6 @@ Image contour_filter(char *path, Image m, int seuil)
                 {
                     fscanf(file, "%f", &sx[i][j]);
                 }
-                printf("\n");
             }
             for (int i = 0; i < (2 * rayon + 1); i++)
             {
@@ -324,7 +322,6 @@ Image contour_filter(char *path, Image m, int seuil)
                 {
                     fscanf(file, "%f", &sy[i][j]);
                 }
-                printf("\n");
             }
             spec.M = generate_matrice(m.largeur, m.hauteur);
             int **mx = convolveMult(m.M, sx, m.largeur, m.hauteur, rayon, m.MAX_PIXEL_VALUE);
@@ -346,6 +343,10 @@ Image contour_filter(char *path, Image m, int seuil)
             }
            
         //    printFilter(sy, rayon);
+        freeMatrice(mx , spec.largeur);
+        freeMatrice(my , spec.largeur);
+        freeFilter(sx , 2*rayon +1);
+        freeFilter(sy , 2*rayon +1);
             return spec;
         }else
         {
