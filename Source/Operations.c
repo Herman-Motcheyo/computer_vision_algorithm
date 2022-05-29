@@ -56,9 +56,9 @@ void write_Image_to_file(struct Image img, char *path)
     int i, j = 0;
     if (file_write != NULL)
     {
-        fprintf(file_write, "%s\n", img.name);
-        fprintf(file_write, "%s\n", img.description);
-        fprintf(file_write, "%d ", img.hauteur);
+        fprintf(file_write, "%s", img.name);
+        fprintf(file_write, "\n%s", img.description);
+        fprintf(file_write, "\n%d ", img.hauteur);
         fprintf(file_write, "%d\n", img.largeur);
         fprintf(file_write, "%d\n", img.MAX_PIXEL_VALUE);
         for (i = 0; i < img.largeur; i++)
@@ -296,15 +296,15 @@ struct Image egalisation_histogramme(Image img)
 
 int MAX_VALUE(int a, int b)
 {
-    if (a < b)
-        return b;
-    else
+    if (a >= b)
         return a;
+    else
+        return b;
 }
 
 int MIN_VALUE(int a, int b)
 {
-    if (a < b)
+    if (a <= b)
         return a;
     else
         return b;
@@ -314,15 +314,22 @@ struct Image addition(struct Image img1, struct Image img2)
 {
     if ((img1.hauteur * img1.largeur) != (img2.hauteur * img2.largeur))
     {
-        printf("les 2 images doivent avoir la meme taille");
-        exit(1);
+        printf("les 2 images doivent avoir la meme taille\n");
+        printf("Nous prenoms la taille min des 2 images\n");
     }
+    int largeur = MIN_VALUE(img1.largeur, img2.largeur);
+    int hauteur = MIN_VALUE(img1.hauteur, img2.hauteur);
     int i = 0, j = 0;
-    struct Image addition = create_image(img1);
+    struct Image addition;
+    addition.hauteur = hauteur;
+    addition.largeur = largeur;
+    addition.M = generate_matrice(largeur, hauteur);
+    strcpy(addition.name, "P2");
     strcpy(addition.description, "# Herman Motcheyo addition");
-    for (i = 0; i < img1.largeur; i++)
+    addition.MAX_PIXEL_VALUE = 255;
+    for (i = 0; i < largeur; i++)
     {
-        for (j = 0; j < img1.hauteur; j++)
+        for (j = 0; j < hauteur; j++)
         {
             addition.M[i][j] = MIN_VALUE(img1.M[i][j] + img2.M[i][j], 255);
         }
@@ -334,17 +341,20 @@ struct Image soustration(struct Image img1, struct Image img2)
 {
     if ((img1.hauteur * img1.largeur) != (img2.hauteur * img2.largeur))
     {
-        printf("les 2 images doivent avoir la meme taille");
-        exit(1);
+        printf("les 2 images doivent avoir la meme taille\n");
+        printf("Nous prenons la taille min \n");
     }
     int i = 0, j = 0;
-    struct Image soustration = create_image(img1);
-
+    int largeur = MIN_VALUE(img1.largeur, img2.largeur);
+    int hauteur = MIN_VALUE(img1.hauteur, img2.hauteur);
+    struct Image soustration;
+    soustration.M = generate_matrice(largeur, hauteur);
     strcpy(soustration.description, "# Herman Motcheyo soustration");
+    strcpy(soustration.name, "P2");
     soustration.MAX_PIXEL_VALUE = 255;
-    for (i = 0; i < img1.largeur; i++)
+    for (i = 0; i < largeur; i++)
     {
-        for (j = 0; j < img1.hauteur; j++)
+        for (j = 0; j < hauteur; j++)
         {
             soustration.M[i][j] = MAX_VALUE(img1.M[i][j] - img2.M[i][j], 0);
         }
@@ -362,15 +372,14 @@ struct Image multiplication(struct Image img1, float ratio)
     {
         for (j = 0; j < img1.hauteur; j++)
         {
-            multiplication.M[i][j] = MAX_VALUE(img1.M[i][j] * ratio, 255);
+            multiplication.M[i][j] = MIN_VALUE(img1.M[i][j] * ratio, 255);
         }
     }
     return multiplication;
 }
 
-struct Image binarisation(Image img, int seuil)
+void binarisation(Image img, int seuil)
 {
-
     int i = 0, j = 0;
     Image m;
     m.hauteur = img.hauteur;
@@ -384,8 +393,9 @@ struct Image binarisation(Image img, int seuil)
         }
     }
     strcpy(m.name, "P1");
-
-    return img;
+    strcpy(m.description, "# La binarisation de l'image par herman");
+    write_Image_to_file_Pbm(m, "./image/segmentation/binarisation.pbm");
+    freeMatrice(m.M, m.largeur);
 }
 
 //  negatif de l' image 255 -M[i][j]
@@ -408,12 +418,16 @@ struct Image negatif_image(struct Image img)
 struct Image luminanceImage(struct Image img)
 {
     float moyenne = luminance(img);
+
+    printf("*******************La luminance  de l'image est %f \n", moyenne);
+    printf("*******************Cette valeur est ajoutée  à tous les pixels  de l'image\n");
+
     Image m = create_image(img);
 
     int i = 0, j = 0;
     for (i = 0; i < img.largeur; i++)
     {
-        for (j = 0; j < img.largeur; j++)
+        for (j = 0; j < img.hauteur; j++)
         {
             if (img.M[i][j] + moyenne < img.MAX_PIXEL_VALUE)
             {
@@ -435,7 +449,7 @@ struct Image contrasteImage(struct Image img)
     int i = 0, j = 0;
     for (i = 0; i < img.largeur; i++)
     {
-        for (j = 0; j < img.largeur; j++)
+        for (j = 0; j < img.hauteur; j++)
         {
             if (img.M[i][j] + contrast < img.MAX_PIXEL_VALUE)
             {
@@ -661,12 +675,12 @@ struct Image xor (const Image f, const Image g)
     }
 
     /*Affichage sous forme image*/
-  for (i = 0; i < 255; i++)
-    for (j = 0; j < histotmp[i]; j++)
-      m.M[255 - j][i] = 255;
+    for (i = 0; i < 255; i++)
+        for (j = 0; j < histotmp[i]; j++)
+            m.M[255 - j][i] = 255;
 
-m.hauteur = 256;
-m.largeur = 256;
+    m.hauteur = 256;
+    m.largeur = 256;
     strcpy(m.name, "P2");
     strcpy(m.description, "# Image de l'egalisation de l'histogamme");
     m.MAX_PIXEL_VALUE = 255;

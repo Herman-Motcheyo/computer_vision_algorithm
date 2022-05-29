@@ -2,12 +2,14 @@
 #include <stdlib.h>
 
 
-
 #include "./Header/Contour.h"
+#include "./Header/Segmentation.h"
 
 int main(void){
- struct Image img = read_Image_file("./image/contour/Fig2.pgm");
-  struct Image img2 = read_Image_file("./image/cours/original/radio.pgm");
+ struct Image img = read_Image_file("./image/traitement/original/addition1.pgm");
+struct Image img2 = read_Image_file("./image/traitement/original/addition2.pgm");
+ struct Image img3 = read_Image_file("./image/traitement/original/addimg.pgm");
+ struct Image img4 = read_Image_file("./image/traitement/original/mul2.pgm");
 
  // struct Image img1 = read_Image_file("./image/cours/original/petitcoinOu.pgm");
 
@@ -117,11 +119,15 @@ write_Image_to_file_Pbm(r3 ,"./image/cours/xor.pgm");
      freeMatrice(r3.M , r3.largeur);*/
  
  //read_filter("./filtre/filtre1.txt");
-    Image m1 = derive(img2 , 15) ;
-    write_Image_to_file(m1, "./image/contour/derive.pgm");
-     write_Image_to_file(laplacien(img , 15) , "./image/contour/laplacien.pgm");
-contour(img , "prewitt" , 60);
-  histogramme(img2);
-
+ //   Image m1 = derive(img2 , 15) ;
+// write_Image_to_file(m1, "./image/contour/derive.pgm");
+ //    write_Image_to_file(laplacien(img , 15) , "./image/contour/laplacien.pgm");
+// contour(img , "prewitt" , 60);
+//  histogramme(img2);
+// binarisation(img2 ,188);
+//kmeans(img ,10 , 2,200);
+  Image s = addition(img3 , img3);
+  Image m = multiplication(img4 ,1.2);
+    write_Image_to_file(m, "./image/traitement/multiplication_elem.pgm");
  return 0;
 }

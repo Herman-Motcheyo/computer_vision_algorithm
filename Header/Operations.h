@@ -25,7 +25,7 @@ struct Image addition(struct Image , struct Image);
 struct Image soustration(struct Image img1, struct Image img2);
 struct Image multiplication(struct Image img1, float ratio);
 
-struct Image binarisation(struct Image img , int seuil);
+void binarisation(struct Image img , int seuil);
 struct Image negatif_image(struct Image);
 struct Image luminanceImage(struct Image);
 struct Image contrasteImage(struct Image img);

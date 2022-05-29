@@ -5,8 +5,9 @@
 
 int main(void)
 {
-  char path[100];
+  char path [200];
   int choix_menu;
+  int valeur;
   int rep =0;
   unsigned int incorrect = 1;
   printf("************************************ Bienvenue sur notre application de Traitement d'image ************************************\n");
@@ -18,14 +19,14 @@ int main(void)
   printf("****************Chapitre 07-Images_binaires****************\n\n");
   printf("****************Chapitre 08-Detection-Reconnaissance-2D****************\n\n");
 
-  printf("**********Faites votre choix***************** \n");
-    scanf("%d", choix_menu);
+  printf("**********Faites votre choix***************** \t");
+    scanf("%d", &choix_menu);
   do
   { 
-    if ( choix_menu <= 1 || choix_menu > 8)
+    if ( choix_menu < 1 || choix_menu > 8)
     {
       printf("choix incorrect ! Veuillez  reessayer \t");
-          scanf("%s", choix_menu);
+          scanf("%d", &choix_menu);
     }
     else
     {
@@ -46,12 +47,19 @@ int main(void)
           {
           case 1:
                 printf("******************    1 -Amelioration de la  Luminance  ****************\n\n");
+                printf("Entrer le  chemin de l'image \t");
+                scanf("%s" ,path);
+                 Image un = read_Image_file(path);
+            
+               Image luminance = luminanceImage(un);
+               write_Image_to_file(luminance,"./image/traitement/Luminance.pgm");
+               printf("L'image à été générée dans ./image/traitement/Luminance.pgm");
+               freeMatrice(luminance.M , luminance.largeur);
             break;
           
           default:
             break;
           }
-          printf("");
         break;
       
       default:
