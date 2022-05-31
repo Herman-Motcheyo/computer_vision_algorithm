@@ -19,7 +19,7 @@ int main(void)
   printf("****************Chapitre 07-Images_binaires****************\n\n");
   printf("****************Chapitre 08-Detection-Reconnaissance-2D****************\n\n");
 
-  printf("**********Faites votre choix***************** \t");
+  printf("**********Faites votre choix***************** \t"); 
     scanf("%d", &choix_menu);
   do
   { 

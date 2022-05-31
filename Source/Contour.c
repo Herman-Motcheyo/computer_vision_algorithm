@@ -64,6 +64,50 @@ void contour(Image m, char* type , int seuil){
      }    
   
 }
+// transformé de hougth pour la detection des lignes de manieres globales
+// dans l'image
+typedef struct Intensite
+{
+    int rho;
+    int theta;
+};
+
+void hough(Image img , int theta , int rho , int seuil){
+   int** houghTable = generate_matrice(rho , theta);
+   Image result = create_image(img);
+   int d = 0;
+   for (int x = 0; x < img.largeur; x++)
+   {
+       for (int y = 0; y < img.hauteur ; y++)
+       {
+           for (int th  = 0; th < theta; th++)
+           {
+                d = x* cos(theta) - y*sin(theta); //on utilise les coordonnées polaires
+                if (d >=0  )
+                {
+                    houghTable[d][th] = houghTable[d][th]+1 ; //l'accumulateur
+                }
+                
+           }
+           
+       }
+       //on recherche les valeurs de (rho , théta ) qui sont superieur au seuil
+       for (size_t r = 0; r < rho; r++)
+       {
+           for (size_t th = 0; th < theta; th++)
+           {
+               if (houghTable[r][th] >= seuil)
+               {
+                 
+               }
+               
+           }
+           
+       }
+       
+   }
+   
+}
 
 Image contour_with_sobel(Image m)
 {
