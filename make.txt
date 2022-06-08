@@ -1,57 +1,32 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+CC = gcc
+CFLAGS = -Wall
+LDFLAGS   =  -I -lm
 
-#include "./Header/Contour.h"
-#include "./Header/Segmentation.h"
+path = ./Source/
+SRC = $(path)$(wildcard *.c)
+
+
+traitement_image: $(SRC)  
+	$(CC) -o traitement_image $(CFLAGS) main.c  $(SRC) ./datastructure/source/Stack.c    ./Header/* ./datastructure/header/* -I -lm
+
+main.
+run:
+	./traitement_image
+clean:
+	rm traitement_image
 
 
 
-int main(int argc, char* argv[] ){
- 
- printf("vant %s" , argv[2]);
-  if (argc == 3)
-  {
-     FILE * file =NULL ;
-     char logiciel[10] = "eog" ;
-     printf("ok c'est entre\n");
-     if (strcmp("histogramme" , argv[1]) ==0 )
-     { printf("ok c'est bon\n");
-    
-       file = fopen(argv[2] , "r");
-       if (file == NULL)
-       { printf("chemin incorrect");
-         exit(1);
-       }
-       
-       Image m = read_Image_file(argv[2]);
-       printf("avant histo\n");
-       histogramme(m);
-        Image m2  = egalisation_histogramme(m);
-        
-        strcat(logiciel,"  image/histo/histogramme.pgm" );
-             printf("apres histo\n");
-       system(logiciel);
-       histogramme(m2);
 
-           strcat(logiciel,"  image/histo/histogramme.pgm" );
-             printf("apres histo\n");
-       system(logiciel);
-       exit(0);
-     }
-     
-  }
- //  struct Image img = read_Image_file("/home/herman/Documents/Cours/Master1/Semestre 2/Vision ordinateur/computer vision/image/contour/Fig2.pgm");
-   //contour(img , "sobel" , 25);
- // Image m =  contour_filtersansSeuil("./filtre/sobel.txt" , img);
- // write_Image_to_file(m , "sobel.pgm");
-  /*
- struct Image img = read_Image_file("./image/traitement/original/addition1.pgm");
-struct Image img2 = read_Image_file("./image/traitement/original/addition2.pgm");
- struct Image img3 = read_Image_file("./image/traitement/original/addimg.pgm");
- struct Image img4 = read_Image_file("./image/traitement/original/mul2.pgm");
-*/
- // struct Image img1 = read_Image_file("./image/cours/original/petitcoinOu.pgm");
+ struct Image img = read_Image_file("./image/traitement/original/hougth.pgm");
+//struct Image img2 = read_Image_file("./image/traitement/original/addition2.pgm");
+ //struct Image img3 = read_Image_file("./image/traitement/original/addimg.pgm");
+ //struct Image img4 = read_Image_file("./image/traitement/original/mul2.pgm");
+
+  struct Image img1 = read_Image_file("./image/traitement/original/petitcoinOu.pgm");
+  struct Image img2 = read_Image_file("./image/traitement/original/petitcoinET.pgm");
+  struct Image img3 = read_Image_file("./image/traitement/original/tour.pgm");
+
 
  // struct Image img1 = read_Image_file("./image/convolution/Fig3.pgm");
  //struct Image img_transpose =transpose_Image(img );
@@ -166,9 +141,38 @@ write_Image_to_file_Pbm(r3 ,"./image/cours/xor.pgm");
 //  histogramme(img2);
 // binarisation(img2 ,188);
 //kmeans(img ,10 , 2,200);
- /* Image s = addition(img3 , img3);
-  Image m = multiplication(img4 ,1.2);
-    write_Image_to_file(m, "./image/traitement/multiplication_elem.pgm");
-    */
- return 0;
+ // Image s = addition(img3 , img3);
+ // Image m = multiplication(img4 ,1.2);
+  //  write_Image_to_file(m, "./image/traitement/multiplication_elem.pgm");
+  Image our = or(img1 , img3);
+  write_Image_to_file(our ,"ou.pgm");
+float t[5] = {1,3,6,7 ,2,78 ,8,9,12,11,87,90,10};
+float* tab = &t ;
+printf("entrer la taille du tab\t");
+ hough_v2(img ,tab );
+
+
+ #include <stdio.h>
+#include <stdlib.h>
+#include "string.h"
+
+
+#include "./Header/Contour.h"
+#include "./Header/Segmentation.h"
+
+int main(int argc, char  *argv[])
+{
+  if (argc == 3)
+  {
+     if (strcmp(argv[2] , "histogramme" ) )
+     {
+
+        Image m_his = read_Image_file("./image/traitement/original/addition2.pgm");
+       // histogramme(m_his);
+        freeMatrice(m_his.M , m_his.largeur );
+     }
+     
+  }
+  
+  return 0;
 }

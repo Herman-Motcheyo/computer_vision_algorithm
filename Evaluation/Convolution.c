@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "../Header/Convolution.h"
+#include "Convolution.h"
 
 //(2*n + 1)* (2*n +1)
 //Initialisation du filtre de l'image
@@ -338,86 +338,6 @@ Image contour_filter(char *path, Image m, int seuil)
                     {
                         spec.M[i][j] = 1;
                     }
-                    
-                }
-            }
-           
-        //    printFilter(sy, rayon);
-        freeMatrice(mx , spec.largeur);
-        freeMatrice(my , spec.largeur);
-        freeFilter(sx , 2*rayon +1);
-        freeFilter(sy , 2*rayon +1);
-            return spec;
-        }else
-        {
-            printf(" le Rayon du filtre doit strictement etre positif");
-            return spec;
-        }
-        
-    }
-    else
-    {
-        printf("Impossible  de lire le fichier . Probleme de chemin \n");
-    }
-    return spec;
-}
-
-
-
-
-Image contour_filtersansSeuil(char *path, Image m)
-{
-    FILE *file = NULL;
-    int rayon = 0;
-    file = fopen(path, "r");
-    float **sx = NULL;
-    float **sy = NULL;
-    int amplitude = 0;
-    Image spec ;
-    strcpy(spec.name ,"P2");
-    strcpy(spec.description , "# filtrage avec un filtre derivateur");
-    spec.largeur = m.largeur;
-    spec.hauteur = m.hauteur;
-    spec.MAX_PIXEL_VALUE = 255;
-    spec.M = NULL;
-    if (file != NULL)
-    {
-        fscanf(file, "%d", &rayon);
-        if (rayon >  0)
-        {
-            sx = initialise_filtre(rayon);
-            sy = initialise_filtre(rayon);
-            for (int i = 0; i < (2 * rayon + 1); i++)
-            {
-                for (int j = 0; j < (2 * rayon + 1); j++)
-                {
-                    fscanf(file, "%f", &sx[i][j]);
-                }
-            }
-            for (int i = 0; i < (2 * rayon + 1); i++)
-            {
-                for (int j = 0; j < (2 * rayon + 1); j++)
-                {
-                    fscanf(file, "%f", &sy[i][j]);
-                }
-            }
-            spec.M = generate_matrice(m.largeur, m.hauteur);
-            int **mx = convolveMult(m.M, sx, m.largeur, m.hauteur, rayon, m.MAX_PIXEL_VALUE);
-            int **my = convolveMult(m.M, sy, m.largeur, m.hauteur, rayon, m.MAX_PIXEL_VALUE);
-            for (int i = 0; i < m.largeur; i++)
-            {
-                for (int j = 0; j < m.hauteur; j++)
-                {
-                    amplitude = mx[i][j] + my[i][j] ;
-                    if (amplitude  > 255)
-                    {
-                        spec.M[i][j] = 255;
-                    }else
-                    {
-                        spec.M[i][j] = amplitude ; 
-                    }
-                    
-                    
                     
                 }
             }
