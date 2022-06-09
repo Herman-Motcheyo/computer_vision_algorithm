@@ -5,61 +5,109 @@
 #include "./Header/Contour.h"
 #include "./Header/Segmentation.h"
 
-
-
-int main(int argc, char* argv[] ){
- 
- printf("vant %s" , argv[2]);
+int main(int argc, char *argv[])
+{
+  FILE *file = NULL;
   if (argc == 3)
   {
-     FILE * file =NULL ;
-     char logiciel[10] = "eog" ;
-     printf("ok c'est entre\n");
-     if (strcmp("histogramme" , argv[1]) ==0 )
-     { printf("ok c'est bon\n");
-    
-       file = fopen(argv[2] , "r");
-       if (file == NULL)
-       { printf("chemin incorrect");
-         exit(1);
-       }
-       
-       Image m = read_Image_file(argv[2]);
-       printf("avant histo\n");
-       histogramme(m);
-        Image m2  = egalisation_histogramme(m);
-        
-        strcat(logiciel,"  image/histo/histogramme.pgm" );
-             printf("apres histo\n");
-       system(logiciel);
-       histogramme(m2);
+    char logiciel[10] = "eog";
+    if (strcmp("histogramme", argv[1]) == 0)
+    {
+      file = fopen(argv[2], "r");
+      if (file == NULL)
+      {
+        printf("chemin du fichier  incorrect");
+        exit(1);
+      }
 
-           strcat(logiciel,"  image/histo/histogramme.pgm" );
-             printf("apres histo\n");
-       system(logiciel);
-       exit(0);
-     }
-     
+      Image m = read_Image_file(argv[2]);
+      histogramme(m);
+      Image m2 = egalisation_histogramme(m);
+
+      strcat(logiciel, "  image/histo/histogramme.pgm");
+      system(logiciel);
+      histogramme(m2);
+
+      strcat(logiciel, "  image/histo/histogramme.pgm");
+      system(logiciel);
+      freeMatrice(m2.M, m2.largeur);
+      freeMatrice(m.M, m.largeur);
+      exit(0);
+    }
+    else if (strcmp("egalisation", argv[1]) == 0)
+    {
+
+      file = fopen(argv[2], "r");
+      if (file == NULL)
+      {
+        printf("chemin du fichier  incorrect");
+        exit(1);
+      }
+      Image eg = read_Image_file(argv[2]);
+      Image ega=egalisation_histogramme(eg);
+        write_Image_to_file(ega , "image/Image_egalise.pgm");
+
+      strcat(logiciel, "  image/Image_egalise.pgm");
+      system(logiciel);
+      freeMatrice(ega.M, ega.largeur);
+         freeMatrice(eg.M, eg.largeur);
+      exit(0);
+    }else if( strcmp("transpose", argv[1]) ==0 )
+    {
+       file = fopen(argv[2], "r");
+      if (file == NULL)
+      {
+        printf("chemin du fichier %s incorrect " , argv[2]);
+        exit(1);
+      }
+      Image t = read_Image_file(argv[2]);
+      Image tr=transpose_Image(t);
+        write_Image_to_file(tr , "image/Image_transpose.pgm");
+
+      strcat(logiciel, "  image/Image_transpose.pgm");
+      system(logiciel);
+      freeMatrice(t.M, t.largeur);
+         freeMatrice(tr.M, tr.largeur);
+      exit(0);
+    }else if( strcmp("trans_lineaire", argv[1]) ==0 )
+    {
+       file = fopen(argv[2], "r");
+      if (file == NULL)
+      {
+        printf("chemin du fichier %s incorrect " , argv[2]);
+        exit(1);
+      }
+      Image trans = read_Image_file(argv[2]);
+      Image transf=transpose_Image(trans);
+        write_Image_to_file(transf , "image/transformation_lineaire_image.pgm");
+
+      strcat(logiciel, "  image/transformation_lineaire_image.pgm");
+      system(logiciel);
+      freeMatrice(trans.M, trans.largeur);
+         freeMatrice(transf.M, transf.largeur);
+      exit(0);
+    }
+    
   }
- //  struct Image img = read_Image_file("/home/herman/Documents/Cours/Master1/Semestre 2/Vision ordinateur/computer vision/image/contour/Fig2.pgm");
-   //contour(img , "sobel" , 25);
- // Image m =  contour_filtersansSeuil("./filtre/sobel.txt" , img);
- // write_Image_to_file(m , "sobel.pgm");
+  //  struct Image img = read_Image_file("/home/herman/Documents/Cours/Master1/Semestre 2/Vision ordinateur/computer vision/image/contour/Fig2.pgm");
+  //contour(img , "sobel" , 25);
+  // Image m =  contour_filtersansSeuil("./filtre/sobel.txt" , img);
+  // write_Image_to_file(m , "sobel.pgm");
   /*
  struct Image img = read_Image_file("./image/traitement/original/addition1.pgm");
 struct Image img2 = read_Image_file("./image/traitement/original/addition2.pgm");
  struct Image img3 = read_Image_file("./image/traitement/original/addimg.pgm");
  struct Image img4 = read_Image_file("./image/traitement/original/mul2.pgm");
 */
- // struct Image img1 = read_Image_file("./image/cours/original/petitcoinOu.pgm");
+  // struct Image img1 = read_Image_file("./image/cours/original/petitcoinOu.pgm");
 
- // struct Image img1 = read_Image_file("./image/convolution/Fig3.pgm");
- //struct Image img_transpose =transpose_Image(img );
- //write_Image_to_file(img_transpose , "./Image/Image_transpose.pgm");
-//Image img_transformation_lineaire =transformation_lineaire(img ,100 , 20);
-// Image add = addition(img , img1);
- // write_Image_to_file(add , "./image/cours/addition2.pgm");
- /*Image sous = soustration(img , img_transformation_lineaire);
+  // struct Image img1 = read_Image_file("./image/convolution/Fig3.pgm");
+  //struct Image img_transpose =transpose_Image(img );
+  //write_Image_to_file(img_transpose , "./Image/Image_transpose.pgm");
+  //Image img_transformation_lineaire =transformation_lineaire(img ,100 , 20);
+  // Image add = addition(img , img1);
+  // write_Image_to_file(add , "./image/cours/addition2.pgm");
+  /*Image sous = soustration(img , img_transformation_lineaire);
   write_Image_to_file(sous , "./image/soustration.pgm");
    Image mul = multiplication(img ,1.5);
   write_Image_to_file(mul , "./image/mutiplication.pgm");
@@ -68,32 +116,31 @@ struct Image img2 = read_Image_file("./image/traitement/original/addition2.pgm")
     write_Image_to_file(img_transformation_sa , "./image/saturation.pgm");
     */
   //Image egali = egalisation_histogramme(img);
-   //  write_Image_to_file(egali , "./image/egalisation_obscure.pgm");
-/*
+  //  write_Image_to_file(egali , "./image/egalisation_obscure.pgm");
+  /*
 int i =0 ;
 int j=0;
    struct Image imgpbm = read_pbm_file("./image/binaire.pbm");
   write_Image_to_file_Pbm(imgpbm , "./image/testPbm.pbm");
   */
 
-  // Image binar  = binarisation(img1 , 20);  
-    //write_Image_to_file_Pbm(binar , "./image/binarisation.pbm");
+  // Image binar  = binarisation(img1 , 20);
+  //write_Image_to_file_Pbm(binar , "./image/binarisation.pbm");
 
-//struct Image img_ne =negatif_image(img1);
-//write_Image_to_file(img_ne , "./image/inversion.pgm");
-//struct Image im = filter_with_mean(img1 , 2);
-//Image im =convolution(img1 ,"moyenneur", 1);
-//write_Image_to_file(im , "./image/convolution/moyenneur.pgm");
+  //struct Image img_ne =negatif_image(img1);
+  //write_Image_to_file(img_ne , "./image/inversion.pgm");
+  //struct Image im = filter_with_mean(img1 , 2);
+  //Image im =convolution(img1 ,"moyenneur", 1);
+  //write_Image_to_file(im , "./image/convolution/moyenneur.pgm");
 
-//printf("Luminance %f" ,luminance(img1));
-//printf("Contraste %f" ,contraste(img1));
+  //printf("Luminance %f" ,luminance(img1));
+  //printf("Contraste %f" ,contraste(img1));
 
-
-//int tab[14] = {15,78,21,98,23,82,32,12,7,14 ,0,1,7};
- //findMedianWithBubbleSort(tab , 14);
- //Image im = convolution(img1 ,"gaussien", 1);
- //write_Image_to_file(im ,"./image/convolution/gaussien2.pgm");
- /* printf("work\n");
+  //int tab[14] = {15,78,21,98,23,82,32,12,7,14 ,0,1,7};
+  //findMedianWithBubbleSort(tab , 14);
+  //Image im = convolution(img1 ,"gaussien", 1);
+  //write_Image_to_file(im ,"./image/convolution/gaussien2.pgm");
+  /* printf("work\n");
  Image m = derive(img1 , 25);
  write_Image_to_file(m , "./image/contour/derivee.pgm");
  write_Image_to_file(laplacien(img1 ,100) , "./image/contour/laplacien.pgm");
@@ -117,9 +164,9 @@ Image m2 = transformation_lineaire(m);
 Image m3 = transformation_saturation(m , 150 ,40);
   write_Image_to_file(m3 ,"./image/cours/transformationSaturation.pgm" );
   
- */ 
+ */
 
-/*
+  /*
 Image im = interpolationPlusProcheVoisin( img , 50 , 50);
  write_Image_to_file(im ,"./image/plusprochevoisin.pgm");
  freeMatrice(im.M , im.largeur);
@@ -136,7 +183,7 @@ Image im = interpolationPlusProcheVoisin( img , 50 , 50);
       write_Image_to_file(ma ,"./image/cours/albert_gamma.pgm" );
       freeMatrice(ma.M , ma.largeur);
 */
-/*
+  /*
 Image b = seuillage_historgramme(img);
 Image b1 = seuillage_historgramme(img2);
 Image r1 = and(b ,b1);
@@ -147,7 +194,7 @@ write_Image_to_file_Pbm(b1 ,"./image/cours/seuillageOU.pgm");
    freeMatrice(r1.M , r1.largeur);
 */
 
-/*Image  r2= or(b ,b1);
+  /*Image  r2= or(b ,b1);
 Image r3 = xor(b ,b1);
 
 write_Image_to_file_Pbm(r2 ,"./image/cours/ou.pgm");
@@ -157,18 +204,18 @@ write_Image_to_file_Pbm(r3 ,"./image/cours/xor.pgm");
    freeMatrice(r1.M , r1.largeur);
     freeMatrice(r2.M , r2.largeur);
      freeMatrice(r3.M , r3.largeur);*/
- 
- //read_filter("./filtre/filtre1.txt");
- //   Image m1 = derive(img2 , 15) ;
-// write_Image_to_file(m1, "./image/contour/derive.pgm");
- //    write_Image_to_file(laplacien(img , 15) , "./image/contour/laplacien.pgm");
-// contour(img , "prewitt" , 60);
-//  histogramme(img2);
-// binarisation(img2 ,188);
-//kmeans(img ,10 , 2,200);
- /* Image s = addition(img3 , img3);
+
+  //read_filter("./filtre/filtre1.txt");
+  //   Image m1 = derive(img2 , 15) ;
+  // write_Image_to_file(m1, "./image/contour/derive.pgm");
+  //    write_Image_to_file(laplacien(img , 15) , "./image/contour/laplacien.pgm");
+  // contour(img , "prewitt" , 60);
+  //  histogramme(img2);
+  // binarisation(img2 ,188);
+  //kmeans(img ,10 , 2,200);
+  /* Image s = addition(img3 , img3);
   Image m = multiplication(img4 ,1.2);
     write_Image_to_file(m, "./image/traitement/multiplication_elem.pgm");
     */
- return 0;
+  return 0;
 }
