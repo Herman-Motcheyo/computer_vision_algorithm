@@ -351,6 +351,8 @@ struct Image soustration(struct Image img1, struct Image img2)
     soustration.M = generate_matrice(largeur, hauteur);
     strcpy(soustration.description, "# Herman Motcheyo soustration");
     strcpy(soustration.name, "P2");
+    soustration.hauteur = hauteur;
+    soustration.largeur = largeur;
     soustration.MAX_PIXEL_VALUE = 255;
     for (i = 0; i < largeur; i++)
     {

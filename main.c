@@ -8,6 +8,8 @@
 int main(int argc, char *argv[])
 {
   FILE *file = NULL;
+  printf("\nfichier 1 , %s\n", argv[2]);
+  printf("\nfichier 1 , %s\n", argv[3]);
   if (argc == 3)
   {
     char logiciel[10] = "eog";
@@ -32,6 +34,7 @@ int main(int argc, char *argv[])
       system(logiciel);
       freeMatrice(m2.M, m2.largeur);
       freeMatrice(m.M, m.largeur);
+      fclose(file);
       exit(0);
     }
     else if (strcmp("egalisation", argv[1]) == 0)
@@ -44,51 +47,169 @@ int main(int argc, char *argv[])
         exit(1);
       }
       Image eg = read_Image_file(argv[2]);
-      Image ega=egalisation_histogramme(eg);
-        write_Image_to_file(ega , "image/Image_egalise.pgm");
+      Image ega = egalisation_histogramme(eg);
+      write_Image_to_file(ega, "image/Image_egalise.pgm");
 
       strcat(logiciel, "  image/Image_egalise.pgm");
       system(logiciel);
       freeMatrice(ega.M, ega.largeur);
-         freeMatrice(eg.M, eg.largeur);
+      freeMatrice(eg.M, eg.largeur);
+      fclose(file);
       exit(0);
-    }else if( strcmp("transpose", argv[1]) ==0 )
+    }
+    else if (strcmp("transpose", argv[1]) == 0)
     {
-       file = fopen(argv[2], "r");
+      file = fopen(argv[2], "r");
       if (file == NULL)
       {
-        printf("chemin du fichier %s incorrect " , argv[2]);
+        printf("chemin du fichier %s incorrect ", argv[2]);
         exit(1);
       }
       Image t = read_Image_file(argv[2]);
-      Image tr=transpose_Image(t);
-        write_Image_to_file(tr , "image/Image_transpose.pgm");
+      Image tr = transpose_Image(t);
+      write_Image_to_file(tr, "image/Image_transpose.pgm");
 
       strcat(logiciel, "  image/Image_transpose.pgm");
       system(logiciel);
       freeMatrice(t.M, t.largeur);
-         freeMatrice(tr.M, tr.largeur);
+      freeMatrice(tr.M, tr.largeur);
+      fclose(file);
       exit(0);
-    }else if( strcmp("trans_lineaire", argv[1]) ==0 )
+    }
+    else if (strcmp("trans_lineaire", argv[1]) == 0)
     {
-       file = fopen(argv[2], "r");
+      file = fopen(argv[2], "r");
       if (file == NULL)
       {
-        printf("chemin du fichier %s incorrect " , argv[2]);
+        printf("chemin du fichier %s incorrect ", argv[2]);
         exit(1);
       }
       Image trans = read_Image_file(argv[2]);
-      Image transf=transpose_Image(trans);
-        write_Image_to_file(transf , "image/transformation_lineaire_image.pgm");
+      Image transf = transpose_Image(trans);
+      write_Image_to_file(transf, "image/transformation_lineaire_image.pgm");
 
       strcat(logiciel, "  image/transformation_lineaire_image.pgm");
       system(logiciel);
       freeMatrice(trans.M, trans.largeur);
-         freeMatrice(transf.M, transf.largeur);
+      freeMatrice(transf.M, transf.largeur);
+      fclose(file);
       exit(0);
     }
-    
+    else if (strcmp("inverse", argv[1]) == 0)
+    {
+
+      file = fopen(argv[2], "r");
+      if (file == NULL)
+      {
+        printf("chemin du fichier %s incorrect ", argv[2]);
+        exit(1);
+      }
+      Image n = read_Image_file(argv[2]);
+      Image ni = negatif_image(n);
+      write_Image_to_file(ni, "image/inverse_image.pgm");
+
+      strcat(logiciel, "  image/inverse_image.pgm");
+      system(logiciel);
+      freeMatrice(n.M, n.largeur);
+      freeMatrice(ni.M, ni.largeur);
+      fclose(file);
+      exit(0);
+    }
+    else if (strcmp("luminance", argv[1]) == 0)
+    {
+
+      file = fopen(argv[2], "r");
+      if (file == NULL)
+      {
+        printf("chemin du fichier %s incorrect ", argv[2]);
+        exit(1);
+      }
+      Image lu = read_Image_file(argv[2]);
+      Image lui = luminanceImage(lu);
+      write_Image_to_file(lui, "image/luminance_image.pgm");
+
+      strcat(logiciel, "  image/luminance_image.pgm");
+      system(logiciel);
+      freeMatrice(lui.M, lui.largeur);
+      freeMatrice(lu.M, lu.largeur);
+      fclose(file);
+      exit(0);
+    }
+    else if (strcmp("contraste", argv[1]) == 0)
+    {
+
+      file = fopen(argv[2], "r");
+      if (file == NULL)
+      {
+        printf("chemin du fichier %s incorrect ", argv[2]);
+        exit(1);
+      }
+      Image lu = read_Image_file(argv[2]);
+      Image lui = contrasteImage(lu);
+      write_Image_to_file(lui, "image/constraste_image.pgm");
+
+      strcat(logiciel, "  image/constraste_image.pgm");
+      system(logiciel);
+      freeMatrice(lui.M, lui.largeur);
+      freeMatrice(lu.M, lu.largeur);
+      fclose(file);
+      exit(0);
+    }
+    else
+    {
+      printf("ok");
+      exit(1);
+    }
   }
+  else if (argc == 4)
+  {
+    char visio[10] = "eog";
+    FILE *file2 = NULL;
+    if (strcmp("addition", argv[1]) == 0)
+    {
+      file = fopen(argv[2], "r");
+      file2 = fopen(argv[3], "r");
+      if (file == NULL && file2 == NULL)
+      {
+        printf("le chemin specifier pour fichier %s ou pour fichier %s est invalide", argv[2], argv[3]);
+        exit(1);
+      }
+      Image img1 = read_Image_file(argv[2]);
+      Image img2 = read_Image_file(argv[3]);
+      Image add = addition(img1, img2);
+      write_Image_to_file(add, "image/addition_image.pgm");
+
+      strcat(visio, "  image/addition_image.pgm");
+      system(visio);
+      freeMatrice(img1.M, img1.largeur);
+      freeMatrice(img2.M, img2.largeur);
+      freeMatrice(add.M, add.largeur);
+      fclose(file);
+      exit(0);
+    }else if (strcmp("soustraction", argv[1]) == 0)
+    {
+      file = fopen(argv[2], "r");
+      file2 = fopen(argv[3], "r");
+      if (file == NULL && file2 == NULL)
+      {
+        printf("le chemin specifier pour fichier %s ou pour fichier %s est invalide", argv[2], argv[3]);
+        exit(1);
+      }
+      Image img1 = read_Image_file(argv[2]);
+      Image img2 = read_Image_file(argv[3]);
+      Image sou = soustration(img1, img2);
+      write_Image_to_file(sou, "image/soustraction_image.pgm");
+
+      strcat(visio, "  image/soustraction_image.pgm");
+      system(visio);
+      freeMatrice(img1.M, img1.largeur);
+      freeMatrice(img2.M, img2.largeur);
+      freeMatrice(sou.M, sou.largeur);
+      fclose(file);
+      exit(0);
+    }
+  }
+
   //  struct Image img = read_Image_file("/home/herman/Documents/Cours/Master1/Semestre 2/Vision ordinateur/computer vision/image/contour/Fig2.pgm");
   //contour(img , "sobel" , 25);
   // Image m =  contour_filtersansSeuil("./filtre/sobel.txt" , img);

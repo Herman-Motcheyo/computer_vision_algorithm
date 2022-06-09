@@ -4,4 +4,4 @@ run:
 	./algo
 clean:
 	rm algo
-	clean
+	clear
