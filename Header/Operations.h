@@ -25,13 +25,13 @@ struct Image addition(struct Image , struct Image);
 struct Image soustration(struct Image img1, struct Image img2);
 struct Image multiplication(struct Image img1, float ratio);
 
-void binarisation(struct Image img , int seuil);
+Image binarisation(struct Image img , int seuil);
 struct Image negatif_image(struct Image);
 struct Image luminanceImage(struct Image);
 struct Image contrasteImage(struct Image img);
 //https://chowdera.com/2022/03/202203010744372381.html
 
-
+int* histo(Image m);
 void histogramme(Image m);
 void write_Histogramme_to_File(int*);
 

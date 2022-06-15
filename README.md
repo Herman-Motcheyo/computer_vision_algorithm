@@ -24,4 +24,12 @@
 
 
 ## pour  faire l'addition de 2 images 
-  ### ./algo chemin_image1 chemin_image2
+  ### ./algo addition chemin_image1 chemin_image2
+
+
+## pour  faire la soustraction de 2 images 
+  ### ./algo soustraction chemin_image1 chemin_imag
+
+
+## pour  faire la multiplication d'une image par un ratio 
+  ### ./algo multiplication chemin_image valeur_ration

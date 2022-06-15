@@ -206,6 +206,26 @@ int main(int argc, char *argv[])
       freeMatrice(img2.M, img2.largeur);
       freeMatrice(sou.M, sou.largeur);
       fclose(file);
+      fclose(file2);
+      exit(0);
+    }else if (strcmp("multiplication", argv[1]) == 0)
+    {
+      file = fopen(argv[2], "r");
+      if (file == NULL && file2 == NULL)
+      {
+        printf("le chemin specifier pour fichier %s", argv[2]);
+        exit(1);
+      }
+      float ratio  = atoi(argv[3]);
+      Image img1 = read_Image_file(argv[2]);
+      Image sou = multiplication(img1, ratio);
+      write_Image_to_file(sou, "image/multiplication_image_ratio.pgm");
+
+      strcat(visio, "  image/multiplication_image_ratio.pgm");
+      system(visio);
+      freeMatrice(img1.M, img1.largeur);
+      freeMatrice(sou.M, sou.largeur);
+      fclose(file);
       exit(0);
     }
   }

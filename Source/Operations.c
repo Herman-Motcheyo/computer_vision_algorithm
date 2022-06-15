@@ -380,7 +380,7 @@ struct Image multiplication(struct Image img1, float ratio)
     return multiplication;
 }
 
-void binarisation(Image img, int seuil)
+Image binarisation(Image img, int seuil)
 {
     int i = 0, j = 0;
     Image m;
@@ -391,13 +391,15 @@ void binarisation(Image img, int seuil)
     {
         for (j = 0; j < img.hauteur; j++)
         {
-            m.M[i][j] = (img.M[i][j] < seuil) ? 0 : 1;
+            m.M[i][j] = (img.M[i][j] < seuil) ? 1 : 0;
         }
     }
     strcpy(m.name, "P1");
     strcpy(m.description, "# La binarisation de l'image par herman");
-    write_Image_to_file_Pbm(m, "./image/segmentation/binarisation.pbm");
-    freeMatrice(m.M, m.largeur);
+    m.MAX_PIXEL_VALUE= 1;
+    //write_Image_to_file_Pbm(m, "./image/segmentation/binarisation.pbm");
+    //freeMatrice(m.M, m.largeur);
+    return m;
 }
 
 //  negatif de l' image 255 -M[i][j]
@@ -464,6 +466,21 @@ struct Image contrasteImage(struct Image img)
         }
     }
     return m;
+}
+
+
+int* histo(Image m)
+{
+    int *LUT = calloc(256, sizeof(int));
+    int i = 0, j = 0;
+    for (i = 0; i < m.largeur; i++)
+    {
+        for (j = 0; j < m.hauteur; j++)
+        {
+            LUT[m.M[i][j]]++;
+        }
+    }
+    return LUT ;
 }
 
 void histogramme(Image m)
