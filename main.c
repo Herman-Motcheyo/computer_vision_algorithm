@@ -1,5 +1,7 @@
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <time.h>
 #include <string.h>
 
 #include "./Header/Contour.h"
@@ -10,9 +12,9 @@ int main(int argc, char *argv[])
   FILE *file = NULL;
   printf("\nfichier 1 , %s\n", argv[2]);
   printf("\nfichier 1 , %s\n", argv[3]);
+  char logiciel[10] = "eog";
   if (argc == 3)
   {
-    char logiciel[10] = "eog";
     if (strcmp("histogramme", argv[1]) == 0)
     {
       file = fopen(argv[2], "r");
@@ -154,6 +156,25 @@ int main(int argc, char *argv[])
       freeMatrice(lu.M, lu.largeur);
       fclose(file);
       exit(0);
+    }else if (strcmp("otsu" , argv[1]) == 0)
+    {
+      
+      file = fopen(argv[2], "r");
+      if (file == NULL)
+      {
+        printf("chemin du fichier %s incorrect ", argv[2]);
+        exit(1);
+      }
+      Image lu = read_Image_file(argv[2]);
+      Image lui = seuillageAutomatique(lu);
+      write_Image_to_file(lui, "image/otsu_image.pbm");
+
+      strcat(logiciel, "  image/otsu_image.pbm");
+      system(logiciel);
+      freeMatrice(lui.M, lui.largeur);
+      freeMatrice(lu.M, lu.largeur);
+      fclose(file);
+      exit(0);
     }
     else
     {
@@ -165,6 +186,7 @@ int main(int argc, char *argv[])
   {
     char visio[10] = "eog";
     FILE *file2 = NULL;
+
     if (strcmp("addition", argv[1]) == 0)
     {
       file = fopen(argv[2], "r");
@@ -186,7 +208,8 @@ int main(int argc, char *argv[])
       freeMatrice(add.M, add.largeur);
       fclose(file);
       exit(0);
-    }else if (strcmp("soustraction", argv[1]) == 0)
+    }
+    else if (strcmp("soustraction", argv[1]) == 0)
     {
       file = fopen(argv[2], "r");
       file2 = fopen(argv[3], "r");
@@ -208,15 +231,16 @@ int main(int argc, char *argv[])
       fclose(file);
       fclose(file2);
       exit(0);
-    }else if (strcmp("multiplication", argv[1]) == 0)
+    }
+    else if (strcmp("multiplication", argv[1]) == 0)
     {
       file = fopen(argv[2], "r");
       if (file == NULL && file2 == NULL)
       {
-        printf("le chemin specifier pour fichier %s", argv[2]);
+        printf("le chemin specifier pour fichier %s est invalide", argv[2]);
         exit(1);
       }
-      float ratio  = atoi(argv[3]);
+      float ratio = atoi(argv[3]);
       Image img1 = read_Image_file(argv[2]);
       Image sou = multiplication(img1, ratio);
       write_Image_to_file(sou, "image/multiplication_image_ratio.pgm");
@@ -227,8 +251,168 @@ int main(int argc, char *argv[])
       freeMatrice(sou.M, sou.largeur);
       fclose(file);
       exit(0);
+    }else if (strcmp("binarisation" , argv[1]) == 0 )
+    {
+      
+      file = fopen(argv[2], "r");
+      if (file == NULL )
+      {
+        printf("le chemin specifier pour fichier %s est invalide", argv[2]);
+        exit(1);
+      }
+      Image img1 = read_Image_file(argv[2]);
+      int seuil = atoi(argv[3]);
+      Image add = binarisation(img1 , seuil);
+      write_Image_to_file(add, "image/binarisation_image.pgm");
+
+      strcat(visio, "  image/binarisation_image.pgm");
+      system(visio);
+      freeMatrice(img1.M, img1.largeur);
+      freeMatrice(add.M, add.largeur);
+      fclose(file);
+      exit(0);
     }
+
+    
   }
+if (argc ==  5)
+{
+ if (strcmp("interpollation", argv[1]) == 0)
+    {
+      file = fopen(argv[2], "r");
+      if (file == NULL)
+      {
+        printf("le chemin specifier pour fichier %s  est invalise", argv[2]);
+        exit(1);
+      }
+      int x = atoi(argv[3]);
+      int y = atoi(argv[4]);
+      Image img1 = read_Image_file(argv[2]);
+      Image sou = interpolationPlusProcheVoisin(img1 , x ,y);
+      write_Image_to_file(sou, "image/interpollation_ppvoisin.pgm");
+
+      strcat(logiciel, "  image/interpollation_ppvoisin.pgm");
+      system(logiciel);
+      freeMatrice(img1.M, img1.largeur);
+      freeMatrice(sou.M, sou.largeur);
+      fclose(file);
+      exit(0);
+    }
+
+    else if (strcmp("transSaturation" , argv[1]) == 0 )
+    {
+      
+      file = fopen(argv[2], "r");
+      if (file == NULL )
+      {
+        printf("le chemin specifier pour fichier %s est invalide", argv[2]);
+        exit(1);
+      }
+      Image img1 = read_Image_file(argv[2]);
+      int smax = atoi(argv[3]);
+      int smin = atoi(argv[4]);
+      Image add = transformation_saturation(img1 ,smax , smin);
+      write_Image_to_file(add, "image/transformation_saturation.pgm");
+
+      strcat(logiciel, "  image/transformation_saturation.pgm");
+      system(logiciel);
+      freeMatrice(img1.M, img1.largeur);
+      freeMatrice(add.M, add.largeur);
+      fclose(file);
+      exit(0);
+    }
+
+    else if (strcmp("transMorceauInverse" , argv[1]) == 0 )
+    {
+      
+      file = fopen(argv[2], "r");
+      if (file == NULL )
+      {
+        printf("le chemin specifier pour fichier %s est invalide", argv[2]);
+        exit(1);
+      }
+      Image img1 = read_Image_file(argv[2]);
+      int smax = atoi(argv[3]);
+      int smin = atoi(argv[4]);
+      Image add = transformation_morceau_inverse(img1 ,smax , smin);
+      write_Image_to_file(add, "image/inverse_Morceau_transformation.pgm");
+
+      strcat(logiciel, "  image/inverse_Morceau_transformation.pgm");
+      system(logiciel);
+      freeMatrice(img1.M, img1.largeur);
+      freeMatrice(add.M, add.largeur);
+      fclose(file);
+      exit(0);
+    } else if (strcmp("transMorceau" , argv[1]) == 0 )
+    {
+      
+      file = fopen(argv[2], "r");
+      if (file == NULL )
+      {
+        printf("le chemin specifier pour fichier %s est invalide", argv[2]);
+        exit(1);
+      }
+      Image img1 = read_Image_file(argv[2]);
+      int smax = atoi(argv[3]);
+      int smin = atoi(argv[4]);
+      Image add = transformation_morceau(img1 ,smax , smin);
+      write_Image_to_file(add, "image/Morceau_transformation.pgm");
+
+      strcat(logiciel, "  image/Morceau_transformation.pgm");
+      system(logiciel);
+      freeMatrice(img1.M, img1.largeur);
+      freeMatrice(add.M, add.largeur);
+      fclose(file);
+      exit(0);
+    }
+
+    else if (strcmp("transMorceauInverse" , argv[1]) == 0 )
+    {
+      
+      file = fopen(argv[2], "r");
+      if (file == NULL )
+      {
+        printf("le chemin specifier pour fichier %s est invalide", argv[2]);
+        exit(1);
+      }
+      Image img1 = read_Image_file(argv[2]);
+      int smax = atoi(argv[3]);
+      int smin = atoi(argv[4]);
+      Image add = transformation_morceau_inverse(img1 ,smax , smin);
+      write_Image_to_file(add, "image/inverse_Morceau_transformation.pgm");
+
+      strcat(logiciel, "  image/inverse_Morceau_transformation.pgm");
+      system(logiciel);
+      freeMatrice(img1.M, img1.largeur);
+      freeMatrice(add.M, add.largeur);
+      fclose(file);
+      exit(0);
+    } else if (strcmp("transgamma" , argv[1]) == 0 )
+    {
+      
+      file = fopen(argv[2], "r");
+      if (file == NULL )
+      {
+        printf("le chemin specifier pour fichier %s est invalide", argv[2]);
+        exit(1);
+      }
+      Image img1 = read_Image_file(argv[2]);
+      int c = atoi(argv[3]);
+      float gamma = atoi(argv[4]);
+      Image add = transformation_gamma(img1 ,c , gamma);
+      write_Image_to_file(add, "image/gamma_transformation.pgm");
+
+      strcat(logiciel, "  image/gamma_transformation.pgm");
+      system(logiciel);
+      freeMatrice(img1.M, img1.largeur);
+      freeMatrice(add.M, add.largeur);
+      fclose(file);
+      exit(0);
+    }
+
+    
+}
+ 
 
   //  struct Image img = read_Image_file("/home/herman/Documents/Cours/Master1/Semestre 2/Vision ordinateur/computer vision/image/contour/Fig2.pgm");
   //contour(img , "sobel" , 25);
