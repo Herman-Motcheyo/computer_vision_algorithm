@@ -59,6 +59,26 @@ int main(int argc, char *argv[])
       fclose(file);
       exit(0);
     }
+    else if (strcmp("not", argv[1]) == 0)
+    {
+
+      file = fopen(argv[2], "r");
+      if (file == NULL)
+      {
+        printf("chemin du fichier  incorrect");
+        exit(1);
+      }
+      Image eg = read_Image_file(argv[2]);
+      Image ega = not(eg);
+      write_Image_to_file_Pbm(ega, "image/not_image.pgm");
+
+      strcat(logiciel, "  image/not_image.pgm");
+      system(logiciel);
+      freeMatrice(ega.M, ega.largeur);
+      freeMatrice(eg.M, eg.largeur);
+      fclose(file);
+      exit(0);
+    }
     else if (strcmp("transpose", argv[1]) == 0)
     {
       file = fopen(argv[2], "r");
@@ -263,17 +283,81 @@ int main(int argc, char *argv[])
       Image img1 = read_Image_file(argv[2]);
       int seuil = atoi(argv[3]);
       Image add = binarisation(img1 , seuil);
-      write_Image_to_file(add, "image/binarisation_image.pgm");
+      write_Image_to_file_Pbm(add, "image/binarisation_image.pbm");
 
-      strcat(visio, "  image/binarisation_image.pgm");
+      strcat(visio, "  image/binarisation_image.pbm");
       system(visio);
       freeMatrice(img1.M, img1.largeur);
       freeMatrice(add.M, add.largeur);
       fclose(file);
       exit(0);
-    }
+    }else if (strcmp("and", argv[1]) == 0)
+    {
+      file = fopen(argv[2], "r");
+      file2 = fopen(argv[3], "r");
+      if (file == NULL && file2 == NULL)
+      {
+        printf("le chemin specifier pour fichier %s ou pour fichier %s est invalide", argv[2], argv[3]);
+        exit(1);
+      }
+      Image img1 = read_Image_file(argv[2]);
+      Image img2 = read_Image_file(argv[3]);
+      Image sou = and(img1, img2);
+      write_Image_to_file_Pbm(sou, "image/and_image.pbm");
 
-    
+      strcat(visio, "  image/and_image.pbm");
+      system(visio);
+      freeMatrice(img1.M, img1.largeur);
+      freeMatrice(img2.M, img2.largeur);
+      freeMatrice(sou.M, sou.largeur);
+      fclose(file);
+      fclose(file2);
+      exit(0);
+    }else if (strcmp("or", argv[1]) == 0)
+    {
+      file = fopen(argv[2], "r");
+      file2 = fopen(argv[3], "r");
+      if (file == NULL && file2 == NULL)
+      {
+        printf("le chemin specifier pour fichier %s ou pour fichier %s est invalide", argv[2], argv[3]);
+        exit(1);
+      }
+      Image img1 = read_Image_file(argv[2]);
+      Image img2 = read_Image_file(argv[3]);
+      Image sou = or(img1, img2);
+      write_Image_to_file_Pbm(sou, "image/or_image.pbm");
+
+      strcat(visio, "  image/or_image.pbm");
+      system(visio);
+      freeMatrice(img1.M, img1.largeur);
+      freeMatrice(img2.M, img2.largeur);
+      freeMatrice(sou.M, sou.largeur);
+      fclose(file);
+      fclose(file2);
+      exit(0);
+    }else if (strcmp("xor", argv[1]) == 0)
+    {
+      file = fopen(argv[2], "r");
+      file2 = fopen(argv[3], "r");
+      if (file == NULL && file2 == NULL)
+      {
+        printf("le chemin specifier pour fichier %s ou pour fichier %s est invalide", argv[2], argv[3]);
+        exit(1);
+      }
+      Image img1 = read_Image_file(argv[2]);
+      Image img2 = read_Image_file(argv[3]);
+      Image sou = xor(img1, img2);
+      write_Image_to_file_Pbm(sou, "image/xor_image.pbm");
+
+      strcat(visio, "  image/xor_image.pbm");
+      system(visio);
+      freeMatrice(img1.M, img1.largeur);
+      freeMatrice(img2.M, img2.largeur);
+      freeMatrice(sou.M, sou.largeur);
+      fclose(file);
+      fclose(file2);
+      exit(0);
+    }
   }
 if (argc ==  5)
 {
