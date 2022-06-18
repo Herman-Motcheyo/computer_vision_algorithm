@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include "../Header/Operations.h"
+#include "../Header/Segmentation.h"
 
 /*
     this function is used to read and Image 
@@ -586,8 +587,8 @@ struct Image and (const Image f, const Image g)
     largeur = MIN_VALUE(f.largeur, g.largeur);
     hauteur = MIN_VALUE(g.hauteur, g.hauteur);
 
-    Image fprim = seuillage_historgramme(f);
-    Image gprim = seuillage_historgramme(g);
+    Image fprim = seuillageAutomatique(f);
+    Image gprim = seuillageAutomatique(g);
     Image result;
     result.M = generate_matrice(largeur, hauteur);
     strcpy(result.name, "P1");
@@ -600,7 +601,7 @@ struct Image and (const Image f, const Image g)
         for (int j = 0; j < hauteur; j++)
         {
             //  result.M[i][j] = fprim.M[i][j] && gprim.M[i][j];
-            result.M[i][j] = fprim.M[i][j] != gprim.M[i][j] ? 0 : 1;
+            result.M[i][j] = fprim.M[i][j] != gprim.M[i][j] ? 1 : 0;
             //(fprim.M[i][j] && gprim.M[i][j]);
         }
     }
@@ -614,14 +615,23 @@ struct Image or (const Image f, const Image g)
     if ((f.largeur * f.hauteur) != (g.largeur * g.hauteur))
     {
         printf(" Les 2 images pour OR doivent avoir la meme  taille");
-        exit(1);
     }
-    Image fprim = seuillage_historgramme(f);
-    Image gprim = seuillage_historgramme(g);
-    Image result = create_image(fprim);
-    for (int i = 0; i < f.largeur; i++)
+     int largeur, hauteur = 0;
+    largeur = MIN_VALUE(f.largeur, g.largeur);
+    hauteur = MIN_VALUE(g.hauteur, g.hauteur);
+   
+    Image fprim = seuillageAutomatique(f) ;
+    Image gprim = seuillageAutomatique(g);
+    Image result;
+    result.M = generate_matrice(largeur, hauteur);
+    strcpy(result.name, "P1");
+    strcpy(result.description, "# image OR");
+    result.largeur = largeur;
+    result.hauteur = hauteur;
+    result.MAX_PIXEL_VALUE = 1;
+    for (int i = 0; i < largeur; i++)
     {
-        for (int j = 0; j < f.hauteur; j++)
+        for (int j = 0; j < hauteur; j++)
         {
             result.M[i][j] = fprim.M[i][j] || gprim.M[i][j];
             //(fprim.M[i][j] == 0 && gprim.M[i][j] == 0) ? 0 : 1;
@@ -637,14 +647,25 @@ struct Image xor (const Image f, const Image g)
     if ((f.largeur * f.hauteur) != (g.largeur * g.hauteur))
     {
         printf(" Les 2 images pour le XOR doivent avoir la meme  taille");
-        exit(1);
     }
-    Image fprim = seuillage_historgramme(f);
-    Image gprim = seuillage_historgramme(g);
-    Image result = create_image(fprim);
-    for (int i = 0; i < f.largeur; i++)
+
+     int largeur, hauteur = 0;
+    largeur = MIN_VALUE(f.largeur, g.largeur);
+    hauteur = MIN_VALUE(g.hauteur, g.hauteur);
+
+    Image fprim = seuillageAutomatique(f);
+    Image gprim = seuillageAutomatique(g);
+    Image result ;
+     result.M = generate_matrice(largeur, hauteur);
+    strcpy(result.name, "P1");
+    strcpy(result.description, "# image XOR");
+    result.largeur = largeur;
+    result.hauteur = hauteur;
+    result.MAX_PIXEL_VALUE = 1;
+   
+    for (int i = 0; i < largeur; i++)
     {
-        for (int j = 0; j < f.hauteur; j++)
+        for (int j = 0; j < hauteur; j++)
         {
             if (fprim.M[i][j] == 1 && gprim.M[i][j] == 1)
             {
@@ -662,6 +683,29 @@ struct Image xor (const Image f, const Image g)
     }
     freeMatrice(fprim.M, fprim.largeur);
     freeMatrice(gprim.M, gprim.largeur);
+    return result;
+}
+struct Image not (const Image f)
+{
+    Image fprim = seuillageAutomatique(f);
+    Image result ;
+     result.M = generate_matrice(f.largeur, f.hauteur);
+    strcpy(result.name, "P1");
+    strcpy(result.description, "# image not");
+    result.largeur = f.largeur;
+    result.hauteur = f.hauteur;
+    result.MAX_PIXEL_VALUE = 1;
+    for (int i = 0; i < f.largeur; i++)
+    {
+        for (int j = 0; j < f.hauteur; j++)
+        {
+            if (fprim.M[i][j] == 1)
+                result.M[i][j] = 0;
+            else 
+                 result.M[i][j] = 1;
+        }
+    }
+    freeMatrice(fprim.M, fprim.largeur);
     return result;
 }
 
