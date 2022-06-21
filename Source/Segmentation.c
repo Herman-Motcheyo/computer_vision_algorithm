@@ -7,6 +7,10 @@
 #include "../Header/Util.h"
 #include "../Header/Segmentation.h"
 #include "../Header/Operations.h"
+
+#include "../datastructure/header/LinkedList.h"
+#include "../datastructure/header/structure.h"
+#include "../datastructure/header/stack.h"
 //permet de faire la distance entre le centroid et l'observation
 
 /*
@@ -443,4 +447,115 @@ void houghse(Image m)
     write_Image_to_file(m2 , "hougth.pgm");
     free(z[0]);
     free(z);
+}
+
+
+int** copy_matrix(int** mat , int largeur , int hauteur){
+    int** m = generate_matrice(largeur, hauteur);
+    for (int i = 0; i < largeur; i++)
+    {
+        for (int j = 0; j < hauteur; j++)
+        {
+            m[i][j]= mat[i][j];
+        }
+        
+    }
+    return m;
+}
+
+
+Image croissance_des_regions(Image image, int nombre_de_germe, int seuil)
+{
+    typedef struct Point Point;
+    List* germ_tab = calloc(nombre_de_germe , sizeof(List));
+
+    int i = 0 , j = 0 , x , y;
+    int** M = copy_matrix(image.M , image.largeur , image.hauteur);
+    for (i = 0; i < nombre_de_germe; i++)
+    {printf("entrerr");
+        x = rand() % image.largeur;
+        y = rand() % image.hauteur;
+        printf("x %d , y %d\n", x, y);
+        Point *p = new_Point(x , y , M[x][y]);
+        List germ = dispersion_des_germes(p , image , seuil);
+        germ_tab[i] = germ;
+        printf("taille germ %d\n" , germ->length);
+    }
+    
+    int **M_R = generate_matrice(image.largeur , image.hauteur);
+    for (i = 0; i < nombre_de_germe; i++)
+    {
+        List germ = germ_tab[i];
+        for (j = 0; j < germ->length; j++)
+        {
+            Point *p = get_element_list(germ, j);
+            M_R[p->x][p->y] = p->color;
+        }
+    }
+
+    Image image_R = create_image(image);
+    image.M = M_R ;
+
+    for (i = 0; i < nombre_de_germe; i++)
+    {
+        List germ = germ_tab[i];
+        for (j = 0; j < germ->length ; j++)
+        {
+            Point *p = get_element_list(germ , j);
+            free(p);
+        }
+        free_list(germ);
+    }
+    
+    free(germ_tab);
+    return image_R;
+}
+
+List bon_voisin(Image image, struct Point *point, int seuil){
+    typedef struct Point Point;
+    int i = 0 , j;
+    int **M = image.M ;
+    List result = new_list();
+    for (i = point->x - 1 ; i <= point->x + 1; i++)
+    {
+        for (j = point->y - 1; j <= point->y + 1; j++)
+        {
+            if(i < image.largeur && i > 0 && j < image.hauteur && j > 0 && i != point->x && j != point->y){
+                if (abs(point->color - M[i][j]) <= seuil)
+                {
+                    Point *temp_p = new_Point(i , j , M[i][j]);
+                    queue_insertion(result , temp_p);
+                }
+            }
+        }
+    }
+
+    return result;
+}
+
+List dispersion_des_germes(struct Point *point, Image image, int seuil)
+{
+    int i = 0;
+    typedef struct Point Point;
+    Stack stack = new_stack();
+    List germs = new_list();
+
+    push(stack , point);
+    while (is_empty_stack(stack) == False)
+    {
+        Point *temp_p = pop(stack);
+        queue_insertion(germs , temp_p);
+        List temp_list = bon_voisin(image , temp_p , seuil);
+        for (i = 0; i < temp_list->length; i++)
+        {
+            Point *temp_p1 = get_element_list(temp_list, i);
+            if(search_value_in_list(germs , temp_p1, equal_point) == False){
+                push(stack , temp_p1);
+            }
+        }
+        free_list(temp_list);
+    }
+
+    free_stack(stack);
+    return germs;
 }
