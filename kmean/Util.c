@@ -1,8 +1,4 @@
-/* Some useful functions to read, write PBM, PGM, PPM files
-**
-**
-** E.B. 
-*/
+
 
 #include <stdio.h>
 #include <stdlib.h>

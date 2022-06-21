@@ -10,7 +10,9 @@
 int main(int argc, char const *argv[])
 {
     char logiciel[10] = "eog";
-     Image m = read_Image_file("./image/traitement/original/hougth.pgm");
+     Image m = read_Image_file("./image/imgsource/lena.pgm");
+     Image m2 = croissance_des_regions(m, 2 , 10);
+write_Image_to_file(m2 , "croissance.pgm");
     //  histogramme(m);
         // Image m2 = seuillageAutomatique(m);
         // write_Image_to_file_Pbm(m2 , "test.pbm");
@@ -21,7 +23,7 @@ int main(int argc, char const *argv[])
 //printf("la valeur du seuil %d" , a);
      // Image s = seuillageAutomatique(m);
       //write_Image_to_file_Pbm(s, "auto.pbm");
-  //   strcat(logiciel, "  auto.pbm");
+ strcat(logiciel, "  croissance.pgm");
   float * tab ;
   int n = 0;
   printf("entrer la valeur de n \t");
@@ -32,7 +34,7 @@ int main(int argc, char const *argv[])
    //   scanf("%f",&tab[i]);
   //}
   
-  houghse(m);
-//system(logiciel);
+
+system(logiciel);
     return 0;
 }

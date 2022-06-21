@@ -151,7 +151,7 @@ void Kmeans(bit *bitmap, bit *clustermap, bit *clusters, bit *labels, short clus
     if(comprare_cluster(prevClusters, clusters, clustercount, 3) && i != 0)
     {
       printf("No. of iterations: %d\n\n", i+1); 
-      //break;
+      break;
     }
 
     mise_a_jour_cluster(prevClusters, clusters, clustercount, 3);
@@ -177,7 +177,7 @@ int main(int argc, char* argv[])
     
     /* Arguments */
     if ( argc != 4 ){
-      printf("\nUsage: %s Vous devez avoir 3 args File K Iteration \n\n", argv[0]);
+      printf("\nUsage: %s Vous devez avoir 3 args Fichier K Iteration \n\n", argv[0]);
       exit(0);
     }
 

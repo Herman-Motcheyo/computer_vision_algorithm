@@ -176,9 +176,10 @@ int main(int argc, char *argv[])
       freeMatrice(lu.M, lu.largeur);
       fclose(file);
       exit(0);
-    }else if (strcmp("otsu" , argv[1]) == 0)
+    }
+    else if (strcmp("otsu", argv[1]) == 0)
     {
-      
+
       file = fopen(argv[2], "r");
       if (file == NULL)
       {
@@ -204,7 +205,7 @@ int main(int argc, char *argv[])
   }
   else if (argc == 4)
   {
-    char visio[10] = "eog";
+    char logiciel[10] = "eog";
     FILE *file2 = NULL;
 
     if (strcmp("addition", argv[1]) == 0)
@@ -221,8 +222,8 @@ int main(int argc, char *argv[])
       Image add = addition(img1, img2);
       write_Image_to_file(add, "image/addition_image.pgm");
 
-      strcat(visio, "  image/addition_image.pgm");
-      system(visio);
+      strcat(logiciel, "  image/addition_image.pgm");
+      system(logiciel);
       freeMatrice(img1.M, img1.largeur);
       freeMatrice(img2.M, img2.largeur);
       freeMatrice(add.M, add.largeur);
@@ -243,8 +244,8 @@ int main(int argc, char *argv[])
       Image sou = soustration(img1, img2);
       write_Image_to_file(sou, "image/soustraction_image.pgm");
 
-      strcat(visio, "  image/soustraction_image.pgm");
-      system(visio);
+      strcat(logiciel, "  image/soustraction_image.pgm");
+      system(logiciel);
       freeMatrice(img1.M, img1.largeur);
       freeMatrice(img2.M, img2.largeur);
       freeMatrice(sou.M, sou.largeur);
@@ -265,33 +266,35 @@ int main(int argc, char *argv[])
       Image sou = multiplication(img1, ratio);
       write_Image_to_file(sou, "image/multiplication_image_ratio.pgm");
 
-      strcat(visio, "  image/multiplication_image_ratio.pgm");
-      system(visio);
+      strcat(logiciel, "  image/multiplication_image_ratio.pgm");
+      system(logiciel);
       freeMatrice(img1.M, img1.largeur);
       freeMatrice(sou.M, sou.largeur);
       fclose(file);
       exit(0);
-    }else if (strcmp("binarisation" , argv[1]) == 0 )
+    }
+    else if (strcmp("binarisation", argv[1]) == 0)
     {
-      
+
       file = fopen(argv[2], "r");
-      if (file == NULL )
+      if (file == NULL)
       {
         printf("le chemin specifier pour fichier %s est invalide", argv[2]);
         exit(1);
       }
       Image img1 = read_Image_file(argv[2]);
       int seuil = atoi(argv[3]);
-      Image add = binarisation(img1 , seuil);
+      Image add = binarisation(img1, seuil);
       write_Image_to_file_Pbm(add, "image/binarisation_image.pbm");
 
-      strcat(visio, "  image/binarisation_image.pbm");
-      system(visio);
+      strcat(logiciel, "  image/binarisation_image.pbm");
+      system(logiciel);
       freeMatrice(img1.M, img1.largeur);
       freeMatrice(add.M, add.largeur);
       fclose(file);
       exit(0);
-    }else if (strcmp("and", argv[1]) == 0)
+    }
+    else if (strcmp("and", argv[1]) == 0)
     {
       file = fopen(argv[2], "r");
       file2 = fopen(argv[3], "r");
@@ -305,15 +308,16 @@ int main(int argc, char *argv[])
       Image sou = and(img1, img2);
       write_Image_to_file_Pbm(sou, "image/and_image.pbm");
 
-      strcat(visio, "  image/and_image.pbm");
-      system(visio);
+      strcat(logiciel, "  image/and_image.pbm");
+      system(logiciel);
       freeMatrice(img1.M, img1.largeur);
       freeMatrice(img2.M, img2.largeur);
       freeMatrice(sou.M, sou.largeur);
       fclose(file);
       fclose(file2);
       exit(0);
-    }else if (strcmp("or", argv[1]) == 0)
+    }
+    else if (strcmp("or", argv[1]) == 0)
     {
       file = fopen(argv[2], "r");
       file2 = fopen(argv[3], "r");
@@ -324,18 +328,19 @@ int main(int argc, char *argv[])
       }
       Image img1 = read_Image_file(argv[2]);
       Image img2 = read_Image_file(argv[3]);
-      Image sou = or(img1, img2);
+      Image sou = or (img1, img2);
       write_Image_to_file_Pbm(sou, "image/or_image.pbm");
 
-      strcat(visio, "  image/or_image.pbm");
-      system(visio);
+      strcat(logiciel, "  image/or_image.pbm");
+      system(logiciel);
       freeMatrice(img1.M, img1.largeur);
       freeMatrice(img2.M, img2.largeur);
       freeMatrice(sou.M, sou.largeur);
       fclose(file);
       fclose(file2);
       exit(0);
-    }else if (strcmp("xor", argv[1]) == 0)
+    }
+    else if (strcmp("xor", argv[1]) == 0)
     {
       file = fopen(argv[2], "r");
       file2 = fopen(argv[3], "r");
@@ -349,8 +354,8 @@ int main(int argc, char *argv[])
       Image sou = xor(img1, img2);
       write_Image_to_file_Pbm(sou, "image/xor_image.pbm");
 
-      strcat(visio, "  image/xor_image.pbm");
-      system(visio);
+      strcat(logiciel, "  image/xor_image.pbm");
+      system(logiciel);
       freeMatrice(img1.M, img1.largeur);
       freeMatrice(img2.M, img2.largeur);
       freeMatrice(sou.M, sou.largeur);
@@ -358,10 +363,33 @@ int main(int argc, char *argv[])
       fclose(file2);
       exit(0);
     }
+    else if (strcmp(argv[1], "-c") == 0)
+    {
+
+      file = fopen(argv[2], "r");
+      file2 = fopen(argv[3], "r");
+      if (file == NULL || file2 == NULL)
+      {
+        printf("le chemin specifier pour fichier %s ou pour fichier %s est invalide", argv[2], argv[3]);
+        exit(1);
+      }
+      Image img1 = read_Image_file(argv[2]);
+      Image sou = convolution_filter_path(img1, argv[3]);
+      write_Image_to_file(sou, "image/convolution_filter.pgm");
+      printf("le fichier à ete generé dans image/convolution_filter.pgm ");
+
+      strcat(logiciel, "  image/convolution_filter.pgm");
+      system(logiciel);
+      freeMatrice(img1.M, img1.largeur);
+      freeMatrice(sou.M, sou.largeur);
+      fclose(file);
+      fclose(file2);
+      exit(0);
+    }
   }
-if (argc ==  5)
-{
- if (strcmp("interpollation", argv[1]) == 0)
+  if (argc == 5)
+  {
+    if (strcmp("interpollation", argv[1]) == 0)
     {
       file = fopen(argv[2], "r");
       if (file == NULL)
@@ -372,7 +400,7 @@ if (argc ==  5)
       int x = atoi(argv[3]);
       int y = atoi(argv[4]);
       Image img1 = read_Image_file(argv[2]);
-      Image sou = interpolationPlusProcheVoisin(img1 , x ,y);
+      Image sou = interpolationPlusProcheVoisin(img1, x, y);
       write_Image_to_file(sou, "image/interpollation_ppvoisin.pgm");
 
       strcat(logiciel, "  image/interpollation_ppvoisin.pgm");
@@ -383,11 +411,11 @@ if (argc ==  5)
       exit(0);
     }
 
-    else if (strcmp("transSaturation" , argv[1]) == 0 )
+    else if (strcmp("transSaturation", argv[1]) == 0)
     {
-      
+
       file = fopen(argv[2], "r");
-      if (file == NULL )
+      if (file == NULL)
       {
         printf("le chemin specifier pour fichier %s est invalide", argv[2]);
         exit(1);
@@ -395,7 +423,7 @@ if (argc ==  5)
       Image img1 = read_Image_file(argv[2]);
       int smax = atoi(argv[3]);
       int smin = atoi(argv[4]);
-      Image add = transformation_saturation(img1 ,smax , smin);
+      Image add = transformation_saturation(img1, smax, smin);
       write_Image_to_file(add, "image/transformation_saturation.pgm");
 
       strcat(logiciel, "  image/transformation_saturation.pgm");
@@ -406,11 +434,11 @@ if (argc ==  5)
       exit(0);
     }
 
-    else if (strcmp("transMorceauInverse" , argv[1]) == 0 )
+    else if (strcmp("transMorceauInverse", argv[1]) == 0)
     {
-      
+
       file = fopen(argv[2], "r");
-      if (file == NULL )
+      if (file == NULL)
       {
         printf("le chemin specifier pour fichier %s est invalide", argv[2]);
         exit(1);
@@ -418,7 +446,7 @@ if (argc ==  5)
       Image img1 = read_Image_file(argv[2]);
       int smax = atoi(argv[3]);
       int smin = atoi(argv[4]);
-      Image add = transformation_morceau_inverse(img1 ,smax , smin);
+      Image add = transformation_morceau_inverse(img1, smax, smin);
       write_Image_to_file(add, "image/inverse_Morceau_transformation.pgm");
 
       strcat(logiciel, "  image/inverse_Morceau_transformation.pgm");
@@ -427,11 +455,12 @@ if (argc ==  5)
       freeMatrice(add.M, add.largeur);
       fclose(file);
       exit(0);
-    } else if (strcmp("transMorceau" , argv[1]) == 0 )
+    }
+    else if (strcmp("transMorceau", argv[1]) == 0)
     {
-      
+
       file = fopen(argv[2], "r");
-      if (file == NULL )
+      if (file == NULL)
       {
         printf("le chemin specifier pour fichier %s est invalide", argv[2]);
         exit(1);
@@ -439,7 +468,7 @@ if (argc ==  5)
       Image img1 = read_Image_file(argv[2]);
       int smax = atoi(argv[3]);
       int smin = atoi(argv[4]);
-      Image add = transformation_morceau(img1 ,smax , smin);
+      Image add = transformation_morceau(img1, smax, smin);
       write_Image_to_file(add, "image/Morceau_transformation.pgm");
 
       strcat(logiciel, "  image/Morceau_transformation.pgm");
@@ -450,11 +479,11 @@ if (argc ==  5)
       exit(0);
     }
 
-    else if (strcmp("transMorceauInverse" , argv[1]) == 0 )
+    else if (strcmp("transMorceauInverse", argv[1]) == 0)
     {
-      
+
       file = fopen(argv[2], "r");
-      if (file == NULL )
+      if (file == NULL)
       {
         printf("le chemin specifier pour fichier %s est invalide", argv[2]);
         exit(1);
@@ -462,7 +491,7 @@ if (argc ==  5)
       Image img1 = read_Image_file(argv[2]);
       int smax = atoi(argv[3]);
       int smin = atoi(argv[4]);
-      Image add = transformation_morceau_inverse(img1 ,smax , smin);
+      Image add = transformation_morceau_inverse(img1, smax, smin);
       write_Image_to_file(add, "image/inverse_Morceau_transformation.pgm");
 
       strcat(logiciel, "  image/inverse_Morceau_transformation.pgm");
@@ -471,11 +500,12 @@ if (argc ==  5)
       freeMatrice(add.M, add.largeur);
       fclose(file);
       exit(0);
-    } else if (strcmp("transgamma" , argv[1]) == 0 )
+    }
+    else if (strcmp("transgamma", argv[1]) == 0)
     {
-      
+
       file = fopen(argv[2], "r");
-      if (file == NULL )
+      if (file == NULL)
       {
         printf("le chemin specifier pour fichier %s est invalide", argv[2]);
         exit(1);
@@ -483,7 +513,7 @@ if (argc ==  5)
       Image img1 = read_Image_file(argv[2]);
       int c = atoi(argv[3]);
       float gamma = atoi(argv[4]);
-      Image add = transformation_gamma(img1 ,c , gamma);
+      Image add = transformation_gamma(img1, c, gamma);
       write_Image_to_file(add, "image/gamma_transformation.pgm");
 
       strcat(logiciel, "  image/gamma_transformation.pgm");
@@ -493,30 +523,120 @@ if (argc ==  5)
       fclose(file);
       exit(0);
     }
+    else if (strcmp("-c", argv[1]) == 0)
+    {
+      file = fopen(argv[2], "r");
+      if (file == NULL)
+      {
+        printf("le chemin specifier pour fichier %s est invalide", argv[2]);
+        exit(1);
+      }
+      if (strcmp("-mo", argv[3]) == 0)
+      {
+        Image m = read_Image_file(argv[2]);
+        int rayon = atoi(argv[4]);
+        if (rayon <= 0)
+        {
+          printf(" Le rayon %d doit etre strictement positif \n", rayon);
+          exit(1);
+        }
 
-    
-}
- 
+        Image m2 = convolution(m, "moyenneur", rayon);
+        write_Image_to_file(m2, "./image/moyenneur_convolution_g.pgm");
+        strcat(logiciel, "  ./image/moyenneur_convolution_g.pgm");
+        system(logiciel);
+        freeMatrice(m.M, m.largeur);
+        freeMatrice(m2.M, m2.largeur);
+        fclose(file);
+        exit(0);
+      }
+      else if (strcmp("-me", argv[3]) == 0)
+      {
+        Image m = read_Image_file(argv[2]);
+        int rayon = atoi(argv[4]);
+        if (rayon <= 0)
+        {
+          printf(" Le rayon %d doit etre strictement positif \n", rayon);
+          exit(1);
+        }
 
-  //  struct Image img = read_Image_file("/home/herman/Documents/Cours/Master1/Semestre 2/Vision ordinateur/computer vision/image/contour/Fig2.pgm");
-  //contour(img , "sobel" , 25);
-  // Image m =  contour_filtersansSeuil("./filtre/sobel.txt" , img);
-  // write_Image_to_file(m , "sobel.pgm");
-  /*
+        Image m2 = convolution(m, "median", rayon);
+        write_Image_to_file(m2, "./image/median_convolution_g.pgm");
+        strcat(logiciel, "  ./image/median_convolution_g.pgm");
+        system(logiciel);
+        freeMatrice(m.M, m.largeur);
+        freeMatrice(m2.M, m2.largeur);
+        fclose(file);
+        exit(0);
+      }
+      else if (strcmp("-g", argv[3]) == 0)
+      {
+        Image m = read_Image_file(argv[2]);
+        int rayon = atoi(argv[4]);
+        if (rayon <= 0)
+        {
+          printf(" Le rayon %d doit etre strictement positif \n", rayon);
+          exit(1);
+        }
+
+        Image m2 = convolution(m, "gaussien", rayon);
+        write_Image_to_file(m2, "./image/gaussien_convolution_g.pgm");
+        strcat(logiciel, "  ./image/gaussien_convolution_g.pgm");
+        system(logiciel);
+        freeMatrice(m.M, m.largeur);
+        freeMatrice(m2.M, m2.largeur);
+        fclose(file);
+        exit(0);
+      }
+      else
+      {
+        printf("Aucune option ne matche avec votre entrée  ' %s '  \n", argv[3]);
+        exit(1);
+      }
+    }
+      else if (strcmp("-cr", argv[1]) == 0)
+      {
+        file = fopen(argv[2], "r");
+        if (file == NULL)
+        {
+        printf("le chemin specifier pour fichier %s est invalide", argv[2]);
+        exit(1);
+        }
+
+        Image img1 = read_Image_file(argv[2]);
+        int nbgerme = atoi(argv[3]);
+        int seuill = atoi(argv[4]);
+        Image sou = croissance_des_regions(img1, nbgerme, seuill);
+        write_Image_to_file(sou, "image/croissance_region.pgm");
+        printf("le fichier à ete generé dans image/croissance_region.pgm ");
+
+        strcat(logiciel, "  image/croissance_region.pgm");
+        system(logiciel);
+        freeMatrice(img1.M, img1.largeur);
+        freeMatrice(sou.M, sou.largeur);
+        fclose(file);
+        exit(0);
+      }
+
+    //  struct Image img = read_Image_file("/home/herman/Documents/Cours/Master1/Semestre 2/logicieln ordinateur/computer logicieln/image/contour/Fig2.pgm");
+    //contour(img , "sobel" , 25);
+    // Image m =  contour_filtersansSeuil("./filtre/sobel.txt" , img);
+    // write_Image_to_file(m , "sobel.pgm");
+    /*
  struct Image img = read_Image_file("./image/traitement/original/addition1.pgm");
 struct Image img2 = read_Image_file("./image/traitement/original/addition2.pgm");
  struct Image img3 = read_Image_file("./image/traitement/original/addimg.pgm");
  struct Image img4 = read_Image_file("./image/traitement/original/mul2.pgm");
 */
-  // struct Image img1 = read_Image_file("./image/cours/original/petitcoinOu.pgm");
+    // struct Image img1 = read_Image_file("./image/cours/original/petitcoinOu.pgm");
 
-  // struct Image img1 = read_Image_file("./image/convolution/Fig3.pgm");
-  //struct Image img_transpose =transpose_Image(img );
-  //write_Image_to_file(img_transpose , "./Image/Image_transpose.pgm");
-  //Image img_transformation_lineaire =transformation_lineaire(img ,100 , 20);
-  // Image add = addition(img , img1);
-  // write_Image_to_file(add , "./image/cours/addition2.pgm");
-  /*Image sous = soustration(img , img_transformation_lineaire);
+    // struct Image img1 = read_Image_file("./image/convolution/Fig3.pgm");
+    //struct Image img_transpose =transpose_Image(img );
+    //write_Image_to_file(img_transpose , "./Image/Image_transpose.pgm");
+    //Image img_transformation_lineaire =transformation_lineaire(img ,100 , 20);
+    // Image add = addition(img , img1);
+    // write_Image_to_file(add , "./image/cours/addition2.pgm");
+    /*Image sous = soustration(img , img_transformation_lineaire);
   write_Image_to_file(sous , "./image/soustration.pgm");
    Image mul = multiplication(img ,1.5);
   write_Image_to_file(mul , "./image/mutiplication.pgm");
@@ -524,32 +644,32 @@ struct Image img2 = read_Image_file("./image/traitement/original/addition2.pgm")
   Image img_transformation_sa =transformation_saturation(img ,255,0,100 , 40);
     write_Image_to_file(img_transformation_sa , "./image/saturation.pgm");
     */
-  //Image egali = egalisation_histogramme(img);
-  //  write_Image_to_file(egali , "./image/egalisation_obscure.pgm");
-  /*
+    //Image egali = egalisation_histogramme(img);
+    //  write_Image_to_file(egali , "./image/egalisation_obscure.pgm");
+    /*
 int i =0 ;
 int j=0;
    struct Image imgpbm = read_pbm_file("./image/binaire.pbm");
   write_Image_to_file_Pbm(imgpbm , "./image/testPbm.pbm");
   */
 
-  // Image binar  = binarisation(img1 , 20);
-  //write_Image_to_file_Pbm(binar , "./image/binarisation.pbm");
+    // Image binar  = binarisation(img1 , 20);
+    //write_Image_to_file_Pbm(binar , "./image/binarisation.pbm");
 
-  //struct Image img_ne =negatif_image(img1);
-  //write_Image_to_file(img_ne , "./image/inversion.pgm");
-  //struct Image im = filter_with_mean(img1 , 2);
-  //Image im =convolution(img1 ,"moyenneur", 1);
-  //write_Image_to_file(im , "./image/convolution/moyenneur.pgm");
+    //struct Image img_ne =negatif_image(img1);
+    //write_Image_to_file(img_ne , "./image/inversion.pgm");
+    //struct Image im = filter_with_mean(img1 , 2);
+    //Image im =convolution(img1 ,"moyenneur", 1);
+    //write_Image_to_file(im , "./image/convolution/moyenneur.pgm");
 
-  //printf("Luminance %f" ,luminance(img1));
-  //printf("Contraste %f" ,contraste(img1));
+    //printf("Luminance %f" ,luminance(img1));
+    //printf("Contraste %f" ,contraste(img1));
 
-  //int tab[14] = {15,78,21,98,23,82,32,12,7,14 ,0,1,7};
-  //findMedianWithBubbleSort(tab , 14);
-  //Image im = convolution(img1 ,"gaussien", 1);
-  //write_Image_to_file(im ,"./image/convolution/gaussien2.pgm");
-  /* printf("work\n");
+    //int tab[14] = {15,78,21,98,23,82,32,12,7,14 ,0,1,7};
+    //findMedianWithBubbleSort(tab , 14);
+    //Image im = convolution(img1 ,"gaussien", 1);
+    //write_Image_to_file(im ,"./image/convolution/gaussien2.pgm");
+    /* printf("work\n");
  Image m = derive(img1 , 25);
  write_Image_to_file(m , "./image/contour/derivee.pgm");
  write_Image_to_file(laplacien(img1 ,100) , "./image/contour/laplacien.pgm");
@@ -561,7 +681,7 @@ Image prew = contour_with_Prewitt(img1 );
   Image soble = contour_with_sobel(img1);
  write_Image_to_file(soble, "./image/contour/sobel.pgm");
  */
-  /* Image m = read_Image_file("./image/cours/transLinear.pgm");
+    /* Image m = read_Image_file("./image/cours/transLinear.pgm");
   //Image m2 = luminanceImage(m);
   //Image m2 = contrasteImage(m);
  // write_Image_to_file(m2 ,"./image/cours/constrate.pgm" );
@@ -575,7 +695,7 @@ Image m3 = transformation_saturation(m , 150 ,40);
   
  */
 
-  /*
+    /*
 Image im = interpolationPlusProcheVoisin( img , 50 , 50);
  write_Image_to_file(im ,"./image/plusprochevoisin.pgm");
  freeMatrice(im.M , im.largeur);
@@ -592,7 +712,7 @@ Image im = interpolationPlusProcheVoisin( img , 50 , 50);
       write_Image_to_file(ma ,"./image/cours/albert_gamma.pgm" );
       freeMatrice(ma.M , ma.largeur);
 */
-  /*
+    /*
 Image b = seuillage_historgramme(img);
 Image b1 = seuillage_historgramme(img2);
 Image r1 = and(b ,b1);
@@ -603,7 +723,7 @@ write_Image_to_file_Pbm(b1 ,"./image/cours/seuillageOU.pgm");
    freeMatrice(r1.M , r1.largeur);
 */
 
-  /*Image  r2= or(b ,b1);
+    /*Image  r2= or(b ,b1);
 Image r3 = xor(b ,b1);
 
 write_Image_to_file_Pbm(r2 ,"./image/cours/ou.pgm");
@@ -614,17 +734,18 @@ write_Image_to_file_Pbm(r3 ,"./image/cours/xor.pgm");
     freeMatrice(r2.M , r2.largeur);
      freeMatrice(r3.M , r3.largeur);*/
 
-  //read_filter("./filtre/filtre1.txt");
-  //   Image m1 = derive(img2 , 15) ;
-  // write_Image_to_file(m1, "./image/contour/derive.pgm");
-  //    write_Image_to_file(laplacien(img , 15) , "./image/contour/laplacien.pgm");
-  // contour(img , "prewitt" , 60);
-  //  histogramme(img2);
-  // binarisation(img2 ,188);
-  //kmeans(img ,10 , 2,200);
-  /* Image s = addition(img3 , img3);
+    //read_filter("./filtre/filtre1.txt");
+    //   Image m1 = derive(img2 , 15) ;
+    // write_Image_to_file(m1, "./image/contour/derive.pgm");
+    //    write_Image_to_file(laplacien(img , 15) , "./image/contour/laplacien.pgm");
+    // contour(img , "prewitt" , 60);
+    //  histogramme(img2);
+    // binarisation(img2 ,188);
+    //kmeans(img ,10 , 2,200);
+    /* Image s = addition(img3 , img3);
   Image m = multiplication(img4 ,1.2);
     write_Image_to_file(m, "./image/traitement/multiplication_elem.pgm");
     */
-  return 0;
+    return 0;
+  }
 }
