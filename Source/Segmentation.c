@@ -4,7 +4,6 @@
 #include <time.h>
 #include <string.h>
 
-#include "../Header/Util.h"
 #include "../Header/Segmentation.h"
 #include "../Header/Operations.h"
 
@@ -470,31 +469,34 @@ Image croissance_des_regions(Image image, int nombre_de_germe, int seuil)
     List* germ_tab = calloc(nombre_de_germe , sizeof(List));
 
     int i = 0 , j = 0 , x , y;
-    int** M = copy_matrix(image.M , image.largeur , image.hauteur);
     for (i = 0; i < nombre_de_germe; i++)
-    {printf("entrerr");
+    {//printf("entrerr");
         x = rand() % image.largeur;
         y = rand() % image.hauteur;
-        printf("x %d , y %d\n", x, y);
-        Point *p = new_Point(x , y , M[x][y]);
+      //  printf("x %d , y %d , couleur %d \n", x, y ,image.M[x][y] );
+        Point *p = new_Point(x , y , image.M[x][y]);
         List germ = dispersion_des_germes(p , image , seuil);
         germ_tab[i] = germ;
-        printf("taille germ %d\n" , germ->length);
+        printf("taille du germe %d %d\n" ,i, germ->length);
     }
     
-    int **M_R = generate_matrice(image.largeur , image.hauteur);
+    Image result ;
+    result.M =  generate_matrice(image.largeur , image.hauteur);
     for (i = 0; i < nombre_de_germe; i++)
     {
         List germ = germ_tab[i];
         for (j = 0; j < germ->length; j++)
         {
             Point *p = get_element_list(germ, j);
-            M_R[p->x][p->y] = p->color;
+            result.M[p->x][p->y] = p->color;
+         //   printf("coleur %d , M %d\n" ,p->color , M_R[p->x][p->y]  );
         }
     }
-
-    Image image_R = create_image(image);
-    image.M = M_R ;
+    result.MAX_PIXEL_VALUE = 255;
+    strcpy(result.name , "P2");
+    strcpy(result.description , "# croissance des regions");
+    result.hauteur = image.hauteur;
+    result.largeur = image.largeur;
 
     for (i = 0; i < nombre_de_germe; i++)
     {
@@ -508,7 +510,7 @@ Image croissance_des_regions(Image image, int nombre_de_germe, int seuil)
     }
     
     free(germ_tab);
-    return image_R;
+    return result;
 }
 
 List bon_voisin(Image image, struct Point *point, int seuil){
