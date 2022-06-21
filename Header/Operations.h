@@ -4,9 +4,13 @@
 #include "Image.h"
 #include "Pixels.h"
 
-
+// permet la lecture des images à niveaux de gris
 struct Image read_Image_file(char *path);
+
+//permet d'ecrire une image dans un fichier 
 void write_Image_to_file(  struct Image img , char *path );
+
+//permet de faire la transposer de l'image à 90 degré
 struct Image transpose_Image(struct Image);
 
 /*  Amelioration du contraste */
@@ -44,6 +48,8 @@ struct Image bilineaire(Image , int x , int y );
 struct Image and(const Image , const Image);
 struct Image or(const Image ,const Image);
 struct Image xor(const Image ,const Image);
+struct Image not (const Image f);
 
+//permet de sauvegarder l'histogramme sous forme d'image
 void saveHistogramme(int* , char*);
 #endif
