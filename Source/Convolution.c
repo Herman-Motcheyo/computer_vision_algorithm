@@ -123,7 +123,7 @@ Image convolution(Image img, char *nom_filtre, int rayon)
     }
     else
     {
-        printf("Puisque le nom du filtre ne correspond a aucun nom , \n par defaut le median est applique\n");
+      //  printf("Puisque le nom du filtre ne correspond a aucun nom , \n par defaut le median est applique\n");
         return filter_with_median(img, rayon);
     }
 }
@@ -254,7 +254,7 @@ void freeFilter(float **m, int n)
 }
 
 float **read_filter(char *path)
-{
+{ 
     FILE *file = NULL;
     int rayon = 0;
     file = fopen(path, "r");
@@ -440,4 +440,47 @@ Image contour_filtersansSeuil(char *path, Image m)
         printf("Impossible  de lire le fichier . Probleme de chemin \n");
     }
     return spec;
+}
+
+Image convolution_filter_path(Image m ,  char* path_filter){
+   Image result = create_image(m);
+    FILE *file = NULL;
+    int rayon = 0;
+    float fnorm = 0 ,a = 1;//facteur de normaisation du filtre
+    file = fopen(path_filter, "r");
+    float **filtre = NULL;
+    if (file != NULL)
+    {
+        fscanf(file, "%d", &rayon);
+        if (rayon >  0)
+        {
+            fscanf(file ,"%f" , &fnorm);
+            if (fnorm >  0 )
+            {
+                
+            filtre = initialise_filtre(rayon);
+            for (int i = 0; i < (2 * rayon + 1); i++)
+            {
+                for (int j = 0; j < (2 * rayon + 1); j++)
+                {
+                    fscanf(file, "%f", &a);
+                    filtre[i][j] = a/fnorm ;
+                }
+            }
+            printFilter(filtre, rayon);
+            }else{
+                printf("Le facteur de normalisation '%f' doit strictement etre positif" ,fnorm);
+            }            
+        }else{
+            printf("Le rayon doit etre strictement positif rayon = ' %d ' \n" , rayon);
+            exit(1);
+        }           
+    }else{
+        printf("Impossible de lire le fichier %s contenant le filtre", path_filter );
+        exit(1);
+    }
+    result.M = convolveMult(m.M , filtre , m.largeur , m.hauteur , rayon ,m.MAX_PIXEL_VALUE);
+    fclose(file);
+    freeFilter(filtre , rayon);
+    return result ;
 }
