@@ -6,7 +6,7 @@
 
 ##                 UTILISATION
 Pour exécuter les algorithmes , 
-deplacer vous dans le dossier avec la commande cd ensuite :
+  deplacer vous dans le dossier avec la commande cd ensuite :
       -- Pour Compiler : 
                     make traitement_image
       -- Pour exécuter :
@@ -86,9 +86,10 @@ deplacer vous dans le dossier avec la commande cd ensuite :
       Il faut jouer sur les valeurs de C et gamma Pour obtenir une meilleur amelioration du contraste
        ** ./algo transgamma chemin_de_image c gamma
 
-    ### OPERATION BOOLEAN
-Méthode : à partir d'un seuillage automatique de otsu , je fais une binarisation une binarisation du
-          PGM en PBM ensuite j'applique les operations logiques
+  ### OPERATION BOOLEAN
+      Méthode : à partir d'un seuillage automatique de otsu , je fais une binarisation une binarisation du
+        PGM en PBM ensuite j'applique les operations logiques
+
     ### 17- AND (ET LOGIQUE) 
       ** ./algo and chemin_de_image1 chemin_de_image2
     
@@ -125,21 +126,21 @@ Méthode : à partir d'un seuillage automatique de otsu , je fais une binarisati
           ---Ligne 1 : reprensente le rayon du filtre
           ---Ligne 2 : reprensente le facteur de normalisation du filtre
           --- reste de ligne construisions de la matrice
-          exple
-          1
-          9
-          1 1 1
-          1 1 1 
-          1 1 1
-          ou encore
-          2
-          167
-          1 2 3 4 5
-          2 3 5 1 9
-          9 7 8 6 3
-          2 2 7 9 6
-          0 9 0 6 4
-    Dans cet premier menu , je génere le filtre de maniere automatique
+                 exple
+                 1
+                 9
+                 1 1 1
+                 1 1 1 
+                 1 1 1
+              ou encore
+                 2
+                 167
+                 1 2 3 4 5
+                 2 3 5 1 9
+                 9 7 8 6 3
+                 2 2 7 9 6
+                 0 9 0 6 4
+    Dans cet premier cas precision de la matrice du filtre , je génere le filtre de maniere automatique
             -g : Pour gaussien . Ce filtre est généré à apartir de la fonction
              gaussienne . ET tous les pixels sont normalisés
             -mo : tous les pixels sont à 1 et normalisés . C'est 1/taille du filtre . exple 1/3*3
