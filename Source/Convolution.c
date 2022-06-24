@@ -85,7 +85,7 @@ int **convolveMult(int **m, float **filtre, int largeur, int hauteur, int rayon,
             }
             if (s < 0)
             {
-                conv[i][j] = 0;
+                conv[i][j] = abs(s);
             }
             else if (s > MAX_PIXEL_VALUE)
             {
@@ -277,6 +277,7 @@ float **read_filter(char *path)
         }else
         {
             printf("Le rayon doit etre strictement positif");
+            exit(1);
             return filtre;
         }
         
@@ -297,11 +298,12 @@ Image contour_filter(char *path, Image m, int seuil)
     float **sy = NULL;
     int amplitude = 0;
     Image spec ;
-    strcpy(spec.name ,"P1");
+    strcpy(spec.name ,"P2");
     strcpy(spec.description , "# filtrage avec un filtre derivateur");
     spec.largeur = m.largeur;
     spec.hauteur = m.hauteur;
     spec.M = NULL;
+    spec.MAX_PIXEL_VALUE = 255;
     if (file != NULL)
     {
         fscanf(file, "%d", &rayon);
@@ -330,13 +332,13 @@ Image contour_filter(char *path, Image m, int seuil)
             {
                 for (int j = 0; j < m.hauteur; j++)
                 {
-                    amplitude = sqrt(pow(mx[i][j], 2) + pow(my[i][j], 2));
+                    amplitude = abs(mx[i][j]) + abs(my[i][j]);
                     if (amplitude > seuil)
                     {
-                        spec.M[i][j] = 0;
+                        spec.M[i][j] = 255;
                     }else
                     {
-                        spec.M[i][j] = 1;
+                        spec.M[i][j] = 0;
                     }
                     
                 }
@@ -414,11 +416,8 @@ Image contour_filtersansSeuil(char *path, Image m)
                         spec.M[i][j] = 255;
                     }else
                     {
-                        spec.M[i][j] = amplitude ; 
+                        spec.M[i][j] = abs(amplitude) ; 
                     }
-                    
-                    
-                    
                 }
             }
            
@@ -431,13 +430,15 @@ Image contour_filtersansSeuil(char *path, Image m)
         }else
         {
             printf(" le Rayon du filtre doit strictement etre positif");
-            return spec;
+            exit(1);
+          //  return spec;
         }
         
     }
     else
     {
         printf("Impossible  de lire le fichier . Probleme de chemin \n");
+        exit(1);
     }
     return spec;
 }
@@ -470,6 +471,7 @@ Image convolution_filter_path(Image m ,  char* path_filter){
             printFilter(filtre, rayon);
             }else{
                 printf("Le facteur de normalisation '%f' doit strictement etre positif" ,fnorm);
+                exit(1);
             }            
         }else{
             printf("Le rayon doit etre strictement positif rayon = ' %d ' \n" , rayon);

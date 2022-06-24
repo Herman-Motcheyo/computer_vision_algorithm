@@ -396,59 +396,6 @@ void otsufINALE(Image img)
 }
 */
 
-void houghse(Image m)
-{
-    int **z;
-    int center_x, center_y, r, omega, i, j, rmax, tmax;
-    double conv;
-    double sin(), cos(), sqrt();
-    float tmval;
-    conv = 3.1415926535 / 180.0;
-    center_x = m.largeur / 2;
-    center_y = m.hauteur / 2;
-    rmax =
-        (int)(sqrt((double)(m.largeur * m.largeur +
-                            m.hauteur * m.hauteur)) /
-              2.0);
-    z = calloc(180 , sizeof(int*));
-    if (z==NULL){ printf("probleme d'allocation memoire dans houg");exit(1);}
-    for (int i = 0; i < 180; i++)
-        z[i] = calloc(2* rmax +1 , sizeof(int));
-    
-    for (r = 0; r < 2 * rmax + 1; r++)
-        for (omega = 0; omega < 180; omega++)
-            z[omega][r] = 0;
-    tmax = 0;
-    tmval = 0;
-    for (i = 0; i < m.largeur; i++)
-        for (j = 0; j < m.hauteur; j++)
-            if (m.M[i][j])
-                for (omega = 0; omega < 180; ++omega)
-                {
-                    r = (i - center_y) * sin((double)(omega * conv)) + (j - center_x) * cos((double)(omega * conv));
-                    z[omega][rmax + r] += 1;
-                }
-    for (i = 0; i < 180; i++)
-        for (j = 0; j < 2 * rmax + 1; j++)
-            if (z[i][j] > tmval)
-            {
-                tmval = z[i][j];
-                tmax = i;
-            }
-            
-    Image m2;
-    m2.M = z;
-    m2.largeur = 180;
-    m2.hauteur = 2 * rmax + 1;
-    m2.MAX_PIXEL_VALUE= 255;
-    strcpy(m2.description,"#  xvcvxcvxcvxccvxcxcvxcv");
-    strcpy(m2.name ,"P2");
-    write_Image_to_file(m2 , "hougth.pgm");
-    free(z[0]);
-    free(z);
-}
-
-
 int** copy_matrix(int** mat , int largeur , int hauteur){
     int** m = generate_matrice(largeur, hauteur);
     for (int i = 0; i < largeur; i++)
@@ -652,7 +599,6 @@ Image result = create_image(image);
     }
     free_list(gabageCollector);
     free_set_of_cluster(clusters_tab , nbr_cluster);
-    printf("\npasssss!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
     return result;
 }
 

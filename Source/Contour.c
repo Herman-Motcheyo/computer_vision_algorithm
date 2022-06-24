@@ -51,6 +51,7 @@ void contour(Image m, char *type, int seuil)
         else
         {
             write_Image_to_file(mp, "./image/sobel_contour.pbm");
+            printf("Le chemin du fichier obtenu est image/sobel_contour.pbm");
             printf("OPeration de contour  reussi avec sobel");
             freeMatrice(m.M , m.largeur);
         }
@@ -66,7 +67,7 @@ void contour(Image m, char *type, int seuil)
         }
         else
         {
-            write_Image_to_file(ms, "./image/prewitt_contour.pbm");
+            write_Image_to_file_Pbm(ms, "./image/prewitt_contour.pbm");
             printf("Le chemin de l'image généré est ./image/prewitt_contour.pbm ");
             printf("OPeration de contour  reussi avec prewitt");
             freeMatrice(m.M , m.largeur);
@@ -122,6 +123,61 @@ void hough(Image img, int theta, int rho, int seuil)
         }
     }
 }
+
+
+void houghv2(Image m)
+{
+    int **z;
+    int center_x, center_y, r, omega, i, j, rmax, tmax;
+    double conv;
+    double sin(), cos(), sqrt();
+    float tmval;
+    conv = 3.1415926535 / 180.0;
+    center_x = m.largeur / 2;
+    center_y = m.hauteur / 2;
+    rmax =
+        (int)(sqrt((double)(m.largeur * m.largeur +
+                            m.hauteur * m.hauteur)) /
+              2.0);
+    z = calloc(180 , sizeof(int*));
+    if (z==NULL){ printf("probleme d'allocation memoire dans houg");exit(1);}
+    for (int i = 0; i < 180; i++)
+        z[i] = calloc(2* rmax +1 , sizeof(int));
+    
+    for (r = 0; r < 2 * rmax + 1; r++)
+        for (omega = 0; omega < 180; omega++)
+            z[omega][r] = 0;
+    tmax = 0;
+    tmval = 0;
+    for (i = 0; i < m.largeur; i++)
+        for (j = 0; j < m.hauteur; j++)
+            if (m.M[i][j])
+                for (omega = 0; omega < 180; ++omega)
+                {
+                    r = (i - center_y) * sin((double)(omega * conv)) + (j - center_x) * cos((double)(omega * conv));
+                    z[omega][rmax + r] += 1;
+                }
+    for (i = 0; i < 180; i++)
+        for (j = 0; j < 2 * rmax + 1; j++)
+            if (z[i][j] > tmval)
+            {
+                tmval = z[i][j];
+                tmax = i;
+            }
+            
+    Image m2;
+    m2.M = z;
+    m2.largeur = 180;
+    m2.hauteur = 2 * rmax + 1;
+    m2.MAX_PIXEL_VALUE= 255;
+    strcpy(m2.description,"#  spectre matrice d'accumulation");
+    strcpy(m2.name ,"P2");
+    write_Image_to_file(m2 , "./image/hougth.pgm");
+     for (int i = 0; i < 180; i++)
+        free(z[i]);
+    free(z);
+}
+
 
 Image contour_with_sobel(Image m)
 {

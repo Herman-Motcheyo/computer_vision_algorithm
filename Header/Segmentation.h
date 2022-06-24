@@ -8,6 +8,7 @@
 #include "Image.h"
 #include "../datastructure/header/LinkedList.h"
 
+//mauvaise version de Kmeans
 int Manathan(int* , int* , int ,int);
 double distance(int *tab, float *T, int n);
 float *update_cluster(int **data, int n, int nbcolumn , float* cluster);
@@ -44,6 +45,46 @@ List dispersion_des_germes(struct Point *point, Image image, int seuil);
 
 //permet de trouver les bon voisin
 List bon_voisin(Image image, struct Point *point, int seuil);
+
+
+////////////////////////KMEANS//////////////////////////////////////
+
+//Permet d'initialiser les clusters
+List *initialiseCluster(int **M , int nbr_line , int nbr_col , struct Point **center_tab , int nbr_cluster , List garbage);
+
+//Permet de verifier si les clusters sont stables c'est a dire d'une itération à l'autre tous ne change pas
+boolean is_stable(const List *new_cluster_tab, const List *old_cluster_tab, int nbr_cluster);
+
+//permet
+List *reassignment(const List *cluster_tab, const struct Point **center_tab, int nbr_cluster) ;
+
+//permet de determiner les points les plus proches d'un centre
+int* point_proche_centre(const struct Point *point, const struct Point **center_tab, int nbr_cluster);
+
+//permet de calculer la distance entre 2 points(Pixels)
+float calculate_distance(const struct Point *point1, const struct Point *point2);
+
+//Permet de calculer le nouveau centre du cluster
+struct Point *calcul_centre(const List cluster);
+
+//Permet de copier un ensemble de Points
+List *copie_ensemble_cluster(const List *cluster_tab, int nbr_cluster);
+
+//permet de copier un cluster
+List copy_cluster(const List cluster);
+
+struct Point *copy_point(const struct Point *point);
+
+void free_cluster(List cluster);
+void free_set_of_cluster(List *tab, int nbr_cluster);
+
+//algorithme finale de Kmeans pour les images à niveaux de gris
+Image kmeans_f_niveau_de_gris(Image image, int nbr_cluster);
+
+
+
+
+
 
 
 #endif
