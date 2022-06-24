@@ -7,14 +7,15 @@ LDFLAGS   =  -I
 LDFLAGS2 = -lm
 
 traitement_image:  $(path_src) 
-	$(CC) -o algo $(CFLAGS) main.c  $(path_src) $(path_src_data)  $(LDFLAGS) ./Header/ $(LDFLAGS) ./datastructure/header/  $(LDFLAGS2) 
+	$(CC)   -o algo $(CFLAGS) main.c  $(path_src) $(path_src_data)  $(LDFLAGS) ./Header/ $(LDFLAGS) ./datastructure/header/  $(LDFLAGS2) 
 	$(CC) -o kmeans $(CFLAGS) $(path_src_kmeans)  $(LDFLAGS2)
-run:
-	./algo
 
-clean:
+
+cleanall:
 	rm algo
+	rm kmeans
 	clear
-
+clean:
+	clear
 help:
 	cat README.md
