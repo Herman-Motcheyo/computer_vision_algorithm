@@ -771,3 +771,22 @@ List *initialiseCluster(int **M , int nbr_line , int nbr_col , struct Point **ce
     return result;
     
 }
+
+Image seuillage_adaptatif(Image m , int region){
+    
+   int pasL = m.largeur /region;
+   int pasH = m.hauteur/region ;
+
+
+   for (int k = 0; k < region ; k++)
+   {
+       for (int k2 = 0; k2 < region; k2++)
+       {
+//           f(k,k2 ,pasL , pasH ,m);
+       }
+       
+   }
+
+     
+   
+}
