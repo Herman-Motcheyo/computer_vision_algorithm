@@ -62,9 +62,16 @@ Pour exécuter les algorithmes ,
 
     ### 10-Pour  faire la MULTIPLICATION d'une image par un ratio 
        ** ./algo multiplication chemin_image valeur_ratio
+            [valeur_ratio] : Il s'agit du coefficient multiplicatif
 
     ### 12-Pour effectuer le ZOOM avec la méthode de  L'INTERPOLLATION DES PLUS PROCHE VOISIN
-       ** ./algo interpollation x y
+       ** ./algo interpollation chemin_image x y
+            [x] : répresente la largeur de l'image
+            [y] : répresente la hauteur de l'image
+
+    ### 13- INTERPOLLATION BILINEAIRE
+       ** ./algo bil chemin_image
+                 [bil] : Pour bilineaire
 
     ### 13- BINARISATION
        ** ./algo binarisation chemin_de_image  seuil
@@ -151,7 +158,9 @@ Pour exécuter les algorithmes ,
   #### 25-ALGORITHME  OTSU
     ** ./algo otsu chemin_image 
               [chemin_image] : represente le chemin absolu ou relatif de votre image sans espace
-  
+    
+    ** ./algo sh chemin_image
+            [sh] : seuillage histogramme Ici , nous utilisons la moyenne des niveaux de grids
   ## APPROCHE PAR REGION
     ### 26- CROISSANCE DES REGIONS
     ** ./algo -cr chemin_image nb_germe seuil

@@ -581,6 +581,36 @@ struct Image interpolationPlusProcheVoisin(struct Image img, int x, int y)
     return zoom;
 }
 
+Image bilineaire(Image m  ){
+        int nb_l= m.largeur*2-1,nb_h= m.hauteur*2-1;
+        Image result ;
+        result.hauteur = nb_h ;
+        result.largeur = nb_l ;
+        result.M = generate_matrice(nb_l ,nb_h);
+        strcpy(result.description ,"# Bilineaire par herman" );
+        strcpy(result.name ,"P2");
+        result.MAX_PIXEL_VALUE = 255;
+    int i=0, j=0;
+    for (i = 0; i < m.largeur; i++){
+        for (j = 0; j < m.hauteur; j++){
+            result.M[2*i][2*j]=m.M[i][j];
+            if (2*i+1 < nb_l)
+            {
+                result.M[2*i+1][2*j]=(m.M[i][j]+m.M[i+1][j])/2;
+            }
+            if (2*j+1 < nb_h)
+            {
+                result.M[2*i][2*j+1]=(m.M[i][j]+m.M[i][j+1])/2;
+            }
+            if (2*i+1 < nb_l && 2*j+1 < nb_h )
+            {
+                result.M[2*i+1][2*j+1]=(m.M[i][j]+m.M[i+1][j]+m.M[i][j+1]+m.M[i+1][j+1])/4;
+            }
+        }
+    }
+ return result ;
+}
+
 struct Image and (const Image f, const Image g)
 {
     int largeur, hauteur = 0;

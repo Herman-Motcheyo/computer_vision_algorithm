@@ -43,7 +43,7 @@ int findMinPixelValueInM(Image m);
 int findMaxPixelValueInM(Image m);
 
 struct Image interpolationPlusProcheVoisin(struct Image img , int x , int y);
-struct Image bilineaire(Image , int x , int y );
+struct Image bilineaire(Image );
 
 struct Image and(const Image , const Image);
 struct Image or(const Image ,const Image);

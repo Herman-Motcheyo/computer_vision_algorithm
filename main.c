@@ -6,6 +6,7 @@
 
 #include "./Header/Contour.h"
 #include "./Header/Segmentation.h"
+#include "./Header/Transformer_fourier.h"
 
 int main(int argc, char *argv[])
 {
@@ -78,6 +79,46 @@ int main(int argc, char *argv[])
       strcat(logiciel, "  ./image/hougth.pgm");
       system(logiciel);
       freeMatrice(eg.M, eg.largeur);
+      fclose(file);
+      exit(0);
+    }
+    //seuillage de l'histogramme
+    else if (strcmp("sh", argv[1]) == 0)
+    {
+
+      file = fopen(argv[2], "r");
+      if (file == NULL)
+      {
+        printf("chemin du fichier  incorrect");
+        exit(1);
+      }
+      Image eg = read_Image_file(argv[2]);
+      Image m = seuillage_historgramme( eg);
+      write_Image_to_file_Pbm(m, "./image/seuillage_histo.pbm");
+      strcat(logiciel, "  ./image/seuillage_histo.pbm");
+      system(logiciel);
+      freeMatrice(eg.M, eg.largeur);
+      freeMatrice(m.M ,m.largeur);
+      fclose(file);
+      exit(0);
+    }//interpollation billineaire
+    else if (strcmp("bil", argv[1]) == 0)
+    {
+
+      file = fopen(argv[2], "r");
+      if (file == NULL)
+      {
+        printf("chemin du fichier  incorrect");
+        exit(1);
+      }
+      Image eg = read_Image_file(argv[2]);
+      Image m = bilineaire(eg);
+      write_Image_to_file(m, "./image/billineaire_interpollation.pgm");
+      printf("Le fichier a ete genere dans le dossier ./image/billineaire_interpollation.pgm\n");
+      strcat(logiciel, "  ./image/billineaire_interpollation.pgm");
+      system(logiciel);
+      freeMatrice(eg.M, eg.largeur);
+      freeMatrice(m.M ,m.largeur);
       fclose(file);
       exit(0);
     }
@@ -231,6 +272,27 @@ int main(int argc, char *argv[])
       write_Image_to_file(lui, "image/otsu_image.pbm");
 
       strcat(logiciel, "  image/otsu_image.pbm");
+      system(logiciel);
+      freeMatrice(lui.M, lui.largeur);
+      freeMatrice(lu.M, lu.largeur);
+      fclose(file);
+      exit(0);
+    }
+    else if (strcmp("fourier", argv[1]) == 0)
+    {
+
+      file = fopen(argv[2], "r");
+      if (file == NULL)
+      {
+        printf("chemin du fichier %s incorrect ", argv[2]);
+        exit(1);
+      }
+      Image lu = read_Image_file(argv[2]);
+      int **ima = M_Imaginaire(lu);
+      Image lui = phase(lu.M , ima , lu.largeur , lu.hauteur);
+      write_Image_to_file(lui, "image/spectre_fourier.pgm");
+
+     strcat(logiciel, "  image/spectre_fourier.pgm");
       system(logiciel);
       freeMatrice(lui.M, lui.largeur);
       freeMatrice(lu.M, lu.largeur);
@@ -723,9 +785,9 @@ int main(int argc, char *argv[])
       {
         Image m = read_Image_file(argv[2]);
         int rayon = atoi(argv[4]);
-        if (rayon <= 0)
+        if (rayon <= 0 || rayon==NAN)
         {
-          printf(" Le rayon %d doit etre strictement positif \n", rayon);
+          printf(" Le rayon %d doit etre strictement positif et non null \n", rayon);
           exit(1);
         }
 
