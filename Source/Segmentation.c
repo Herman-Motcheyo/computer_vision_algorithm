@@ -10,8 +10,78 @@
 #include "../datastructure/header/LinkedList.h"
 #include "../datastructure/header/structure.h"
 #include "../datastructure/header/stack.h"
-//permet de faire la distance entre le centroid et l'observation
 
+
+// Kmeans version optimale en espace memoire et temps de calcul
+// K nombre de cluster
+Image kmeansOptimale(Image m, int K)
+{
+    int *nb_elements =calloc(K,sizeof(int));   //pour compteur le nombre d elements par cluster
+    double *centre_cluster =calloc(K,sizeof(double));
+    Image result = create_image(m);
+    result.M = generate_matrice(m.largeur ,m.hauteur);
+    double ini = 0;
+
+    double *centre_aux_c = calloc(K,sizeof(double));
+    int i, j, k, kmin, niter = 0;
+    double vmin, aux;
+
+    srand(time(NULL));
+    printf("------Initialisation des centres-------------------\n");
+    for (k = 0; k < K; k++)
+    {
+        ini = rand() / (RAND_MAX + 1.0);
+        centre_cluster[k] = 255 * ini;//initialisation des centres finaux
+        printf(" centre %d  valeur %d \n" , k , (int)centre_cluster[k]);
+    }
+
+    do
+    {
+        for (k = 0; k < K; k++)
+        {
+            nb_elements[k] = 0;
+            centre_aux_c[k] = 0;
+        }
+        for (i = 0; i < m.largeur; i++)
+        {
+            for (j = 0; j < m.hauteur; j++)
+            {
+                kmin = 0;
+                vmin = fabs(m.M[i][j] - centre_cluster[kmin]);
+                for (k = 1; k < K; k++)
+                {
+                    aux = fabs(m.M[i][j] - centre_cluster[k]);
+                    if (vmin > aux)
+                    {
+                        kmin = k;
+                        vmin = aux;
+                    }
+                }
+                result.M[i][j] = kmin;
+                nb_elements[kmin]++;
+                centre_aux_c[kmin] += m.M[i][j];
+            }
+        }
+//mise à jour des centres
+        for (k = 0; k < K; k++)
+        {
+            centre_aux_c[k] /= nb_elements[k];
+            centre_cluster[k] = centre_aux_c[k];
+        }
+        niter++;
+    } while ( 2000 > niter);
+    for (i = 0; i < m.largeur; i++)
+        for (j = 0; j < m.hauteur; j++)
+            result.M[i][j] = centre_cluster[result.M[i][j]];
+    return result;
+}
+
+
+
+
+//cette portion de code commenté permet de d  effectuer l'alo  comme A Automatique .ce qui
+// est different dans le traitement des images
+//permet de faire la distance entre le centroid et l'observation
 /*
 int Manathan(int *tab, int *T, int n, int p)
 {
@@ -510,7 +580,8 @@ List dispersion_des_germes(struct Point *point, Image image, int seuil)
 }
 
 
-
+// cette version est sous optimale car utilisation d'une liste chainee pour stocker les 
+// centres . ce qui occupe de la mémoire et augmente le temps de calcul
 Image kmeans_f_niveau_de_gris(Image image, int nbr_cluster)
 {
     typedef struct Point Point;
@@ -768,25 +839,5 @@ List *initialiseCluster(int **M , int nbr_line , int nbr_col , struct Point **ce
     clusters_tab[0] = cluster; 
     List *result = reassignment(clusters_tab, (const struct Point**)center_tab, nbr_cluster);
     free_set_of_cluster(clusters_tab , nbr_cluster);
-    return result;
-    
-}
-
-Image seuillage_adaptatif(Image m , int region){
-    
-   int pasL = m.largeur /region;
-   int pasH = m.hauteur/region ;
-
-
-   for (int k = 0; k < region ; k++)
-   {
-       for (int k2 = 0; k2 < region; k2++)
-       {
-//           f(k,k2 ,pasL , pasH ,m);
-       }
-       
-   }
-
-     
-   
+    return result;    
 }

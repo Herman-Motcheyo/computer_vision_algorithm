@@ -131,7 +131,7 @@ Image read_pbm_file(char *path)
 void write_Image_to_file_Pbm(struct Image img, char *path)
 {
     FILE *file_write = NULL;
-    file_write = fopen(path, "a");
+    file_write = fopen(path, "w");
     int i, j = 0;
     if (file_write != NULL)
     {

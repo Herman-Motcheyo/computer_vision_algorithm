@@ -288,13 +288,14 @@ int main(int argc, char *argv[])
         exit(1);
       }
       Image lu = read_Image_file(argv[2]);
-      int **ima = M_Imaginaire(lu);
-      Image lui = phase(lu.M , ima , lu.largeur , lu.hauteur);
-      write_Image_to_file(lui, "image/spectre_fourier.pgm");
+      Image m = create_image(lu);
+      m.M =M_Imaginaire(lu);;
+      //Image lui = phase(lu.M , ima , lu.largeur , lu.hauteur);
+      write_Image_to_file(m, "image/spectre_fourier.pgm");
 
      strcat(logiciel, "  image/spectre_fourier.pgm");
       system(logiciel);
-      freeMatrice(lui.M, lui.largeur);
+      freeMatrice(m.M, m.largeur);
       freeMatrice(lu.M, lu.largeur);
       fclose(file);
       exit(0);
@@ -307,7 +308,6 @@ int main(int argc, char *argv[])
   }
   else if (argc == 4)
   {
-    char logiciel[10] = "eog";
     FILE *file2 = NULL;
 
     if (strcmp("addition", argv[1]) == 0)
@@ -599,7 +599,7 @@ int main(int argc, char *argv[])
         }
 
         Image img1 = read_Image_file(argv[2]);
-        Image sou = kmeans_f_niveau_de_gris(img1, cluster);
+        Image sou = kmeansOptimale(img1, cluster);
         write_Image_to_file(sou, "image/kmeans_Niveau_de_gris.pgm");
         printf("le fichier à ete generé dans image/kmeans_Niveau_de_gris.pgm ");
 

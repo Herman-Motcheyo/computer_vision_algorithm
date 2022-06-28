@@ -48,6 +48,12 @@ List bon_voisin(Image image, struct Point *point, int seuil);
 
 
 ////////////////////////KMEANS//////////////////////////////////////
+//permet d effectuer l'algorithme de kmeans
+/*
+   m : image à niveau de gris
+   K : nombre de cluster
+*/
+Image kmeansOptimale(Image m, int K);
 
 //Permet d'initialiser les clusters
 List *initialiseCluster(int **M , int nbr_line , int nbr_col , struct Point **center_tab , int nbr_cluster , List garbage);
@@ -82,9 +88,5 @@ void free_set_of_cluster(List *tab, int nbr_cluster);
 Image kmeans_f_niveau_de_gris(Image image, int nbr_cluster);
 
 
-
-
-
-
-
+int **kmf(int **d, int n_ligne, int n_col, int K, int min, int max, double e1, double e2);
 #endif
