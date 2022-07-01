@@ -77,21 +77,21 @@ Pour exécuter les algorithmes ,
        ** ./algo binarisation chemin_de_image  seuil
 
     ### 14- TRANSFORMATION LINEAIRE AVEC SATURATION
-       ** ./algo transSaturation chemin_de_image smax smin
+       ** ./algo trans_saturation chemin_de_image smax smin
 
     Les pixels entre smax et smin sont mise à 255 et le reste est  inchangés
     ### 15- TRANSFORMATION LINEAIRE PAR MORCEAU
-       ** ./algo transMorceau chemin_de_image smax smin
+       ** ./algo trans_morceau chemin_de_image smax smin
 
     Les pixels entre smax et smin sont restés inchanger et le reste est mis à 255
     ### 15- TRANSFORMATION LINEAIRE PAR MORCEAU  INVERSE
-       ** ./algo transMorceauInverse chemin_de_image smax smin
+       ** ./algo trans_morceau_inverse chemin_de_image smax smin
 
     ### 16- TRANSFORMATION GAMMA
       [c]: entier
       [gamma] : float  dans [1.1 , 3]
       Il faut jouer sur les valeurs de C et gamma Pour obtenir une meilleur amelioration du contraste
-       ** ./algo transgamma chemin_de_image c gamma
+       ** ./algo trans_gamma chemin_de_image c gamma
 
   ### OPERATION BOOLEAN
       Méthode : à partir d'un seuillage automatique de otsu , je fais une binarisation une binarisation du

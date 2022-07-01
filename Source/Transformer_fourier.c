@@ -13,8 +13,8 @@ int **M_Imaginaire(Image m)
     for (int i = 0; i < m.largeur; i++)
         for (int j = 0; j < m.hauteur; j++)
             for (int u = 0; u < m.largeur; u++)
-                for (int v = 0; i < m.hauteur; v++)
-                    im[i][j] = m.M[i][j] * sin(PI * 2 * ((i / m.largeur) + (j / m.hauteur)));
+                for (int v = 0; v < m.hauteur; v++)
+                    im[i][j] = m.M[i][j] * sin(PI * 2 * ((i*u / m.largeur) + (j*v / m.hauteur)));
 
     return im;
 }

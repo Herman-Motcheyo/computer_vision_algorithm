@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall
 LDFLAGS   =  -I 
  path_src = ./Source/Operations.c ./Source/Image.c ./Source/Convolution.c ./Source/Contour.c  ./Source/Segmentation.c
- path_src_data = ./datastructure/source/LinkedList.c ./datastructure/source/Point.c  ./datastructure/source/stack.c
+ path_src_data = ./datastructure/source/LinkedList.c ./datastructure/source/Point.c  ./datastructure/source/stack.c  ./Source/Transformer_fourier.c
  path_src_kmeans =  ./kmean/kmeans.c  ./kmean/Util.c
 LDFLAGS2 = -lm
 

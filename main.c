@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
         exit(1);
       }
       Image trans = read_Image_file(argv[2]);
-      Image transf = transpose_Image(trans);
+      Image transf = transformation_lineaire (trans);
       write_Image_to_file(transf, "image/transformation_lineaire_image.pgm");
 
       strcat(logiciel, "  image/transformation_lineaire_image.pgm");
@@ -642,7 +642,7 @@ int main(int argc, char *argv[])
       exit(0);
     }
 
-    else if (strcmp("transSaturation", argv[1]) == 0)
+    else if (strcmp("trans_saturation", argv[1]) == 0)
     {
 
       file = fopen(argv[2], "r");
@@ -665,7 +665,7 @@ int main(int argc, char *argv[])
       exit(0);
     }
 
-    else if (strcmp("transMorceauInverse", argv[1]) == 0)
+    else if (strcmp("trans_morceau_inverse", argv[1]) == 0)
     {
 
       file = fopen(argv[2], "r");
@@ -687,7 +687,7 @@ int main(int argc, char *argv[])
       fclose(file);
       exit(0);
     }
-    else if (strcmp("transMorceau", argv[1]) == 0)
+    else if (strcmp("trans_morceau", argv[1]) == 0)
     {
 
       file = fopen(argv[2], "r");
@@ -710,7 +710,7 @@ int main(int argc, char *argv[])
       exit(0);
     }
 
-    else if (strcmp("transMorceauInverse", argv[1]) == 0)
+    else if (strcmp("trans_morceau_inverse", argv[1]) == 0)
     {
 
       file = fopen(argv[2], "r");
@@ -732,7 +732,7 @@ int main(int argc, char *argv[])
       fclose(file);
       exit(0);
     }
-    else if (strcmp("transgamma", argv[1]) == 0)
+    else if (strcmp("trans_gamma", argv[1]) == 0)
     {
 
       file = fopen(argv[2], "r");

@@ -631,8 +631,13 @@ struct Image and (const Image f, const Image g)
         for (int j = 0; j < hauteur; j++)
         {
             //  result.M[i][j] = fprim.M[i][j] && gprim.M[i][j];
-            result.M[i][j] = fprim.M[i][j] != gprim.M[i][j] ? 1 : 0;
+            //result.M[i][j] = fprim.M[i][j] == gprim.M[i][j] ? 1 : 0;
             //(fprim.M[i][j] && gprim.M[i][j]);
+            if (fprim.M[i][j] ==  1 && gprim.M[i][j] == 1)
+            {
+                         result.M[i][j] = 1;
+            }
+            
         }
     }
     freeMatrice(fprim.M, fprim.largeur);

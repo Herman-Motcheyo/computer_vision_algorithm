@@ -479,6 +479,20 @@ int** copy_matrix(int** mat , int largeur , int hauteur){
     return m;
 }
 
+double moyenne(int* hist , int debut , int fin){
+   double m= 0;
+   for (int i = debut; i < fin; i++)
+   {
+       m += hist[i] ;
+   }
+   return m/(debut-fin);
+}
+
+void seuillage_automatique(Image m){
+
+    
+}
+
 
 Image croissance_des_regions(Image image, int nombre_de_germe, int seuil)
 {
@@ -617,7 +631,6 @@ Image kmeans_f_niveau_de_gris(Image image, int nbr_cluster)
 
         List *new_cluster_tab = reassignment(clusters_tab , (const struct Point**)center_tab, nbr_cluster);
         
-        printf("********************old********************\n");
         for (i = 0; i < nbr_cluster; i++)
         {
             int r1 = rand() % clusters_tab[i]->length;
@@ -628,7 +641,6 @@ Image kmeans_f_niveau_de_gris(Image image, int nbr_cluster)
             printf("length :%d color1 : %d color2 : %d\n", clusters_tab[i]->length, p1->color, p2->color);
         }
 
-        printf("********************new********************\n");
         for (i = 0; i < nbr_cluster; i++)
 
         {

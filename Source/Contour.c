@@ -127,20 +127,19 @@ void hough(Image img, int theta, int rho, int seuil)
 
 void houghv2(Image m)
 {
-    int **z;
     int center_x, center_y, r, omega, i, j, rmax, tmax;
     double conv;
     double sin(), cos(), sqrt();
     float tmval;
-    conv = 3.1415926535 / 180.0;
+    conv = 3.1415926535 / 180.0; //pour convertir les angles en radian
     center_x = m.largeur / 2;
     center_y = m.hauteur / 2;
     rmax =
         (int)(sqrt((double)(m.largeur * m.largeur +
                             m.hauteur * m.hauteur)) /
               2.0);
-    z = calloc(180 , sizeof(int*));
-    if (z==NULL){ printf("probleme d'allocation memoire dans houg");exit(1);}
+    int **z = calloc(180 , sizeof(int*));
+    if (z==NULL){ printf("probleme d'allocation memoire dans hough");exit(1);}
     for (int i = 0; i < 180; i++)
         z[i] = calloc(2* rmax +1 , sizeof(int));
     
