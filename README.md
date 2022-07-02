@@ -7,7 +7,7 @@
 ##                 UTILISATION
 Pour exécuter les algorithmes , 
   deplacer vous dans le dossier avec la commande cd ensuite :
-  
+
       -- Pour Compiler : 
             make traitement_image
 
@@ -133,12 +133,16 @@ Pour exécuter les algorithmes ,
   ##-  FILTRE PASSE BAS AVEC PRECISION DU FILTRE
       ## 24 - Convolution avec filtre en entrée
           ./algo -c chemin_image chemin_filtre
-            [chemin_image] : represente le chemin absolu ou relatif de votre image sans espace
-            [chemin_filtre] : représente le chemin du filtre
+
+         [chemin_image] : represente le chemin absolu ou relatif de votre image sans espace
+         [chemin_filtre] : représente le chemin du filtre
+
           FORMAT DU FICHIER CONTENANT LE FILTRE
-          ---Ligne 1 : reprensente le rayon du filtre
-          ---Ligne 2 : reprensente le facteur de normalisation du filtre
-          --- reste de ligne construisions de la matrice
+
+              ---Ligne 1 : reprensente le rayon du filtre
+              ---Ligne 2 : reprensente le facteur de normalisation du filtre
+              --- reste de ligne construisions de la matrice
+
                  exple
                  1
                  9
@@ -153,10 +157,11 @@ Pour exécuter les algorithmes ,
                  9 7 8 6 3
                  2 2 7 9 6
                  0 9 0 6 4
-    Dans cet premier cas precision de la matrice du filtre , je génere le filtre de maniere automatique
-            -g : Pour gaussien . Ce filtre est généré à apartir de la fonction
-             gaussienne . ET tous les pixels sont normalisés
-            -mo : tous les pixels sont à 1 et normalisés . C'est 1/taille du filtre . exple 1/3*3
+
+            Dans cet premier cas precision de la matrice du filtre , je génere le filtre de maniere automatique
+                -g : Pour gaussien . Ce filtre est généré à apartir de la fonction
+                    gaussienne . ET tous les pixels sont normalisés
+                -mo : tous les pixels sont à 1 et normalisés . C'est 1/taille du filtre   . exple 1/3*3
 
 
 ##                 SEGMENTATION DES IMAGES À NIVEAUX DE GRIS ET PNM 
