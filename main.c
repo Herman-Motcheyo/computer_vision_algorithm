@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
       fclose(file);
       exit(0);
     }//interpollation billineaire
-    else if (strcmp("bil", argv[1]) == 0)
+    else if (strcmp("bilineaire", argv[1]) == 0)
     {
 
       file = fopen(argv[2], "r");

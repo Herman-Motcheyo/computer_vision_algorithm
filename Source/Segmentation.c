@@ -501,10 +501,10 @@ Image croissance_des_regions(Image image, int nombre_de_germe, int seuil)
 
     int i = 0 , j = 0 , x , y;
     for (i = 0; i < nombre_de_germe; i++)
-    {//printf("entrerr");
+    {printf("entrerr");
         x = rand() % image.largeur;
         y = rand() % image.hauteur;
-      //  printf("x %d , y %d , couleur %d \n", x, y ,image.M[x][y] );
+        printf("x %d , y %d , intensite %d \n", x, y ,image.M[x][y] );
         Point *p = new_Point(x , y , image.M[x][y]);
         List germ = dispersion_des_germes(p , image , seuil);
         germ_tab[i] = germ;

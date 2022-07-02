@@ -7,20 +7,26 @@
 ##                 UTILISATION
 Pour exécuter les algorithmes , 
   deplacer vous dans le dossier avec la commande cd ensuite :
+  
       -- Pour Compiler : 
-                    make traitement_image
+            make traitement_image
+
       -- Pour exécuter :
-                    ./algo ...............
-                    Pour plus de détails regarder les options plus bats
+            ./algo ...............
+            Pour plus de détails regarder les options plus bats
+
       -- Pour kmeans avec Image couleur : PPM de type P6
-                    ./kmeans ....
+            ./kmeans ....
+
       -- Entrée : 
-                    Image pgm à niveau de gris au format P2
+            Image pgm à niveau de gris au format P2
+
       -- Sortie : 
-                    Les images en sortie sont dans le dossier image/
+            Les images en sortie sont dans le dossier image/
+
       -- Affichage : 
-                    Utilisation du logiciel "eog" ( Visionneuse d'imagesà par défaut dans ubuntu Pour montrer à l'utilisateur directement
-                    le résultat obtenu .
+            Utilisation du logiciel "eog" ( Visionneuse d'imagesà par défaut dans ubuntu Pour montrer à l'utilisateur directement  le résultat obtenu .
+
       -- Aide : 
                 1- Consulter le README.md
                 2- Faite make help Pour avoir l'aide dans le terminal
@@ -70,8 +76,8 @@ Pour exécuter les algorithmes ,
             [y] : répresente la hauteur de l'image
 
     ### 13- INTERPOLLATION BILINEAIRE
-       ** ./algo bil chemin_image
-                 [bil] : Pour bilineaire
+       ** ./algo bilineaire chemin_image
+                 [bilineaire] : Pour bilineaire
 
     ### 13- BINARISATION
        ** ./algo binarisation chemin_de_image  seuil
@@ -183,7 +189,7 @@ Pour exécuter les algorithmes ,
     
     ### 29- La DERIVE
     ** ./algo c-d chemin_image seuil
-              [c-g] : Pour le contour en utilisant la derivee
+              [c-d] : Pour le contour en utilisant la derivee
 
     ### 30- SOBEL PREWITT SANS SEUIL
     ** ./algo c-sp  chemin_image chemin_filtre
