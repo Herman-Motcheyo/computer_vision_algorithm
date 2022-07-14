@@ -36,6 +36,8 @@ Pour exécuter les algorithmes ,
             make clean : Pour effacer la console
             make help : affichage du README.md dans la console
 
+![alt text](https://github.com/Herman-Motcheyo/computer_vision_algorithm/blob/master/image/img_source/lena.pgm?raw=true)
+
 ##                 OPERATION DE BASE SUR LES IMAGES
 
     ### 1-Pour obtenir l'HISTOGRAMME
@@ -131,6 +133,7 @@ Pour exécuter les algorithmes ,
             [-g] : gaussien
   
   ##-  FILTRE PASSE BAS AVEC PRECISION DU FILTRE
+  
       ## 24 - Convolution avec filtre en entrée
           ./algo -c chemin_image chemin_filtre
 
