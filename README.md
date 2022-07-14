@@ -1,7 +1,7 @@
 # Vision Par Ordinateur 
 
     Implementation des algorithmes en C par 
-    TCHENEGHON MOTCHEYO HERMAN 
+    HERMAN 
 
 
 ##                 UTILISATION
