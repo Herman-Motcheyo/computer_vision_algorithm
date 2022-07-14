@@ -35,8 +35,21 @@ Pour exécuter les algorithmes ,
             make  cleanall: Pour supprimer ./algo ./kmeans et effacer la console
             make clean : Pour effacer la console
             make help : affichage du README.md dans la console
+## 1- Image  source de lena.pgm   2- Histogramme  de l' image Lena  3- Egalisation de l'histogramme de lena
 
-![alt text](https://github.com/Herman-Motcheyo/computer_vision_algorithm/blob/master/image/img_source/lena.pgm?raw=true)
+![alt text](https://github.com/Herman-Motcheyo/computer_vision_algorithm/blob/master/image/images_chapter_02/lena.jpg?raw=true)
+![alt text](https://github.com/Herman-Motcheyo/computer_vision_algorithm/blob/master/image/readme/lenahistogra.png?raw=true)
+![alt text](https://github.com/Herman-Motcheyo/computer_vision_algorithm/blob/master/image/readme/lenaegalisation.png?raw=true)
+## Image de Obscure.pgm
+![alt text](https://github.com/Herman-Motcheyo/computer_vision_algorithm/blob/master/image/images_chapter_02/obscure.png?raw=true)
+## Egalisation de l'image obscure
+![alt text](https://github.com/Herman-Motcheyo/computer_vision_algorithm/blob/master/image/readme/egalisat.png?raw=true)
+## Kmeans de l'image radio.pgm
+![alt text](https://github.com/Herman-Motcheyo/computer_vision_algorithm/blob/master/image/img_source/radio.jpg?raw=true)
+
+![alt text](https://github.com/Herman-Motcheyo/computer_vision_algorithm/blob/master/image/readme/kmeans.png?raw=true)
+## Kmeans  de radio avec 4 clusters et 2000 iterations
+
 
 ##                 OPERATION DE BASE SUR LES IMAGES
 
