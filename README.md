@@ -25,7 +25,8 @@ Pour exécuter les algorithmes ,
             Les images en sortie sont dans le dossier image/
 
       -- Affichage : 
-            Utilisation du logiciel "eog" ( Visionneuse d'imagesà par défaut dans ubuntu Pour montrer à l'utilisateur directement  le résultat obtenu .
+            Utilisation du logiciel "eog" ( Visionneuse d'imagesà par défaut dans ubuntu Pour montrer à 
+                l'utilisateur directement  le résultat obtenu .)
 
       -- Aide : 
                 1- Consulter le README.md
